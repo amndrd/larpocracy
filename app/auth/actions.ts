@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { isSupabaseConfigured } from '@/lib/supabase/config';
+import { authMessage } from '@/lib/auth-errors';
 
 export type AuthState = { error?: string; notice?: string };
 
@@ -60,7 +61,7 @@ export async function signUp(_prev: AuthState, formData: FormData): Promise<Auth
     },
   });
 
-  if (error) return { error: error.message };
+  if (error) return { error: authMessage(error.code, error.message) };
 
   // Session immédiate : la confirmation par email est désactivée côté projet.
   if (data.session) {
