@@ -4,21 +4,31 @@
 
 ## ÉTAT AU 25 AOÛT 2026
 
-**Phase en cours : Phase 1 — Socle.**
+**Phase en cours : Phase 2 — le noyau utile.**
+**Socle technique : refondu.** Next.js 16 + Supabase + Vercel.
 
 | Élément | État |
 |---|---|
-| Repo public + Pages | ✅ https://amndrd.github.io/larpocracy/ |
+| Repo public | ✅ github.com/amndrd/larpocracy |
 | Documentation de contexte | ✅ |
 | Atlas des 673 sujets | ✅ |
-| Coquille du site (nav, routing, recherche) | ✅ |
-| Format de fiche + moteur de rendu | ✅ |
-| Quiz + progression localStorage | ✅ |
+| Application Next.js sur localhost:3000 | ✅ |
+| Design éditorial, thème clair | ✅ |
+| Pages de contenu prérendues + recherche | ✅ |
+| Comptes Supabase (auth + RLS) | ✅ code prêt — clés à renseigner |
+| Progression liée au compte | ✅ code prêt — clés à renseigner |
+| Page formules (free / pro) | ✅ facturation non branchée |
+| Déploiement Vercel | ⏳ en attente de connexion au compte |
 | Modules de contenu remplis | 5 fiches · 4 / 14 domaines amorcés |
 
-**Prochaine action** : remplir les modules P0 du Domaine 6 (Business) et du Domaine 1 (Cave & Table) — ce sont les deux qui servent le plus vite en situation réelle.
+**Pour activer les comptes** : créer un projet Supabase, exécuter
+`supabase/schema.sql` dans le SQL Editor, puis renseigner `NEXT_PUBLIC_SUPABASE_URL`
+et `NEXT_PUBLIC_SUPABASE_ANON_KEY` dans `.env.local` (voir `.env.example`) et dans les
+variables d'environnement Vercel.
 
----
+**Prochaine action de contenu** : les modules P0 du Domaine 6 (Business) et du
+Domaine 11 (Conversation & Réseau) — les deux qui servent le plus vite en situation
+réelle.
 
 ## Principe directeur
 

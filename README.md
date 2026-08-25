@@ -36,26 +36,42 @@ Pas parce que c'est mal vu, mais parce que c'est un mauvais calcul :
 
 ### Technique
 
-HTML / CSS / JS vanilla. Aucune dépendance, aucun build, aucun compte.
-Le contenu est de la donnée : un fichier JSON par domaine dans `data/modules/`.
-Progression en `localStorage`. Hébergé par GitHub Pages.
+**Next.js 16** (App Router) · **TypeScript** · **Tailwind CSS v4** · **Supabase**
+(auth + Postgres) · déployé sur **Vercel**.
+
+```bash
+npm install
+cp .env.example .env.local   # puis renseigner les clés Supabase
+npm run dev                  # http://localhost:3000
+```
+
+Le site fonctionne **sans** clés Supabase : l'authentification se désactive
+d'elle-même et tout le contenu reste accessible.
+
+Pour activer les comptes : créer un projet Supabase, exécuter
+[`supabase/schema.sql`](supabase/schema.sql) dans le SQL Editor, renseigner
+`.env.local`.
 
 ```
-index.html              coquille de l'app
-assets/css/style.css    tout le style
-assets/js/app.js        routing, rendu, recherche, quiz, progression
-data/domains.json       les 14 domaines
-data/modules/*.json     le contenu
-docs/                   contexte, atlas, feuille de route, guide de rédaction
+app/                  pages et routes (App Router)
+components/           Header, SearchBox, Quiz, AuthForm, …
+lib/content.ts        chargement du contenu + index de recherche
+lib/supabase/         clients serveur et navigateur
+proxy.ts              rafraîchissement de session
+content/modules/      le contenu, un fichier JSON par domaine
+supabase/schema.sql   schéma et Row Level Security
+docs/                 contexte, atlas, feuille de route, décisions
 ```
+
+Le contenu est de la donnée, pas du code : une fiche est un objet JSON.
 
 ### Documentation
 
 | Fichier | Contenu |
 |---|---|
-| [`CLAUDE.md`](CLAUDE.md) | Contexte permanent du projet |
+| [`CLAUDE.md`](CLAUDE.md) | Contexte permanent + pièges techniques rencontrés |
 | [`docs/CONTEXT.md`](docs/CONTEXT.md) | Vision, positionnement, ton, éthique |
 | [`docs/TOPICS.md`](docs/TOPICS.md) | L'atlas des 673 sujets |
-| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Feuille de route par phases |
+| [`docs/ROADMAP.md`](docs/ROADMAP.md) | État courant et feuille de route |
 | [`docs/CONTENT-GUIDE.md`](docs/CONTENT-GUIDE.md) | Comment rédiger une fiche |
 | [`docs/DECISIONS.md`](docs/DECISIONS.md) | Journal des décisions |

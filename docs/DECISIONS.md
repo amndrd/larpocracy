@@ -50,3 +50,44 @@ alphabétique. Le champagne avant les yachts. Le golf avant la chasse.
 **Un commit par modification, poussé immédiatement.** Messages en français, à
 l'impératif, préfixés du scope (`contenu:`, `site:`, `docs:`, `data:`).
 Demande explicite du porteur du projet.
+
+## 2026-08-25 — #010 Passage à Next.js (remplace #003)
+Le site statique vanilla est remplacé par **Next.js 16 (App Router) + TypeScript +
+Tailwind v4**, déployé sur **Vercel**.
+Raison : il faut des comptes utilisateurs et, plus tard, un abonnement — donc un
+serveur. La décision #003 (« zéro build ») était juste tant que le site n'était que du
+contenu ; elle ne l'est plus dès qu'il y a des sessions et une base de données.
+Bénéfice non prévu : les pages de contenu sont désormais prérendues, ce qui règle le
+problème de référencement acté comme accepté en #003.
+Ce qui ne change pas : le contenu reste du **JSON séparé du code**. Une fiche reste un
+objet qu'on ajoute sans toucher au rendu.
+
+## 2026-08-25 — #011 Design repris de zéro, thème clair
+Direction **éditoriale** : fond blanc cassé (#fbfaf7), Instrument Serif à fort
+contraste en titrage, Inter en labeur, filets 1px, grille, accent rouge d'encre.
+Raison : le site est fait de textes longs et denses. Le thème sombre précédent était
+élégant mais fatigant en lecture soutenue, et le doré appliqué à chaque gras rendait
+le corps de texte illisible.
+
+## 2026-08-25 — #012 Supabase pour l'auth et la base
+**Supabase** (Postgres + Auth) plutôt que Clerk+Neon ou Auth.js+Neon.
+Raison : un seul service pour l'authentification, la base et la sécurité (RLS), et un
+branchement Stripe propre le moment venu.
+Sécurité : la clé publique est exposée au navigateur — c'est prévu. La protection
+repose entièrement sur les **policies RLS** de `supabase/schema.sql`, jamais sur le
+secret de la clé. La clé `service_role` ne doit apparaître nulle part dans le dépôt.
+
+## 2026-08-25 — #013 Progression liée au compte
+La progression quitte le `localStorage` pour la table `card_progress`.
+Raison : elle suit l'utilisateur d'un appareil à l'autre, et elle prépare les
+fonctionnalités de révision.
+Conséquence assumée : sans compte, la progression n'est plus mémorisée du tout. Le
+contenu, lui, reste intégralement lisible sans connexion — c'est le point important.
+
+## 2026-08-25 — #014 Abonnement : rien derrière un paiement aujourd'hui
+Le champ `plan` (`free` | `pro`) existe en base et une page `/tarifs` annonce la
+formule à venir, mais **aucune facturation n'est branchée**.
+Raison : 5 fiches publiées sur 673 sujets. Faire payer maintenant reviendrait à vendre
+une promesse.
+Engagement pris publiquement sur la page : **aucune fiche déjà publiée ne passera
+derrière un paiement.** Plus simple à tenir, plus honnête à annoncer.

@@ -22,6 +22,9 @@ export default function Footer() {
           <Link href="/manifeste" className="transition-colors hover:text-accent">
             Manifeste
           </Link>
+          <Link href="/tarifs" className="transition-colors hover:text-accent">
+            Formules
+          </Link>
           <a
             href="https://github.com/amndrd/larpocracy"
             className="transition-colors hover:text-accent"

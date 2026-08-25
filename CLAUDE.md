@@ -57,27 +57,60 @@ Larpocracy est le manuel de terrain de cette surface d'accroche.
 
 ## 5. Stack technique
 
-- **HTML / CSS / JS vanilla.** Aucun framework, aucune dépendance, aucun build.
-- Contenu en **JSON** dans `data/` — le contenu est de la donnée, pas du code.
-- Progression utilisateur en **localStorage** (pas de compte, pas de backend, pas de RGPD).
-- Hébergement : **GitHub Pages** depuis `main`, à la racine.
-- Raison du choix : il faut pouvoir ajouter du contenu pendant des mois sans jamais
-  se battre contre un toolchain. Une fiche = un objet JSON.
+- **Next.js 16** (App Router) + **TypeScript** + **Tailwind CSS v4**.
+- **Supabase** : authentification (email + mot de passe) et Postgres.
+- Hébergement **Vercel**. Développement sur `localhost:3000` (`npm run dev`).
+- Contenu en **JSON** dans `content/`, importé statiquement par `lib/content.ts`.
+- Pages de contenu **prérendues** (`generateStaticParams`) : bon pour le référencement.
+
+### Pièges déjà rencontrés — ne pas les refaire
+
+- **Next 16 a renommé `middleware` en `proxy`.** Fichier `proxy.ts`, fonction
+  exportée `proxy`. L'ancienne convention émet un avertissement de dépréciation.
+- **`export const dynamic = 'force-static'` vide les paramètres de requête.**
+  Une route qui lit `searchParams` ne doit jamais l'utiliser : `/api/search`
+  répondait systématiquement `{"hits":[]}` à cause de ça.
+- **`params` et `searchParams` sont des `Promise`** : toujours les `await`.
+- **`next dev` réécrit un bloc à la fin de ce fichier.** Ne pas le supprimer,
+  il se recrée ; le committer avec le reste.
+- **Le header ne doit pas lire la session côté serveur** : cela basculerait
+  toutes les pages en rendu dynamique. C'est le rôle de `AccountNav`, client.
+- **Ne jamais mettre la clé `service_role` dans le code** : elle contourne la RLS.
 
 ## 6. Arborescence
 
 ```
-index.html                 Coquille de l'app (SPA à la main, routing par hash)
-assets/css/style.css       Tout le style
-assets/js/app.js           Routing, rendu, recherche, quiz, progression
-data/domains.json          Les 14 domaines + leurs modules
-data/modules/<id>.json     Le contenu réel, un fichier par domaine
-docs/CONTEXT.md            Vision longue, ton, positionnement
-docs/TOPICS.md             L'ATLAS : la liste exhaustive de tous les sujets
-docs/ROADMAP.md            Feuille de route par phases
-docs/CONTENT-GUIDE.md      Comment rédiger une fiche (schéma + règles)
-docs/DECISIONS.md          Journal des décisions (append-only)
+app/
+  layout.tsx              coquille, polices, header/footer
+  page.tsx                accueil
+  domaines/               sommaire des 14 domaines
+  d/[domaine]/            page d'un domaine
+  f/[domaine]/[fiche]/    une fiche
+  recherche/              résultats de recherche
+  manifeste/  tarifs/     pages éditoriales
+  connexion/ inscription/ compte/    comptes
+  auth/actions.ts         Server Actions d'authentification
+  auth/confirm/route.ts   cible du lien de confirmation email
+  api/search/route.ts     recherche (dynamique — voir les pièges)
+components/               Header, Footer, SearchBox, Quiz, AuthForm, …
+lib/
+  content.ts              chargement du contenu + index de recherche
+  types.ts                types du contenu
+  progress.ts             lecture/écriture de la progression
+  plans.ts                formules free | pro
+  supabase/               clients serveur, navigateur, config
+proxy.ts                  rafraîchissement de session (ex-middleware)
+content/
+  domains.json            les 14 domaines
+  modules/<id>.json       le contenu, un fichier par domaine
+supabase/schema.sql       schéma + RLS, à exécuter dans le SQL Editor
+docs/                     contexte, atlas, feuille de route, guide, décisions
 ```
+
+**Pour ajouter un module de contenu** : créer `content/modules/<id>.json`,
+l'importer dans `lib/content.ts` et l'ajouter au tableau `moduleFiles`
+(import statique volontaire : c'est ce qui garantit que le contenu est
+embarqué dans le build).
 
 ## 7. Les 14 domaines
 
@@ -128,8 +161,8 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
   l'utilisateur. Messages de commit en français, à l'impératif, préfixés du scope
   (`contenu:`, `site:`, `docs:`, `data:`).
 - Le repo est **public** : `github.com/amndrd/larpocracy`.
-- Ne jamais casser `data/*.json` : le site le charge à chaud. Valider le JSON avant commit
-  (`node -e "JSON.parse(require('fs').readFileSync('data/…'))"` ou `python3 -m json.tool`).
+- Avant chaque commit : `npx tsc --noEmit && npx eslint . && npm run build`.
+- Ne jamais casser `content/*.json` : valider avec `python3 -m json.tool`.
 - Toute nouvelle décision de fond va dans `docs/DECISIONS.md`.
 - Quand un module est rempli, cocher sa ligne dans `docs/ROADMAP.md`.
 
