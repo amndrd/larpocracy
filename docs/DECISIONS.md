@@ -91,3 +91,25 @@ Raison : 5 fiches publiées sur 673 sujets. Faire payer maintenant reviendrait �
 une promesse.
 Engagement pris publiquement sur la page : **aucune fiche déjà publiée ne passera
 derrière un paiement.** Plus simple à tenir, plus honnête à annoncer.
+
+## 2026-08-26 — #015 Pas de confirmation d'email à l'inscription
+La confirmation d'adresse est **désactivée** dans Supabase.
+Raison : le SMTP par défaut de Supabase est plafonné à quelques envois par heure —
+il déclenche `email rate limit exceeded` dès le deuxième test et ne tient pas devant
+de vrais visiteurs. Vérifier l'adresse n'apporte rien aujourd'hui : le compte ne sert
+qu'à mémoriser la progression, et il n'y a aucune donnée sensible.
+Conséquences assumées :
+- les adresses ne sont pas vérifiées ;
+- **la réinitialisation de mot de passe ne fonctionne pas** tant qu'aucun SMTP n'est
+  branché — c'est la vraie limite de ce choix, à lever avant d'ouvrir largement.
+À reprendre quand l'abonnement arrivera : brancher Resend (gratuit jusqu'à 3 000
+emails/mois), puis réactiver la confirmation. Le code gère déjà les deux cas : si
+`signUp` ne renvoie pas de session, l'écran affiche « vérifiez votre boîte mail ».
+
+## 2026-08-26 — #016 Messages d'erreur d'authentification traduits
+Les erreurs Supabase remontaient brutes et en anglais jusqu'à l'écran
+(« email rate limit exceeded »). Elles passent par `lib/auth-errors.ts`.
+Le repli n'expose jamais la chaîne technique d'origine : elle n'aide pas
+l'utilisateur et renseigne inutilement sur l'infrastructure.
+Un email inconnu et un mot de passe faux donnent volontairement le **même**
+message : les distinguer révélerait quelles adresses ont un compte.
