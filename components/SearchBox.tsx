@@ -13,12 +13,14 @@ export default function SearchBox() {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
+  /* Le champ est-il assez rempli pour chercher ? */
+  const active = q.trim().length >= 2;
+  /* Les résultats affichés sont dérivés, jamais vidés depuis un effet. */
+  const visible = active ? hits : [];
+
   /* Recherche différée : on ne part pas au premier caractère. */
   useEffect(() => {
-    if (q.trim().length < 2) {
-      setHits([]);
-      return;
-    }
+    if (!active) return;
     const ctrl = new AbortController();
     const t = setTimeout(async () => {
       try {
@@ -36,7 +38,7 @@ export default function SearchBox() {
       clearTimeout(t);
       ctrl.abort();
     };
-  }, [q]);
+  }, [q, active]);
 
   /* Fermeture au clic extérieur */
   useEffect(() => {
@@ -60,7 +62,7 @@ export default function SearchBox() {
   }, []);
 
   function submit() {
-    if (q.trim().length < 2) return;
+    if (!active) return;
     setOpen(false);
     inputRef.current?.blur();
     router.push(`/recherche?q=${encodeURIComponent(q.trim())}`);
@@ -73,7 +75,7 @@ export default function SearchBox() {
         type="search"
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        onFocus={() => hits.length && setOpen(true)}
+        onFocus={() => visible.length > 0 && setOpen(true)}
         onKeyDown={(e) => {
           if (e.key === 'Enter') submit();
           if (e.key === 'Escape') {
@@ -88,14 +90,14 @@ export default function SearchBox() {
         className="w-full border-b border-rule bg-transparent pb-1.5 text-[0.8125rem] text-ink placeholder:text-ink-3 focus:border-ink focus:outline-none"
       />
 
-      {open && q.trim().length >= 2 && (
+      {open && active && (
         <div className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[60vh] overflow-auto border border-rule bg-paper shadow-[0_12px_32px_rgba(20,20,15,0.10)]">
-          {hits.length === 0 ? (
+          {visible.length === 0 ? (
             <p className="px-4 py-3 text-[0.8125rem] text-ink-3">
               Rien pour l&apos;instant — le sujet attend peut-être d&apos;être écrit.
             </p>
           ) : (
-            hits.map((h) => (
+            visible.map((h) => (
               <Link
                 key={`${h.kind}-${h.label}-${h.href}`}
                 href={h.href}

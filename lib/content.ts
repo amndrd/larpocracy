@@ -122,5 +122,7 @@ export function search(q: string, limit = 12): SearchHit[] {
     (norm(it.label).startsWith(n) ? exact : partial).push(it);
     if (exact.length + partial.length > 200) break;
   }
-  return [...exact, ...partial].slice(0, limit).map(({ hay: _hay, ...rest }) => rest);
+  return [...exact, ...partial]
+    .slice(0, limit)
+    .map((h) => ({ kind: h.kind, label: h.label, sub: h.sub, href: h.href }));
 }

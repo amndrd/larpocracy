@@ -1,0 +1,36 @@
+import type { Metadata } from 'next';
+import Container from '@/components/Container';
+import DomainGrid from '@/components/DomainGrid';
+import { domains, stats } from '@/lib/content';
+
+export const metadata: Metadata = {
+  title: 'Les domaines',
+  description: `${stats.topics} sujets cartographiés sur ${stats.domains} domaines.`,
+};
+
+export default function DomainesPage() {
+  return (
+    <Container className="py-16">
+      <header className="max-w-[52ch]">
+        <p className="eyebrow">Sommaire</p>
+        <h1 className="display mt-4 text-[clamp(2.25rem,5vw,3.25rem)]">
+          Les {stats.domains} domaines
+        </h1>
+        <p className="mt-5 text-[1.0625rem] leading-relaxed text-ink-2">
+          {stats.topics} sujets cartographiés, {stats.cards} fiches publiées à ce jour.
+          Les domaines sans fiche sont déjà découpés dans{' '}
+          <a
+            href="https://github.com/amndrd/larpocracy/blob/main/docs/TOPICS.md"
+            className="link hover:link-hover"
+          >
+            l&apos;atlas
+          </a>{' '}
+          — ils attendent leur tour.
+        </p>
+      </header>
+      <div className="mt-12">
+        <DomainGrid list={domains} />
+      </div>
+    </Container>
+  );
+}
