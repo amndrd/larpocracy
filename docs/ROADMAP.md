@@ -14,7 +14,7 @@
 | Coquille du site (nav, routing, recherche) | ✅ |
 | Format de fiche + moteur de rendu | ✅ |
 | Quiz + progression localStorage | ✅ |
-| Modules de contenu remplis | 4 / 14 domaines amorcés |
+| Modules de contenu remplis | 5 fiches · 4 / 14 domaines amorcés |
 
 **Prochaine action** : remplir les modules P0 du Domaine 6 (Business) et du Domaine 1 (Cave & Table) — ce sont les deux qui servent le plus vite en situation réelle.
 
@@ -103,20 +103,20 @@ Critère de sortie : 120 fiches, 14 domaines ouverts, aucun domaine vide.
 
 | # | Domaine | Sujets à l'atlas | Fiches publiées | Priorité |
 |---|---------|:---:|:---:|:---:|
-| 1 | Cave & Table | 88 | 1 | P0 |
-| 2 | Vestiaire | 62 | 1 | P0 |
-| 3 | Horlogerie & Joaillerie | 41 | 0 | P1 |
-| 4 | Machines | 48 | 0 | P1 |
-| 5 | Lieux | 47 | 0 | P1 |
-| 6 | Business & Finance | 128 | 1 | P0 |
-| 7 | Pouvoir & Réseaux | 40 | 0 | P1 |
-| 8 | Art & Marché | 44 | 0 | P1 |
-| 9 | Culture | 47 | 0 | P1 |
-| 10 | Codes & Étiquette | 46 | 1 | P0 |
-| 11 | Conversation & Réseau | 45 | 0 | P0 |
-| 12 | Monde | 25 | 0 | P0 |
-| 13 | Sport & Loisirs | 40 | 0 | P1 |
-| 14 | Méta-Larp | 27 | 0 | P0 |
+| 1 | Cave & Table | 77 | 2 | P0 |
+| 2 | Vestiaire | 53 | 1 | P0 |
+| 3 | Horlogerie & Joaillerie | 34 | 0 | P1 |
+| 4 | Machines | 42 | 0 | P1 |
+| 5 | Lieux | 42 | 0 | P1 |
+| 6 | Business & Finance | 110 | 1 | P0 |
+| 7 | Pouvoir & Réseaux | 38 | 0 | P1 |
+| 8 | Art & Marché | 37 | 0 | P1 |
+| 9 | Culture | 43 | 0 | P1 |
+| 10 | Codes & Étiquette | 50 | 1 | P0 |
+| 11 | Conversation & Réseau | 47 | 0 | P0 |
+| 12 | Monde | 27 | 0 | P0 |
+| 13 | Sport & Loisirs | 42 | 0 | P1 |
+| 14 | Méta-Larp | 31 | 0 | P0 |
 
 *(Les compteurs se mettent à jour à chaque module publié.)*
 

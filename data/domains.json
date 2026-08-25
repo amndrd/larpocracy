@@ -1,0 +1,100 @@
+[
+  {
+    "id": "cave-table", "n": 1, "title": "Cave & Table",
+    "tagline": "Vin, champagne, spiritueux, gastronomie",
+    "blurb": "Le terrain où se jouent le plus de dîners. Savoir commander, savoir goûter, savoir dire pourquoi — et savoir se taire au bon moment.",
+    "topics": 77, "module": true,
+    "keywords": ["vin","champagne","whisky","michelin","caviar","truffe","cigare","sommelier","bordeaux","bourgogne"]
+  },
+  {
+    "id": "vestiaire", "n": 2, "title": "Vestiaire",
+    "tagline": "Costume, chaussures, dress codes",
+    "blurb": "Ce qu'on lit sur vous avant que vous ayez parlé. L'anatomie d'un costume, la hiérarchie des dress codes, et les détails qui trahissent en trois secondes.",
+    "topics": 53, "module": true,
+    "keywords": ["costume","tailleur","savile row","naples","chaussures","black tie","smoking","cravate","hermès"]
+  },
+  {
+    "id": "horlogerie", "n": 3, "title": "Horlogerie & Joaillerie",
+    "tagline": "Montres, complications, pierres",
+    "blurb": "Le seul objet de luxe qu'un homme porte à la vue de tous en réunion. Les maisons, les complications, les pièces à reconnaître, et pourquoi on ne parle jamais du prix.",
+    "topics": 34, "module": false,
+    "keywords": ["montre","patek","rolex","audemars","tourbillon","diamant","cartier","vacheron"]
+  },
+  {
+    "id": "machines", "n": 4, "title": "Machines",
+    "tagline": "Automobile, jets, yachts, aviation",
+    "blurb": "Les objets qui coûtent le plus cher et dont on parle le plus mal. Les catégories, les vrais coûts, le vocabulaire — et l'étiquette à bord.",
+    "topics": 42, "module": false,
+    "keywords": ["jet","gulfstream","netjets","ferrari","porsche","yacht","feadship","first class"]
+  },
+  {
+    "id": "lieux", "n": 5, "title": "Lieux",
+    "tagline": "Palaces, clubs, saisons, résidence",
+    "blurb": "Où sont les gens, à quel mois, et comment on s'y comporte. Palaces et clubs privés, le calendrier mondain, l'immobilier prime et la question fiscale.",
+    "topics": 42, "module": false,
+    "keywords": ["palace","ritz","aman","club privé","annabel's","gstaad","monaco","concierge"]
+  },
+  {
+    "id": "business", "n": 6, "title": "Business & Finance",
+    "tagline": "Marchés, PE, VC, M&A, négociation",
+    "blurb": "Le cœur du site. Lire une entreprise, parler valorisation sans se ridiculiser, comprendre un LBO, un term sheet, un carried interest — et négocier.",
+    "topics": 110, "module": true,
+    "keywords": ["private equity","lbo","venture capital","valorisation","ebitda","term sheet","m&a","hedge fund","négociation"]
+  },
+  {
+    "id": "pouvoir", "n": 7, "title": "Pouvoir & Réseaux",
+    "tagline": "Groupes, dynasties, gatekeepers",
+    "blurb": "Qui possède quoi, qui est lié à qui, et par qui on passe. Les groupes de luxe, les grandes familles, les institutions, et les gardiens de porte qu'on sous-estime.",
+    "topics": 38, "module": false,
+    "keywords": ["lvmh","kering","richemont","arnault","pinault","family office","davos","rothschild"]
+  },
+  {
+    "id": "art", "n": 8, "title": "Art & Marché",
+    "tagline": "Histoire de l'art, galeries, enchères",
+    "blurb": "Savoir regarder un tableau et dire quelque chose de non-idiot. Puis comprendre la mécanique du marché, qui est bien plus intéressante que les tableaux.",
+    "topics": 37, "module": false,
+    "keywords": ["art","rothko","basquiat","gagosian","christie's","sotheby's","art basel","collection"]
+  },
+  {
+    "id": "culture", "n": 9, "title": "Culture",
+    "tagline": "Architecture, opéra, littérature, idées",
+    "blurb": "Le fond de commerce de toute conversation qui dure plus de dix minutes. Design et architecture, opéra, cinéma, histoire, et les idées qu'on peut réellement utiliser.",
+    "topics": 43, "module": false,
+    "keywords": ["opéra","architecture","design","littérature","cinéma","philosophie","bourdieu","histoire"]
+  },
+  {
+    "id": "codes", "n": 10, "title": "Codes & Étiquette",
+    "tagline": "Table, protocole, codes par pays",
+    "blurb": "Les règles que personne n'énonce et que tout le monde observe. La table, l'invitation, les titres, et ce qui change radicalement selon le pays.",
+    "topics": 50, "module": true,
+    "keywords": ["étiquette","table","couverts","protocole","japon","meishi","pourboire","invitation","rsvp"]
+  },
+  {
+    "id": "conversation", "n": 11, "title": "Conversation & Réseau",
+    "tagline": "Small talk, storytelling, networking",
+    "blurb": "La compétence qui rend toutes les autres utiles. Ouvrir, écouter, raconter, relancer, et transformer une rencontre en relation.",
+    "topics": 47, "module": false,
+    "keywords": ["conversation","small talk","networking","storytelling","pitch","follow-up","présence"]
+  },
+  {
+    "id": "monde", "n": 12, "title": "Monde",
+    "tagline": "Géographie, cultures, géopolitique, prononciation",
+    "blurb": "Les pays, les religions, les institutions — et le module prononciation, parce qu'un nom écorché annule dix pages de savoir.",
+    "topics": 27, "module": false,
+    "keywords": ["géopolitique","pays","religion","prononciation","onu","brics","langues"]
+  },
+  {
+    "id": "sport", "n": 13, "title": "Sport & Loisirs",
+    "tagline": "Golf, chevaux, voile, montagne, F1",
+    "blurb": "Là où se signent les affaires que les bureaux ne signent pas. Le golf en priorité absolue, puis les courses, la voile, la montagne et les jeux de salon.",
+    "topics": 42, "module": false,
+    "keywords": ["golf","handicap","ascot","polo","ski","formule 1","tennis","wimbledon"]
+  },
+  {
+    "id": "meta", "n": 14, "title": "Méta-Larp",
+    "tagline": "Le jeu lui-même, ce qui trahit, l'éthique",
+    "blurb": "La théorie derrière tout le reste : capital culturel, signalement, old money contre new money — et la seule ligne rouge du site.",
+    "topics": 31, "module": false,
+    "keywords": ["bourdieu","capital culturel","quiet luxury","old money","signaling","imposteur","éthique"]
+  }
+]
