@@ -1,15 +1,45 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { clsx } from '@/lib/clsx';
 import { rich } from '@/lib/mdlite';
 import type { QuizItem } from '@/lib/types';
 
-export default function Quiz({ items }: { items: QuizItem[] }) {
+type Props = {
+  items: QuizItem[];
+  domainId: string;
+  cardId: string;
+  onComplete: (domainId: string, cardId: string, correct: number, total: number) => Promise<void>;
+};
+
+export default function Quiz({ items, domainId, cardId, onComplete }: Props) {
   const [picks, setPicks] = useState<Record<number, number>>({});
+  const sent = useRef(false);
+
+  const answers = Object.entries(picks);
+  const finished = answers.length === items.length;
+  const correct = answers.filter(([qi, ai]) => items[Number(qi)].ok === ai).length;
+
+  /* Le score part une seule fois, quand la dernière question est répondue. */
+  useEffect(() => {
+    if (!finished || sent.current) return;
+    sent.current = true;
+    void onComplete(domainId, cardId, correct, items.length).catch(() => {
+      /* la progression n'est pas critique */
+    });
+  }, [finished, correct, items.length, domainId, cardId, onComplete]);
 
   return (
-    <ol className="divide-y divide-rule-soft">
+    <>
+      {finished && (
+        <p className="mb-6 border-l-2 border-accent bg-paper-2 px-4 py-3 text-[0.875rem] text-ink-2">
+          <strong className="text-ink">
+            {correct} / {items.length}
+          </strong>{' '}
+          — score enregistré si vous êtes connecté.
+        </p>
+      )}
+      <ol className="divide-y divide-rule-soft">
       {items.map((q, qi) => {
         const picked = picks[qi];
         const answered = picked !== undefined;
@@ -49,6 +79,7 @@ export default function Quiz({ items }: { items: QuizItem[] }) {
           </li>
         );
       })}
-    </ol>
+      </ol>
+    </>
   );
 }

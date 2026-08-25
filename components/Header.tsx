@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Container from './Container';
+import AccountNav from './AccountNav';
 import SearchBox from './SearchBox';
 
 export default function Header() {
@@ -24,12 +25,7 @@ export default function Header() {
             <Link href="/manifeste" className="text-ink-2 transition-colors hover:text-accent">
               Manifeste
             </Link>
-            <Link
-              href="/connexion"
-              className="border border-ink px-3.5 py-1.5 text-[0.75rem] font-medium uppercase tracking-[0.12em] transition-colors hover:bg-ink hover:text-paper"
-            >
-              Entrer
-            </Link>
+            <AccountNav />
           </nav>
         </div>
       </Container>

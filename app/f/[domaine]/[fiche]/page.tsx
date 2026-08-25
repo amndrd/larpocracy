@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import Container from '@/components/Container';
 import Panel from '@/components/Panel';
 import Quiz from '@/components/Quiz';
+import TrackRead from '@/components/TrackRead';
+import { markRead, saveQuizScore } from '@/lib/progress';
 import { LEVELS, allCards, getCard, getDomain, getNeighbours } from '@/lib/content';
 import { Paragraphs, rich } from '@/lib/mdlite';
 
@@ -30,6 +32,8 @@ export default async function FichePage({ params }: Props) {
 
   return (
     <Container narrow className="py-16">
+      <TrackRead domainId={d.id} cardId={c.id} onRead={markRead} />
+
       <nav className="eyebrow">
         <Link href="/domaines" className="transition-colors hover:text-accent">
           Domaines
@@ -124,7 +128,12 @@ export default async function FichePage({ params }: Props) {
 
       {c.quiz && c.quiz.length > 0 && (
         <Panel label="Vérification">
-          <Quiz items={c.quiz} />
+          <Quiz
+            items={c.quiz}
+            domainId={d.id}
+            cardId={c.id}
+            onComplete={saveQuizScore}
+          />
         </Panel>
       )}
 

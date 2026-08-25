@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${display.variable} ${sans.variable}`}>
+    <html lang="fr" data-scroll-behavior="smooth" className={`${display.variable} ${sans.variable}`}>
       <body className="min-h-screen flex flex-col">
         <a
           href="#contenu"
