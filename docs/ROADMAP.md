@@ -8,7 +8,7 @@
 
 | Élément | État |
 |---|---|
-| Repo public + Pages | ✅ |
+| Repo public + Pages | ✅ https://amndrd.github.io/larpocracy/ |
 | Documentation de contexte | ✅ |
 | Atlas des 673 sujets | ✅ |
 | Coquille du site (nav, routing, recherche) | ✅ |
