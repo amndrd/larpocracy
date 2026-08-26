@@ -8,6 +8,7 @@
   "title": "Maisons, vignerons et cuvées de prestige",
   "level": 1,
   "minutes": 7,
+  "image": "champagne.jpg",
   "summary": "Une phrase qui dit ce que la fiche débloque concrètement.",
 
   "sections": [
@@ -33,6 +34,8 @@
 ```
 
 Champs obligatoires : `id`, `title`, `level`, `summary`, `sections`.
+`image` désigne un fichier de `public/images/` — facultatif, et jamais deviné :
+si le champ est absent, le site n'affiche simplement pas d'image.
 Tout le reste est optionnel mais **fortement** recommandé — une fiche sans
 `sayThis`/`notThis` rate le cœur du produit.
 

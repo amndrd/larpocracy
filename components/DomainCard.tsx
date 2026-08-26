@@ -3,61 +3,65 @@ import Link from 'next/link';
 import Badge from './Badge';
 import { IconFleche } from './icons';
 import { getCards } from '@/lib/content';
+import { imageOfDomain } from '@/lib/images';
 import { domainVars } from '@/lib/theme';
-import { visuelOf } from '@/lib/visuels';
 import type { Domain } from '@/lib/types';
 
 /**
- * Vignette de domaine. La photo se fond dans la carte par le bas — sur fond
- * sombre, une image détourée franchement ferait autocollant.
+ * Vignette de domaine. Sans image déclarée, la carte affiche un aplat teinté
+ * plutôt qu'un trou : le catalogue reste présentable avant d'être illustré.
  */
 export default function DomainCard({ d, index = 0 }: { d: Domain; index?: number }) {
   const count = getCards(d.id).length;
   const ouvert = count > 0;
-  const visuel = visuelOf(d.id);
+  const image = imageOfDomain(d);
+  const numero = String(d.n).padStart(2, '0');
 
   return (
     <Link
       href={`/d/${d.id}`}
       style={{ ...domainVars(d.id), animationDelay: `${Math.min(index, 8) * 55}ms` }}
-      className="card card-lift group animate-fade-up relative flex flex-col overflow-hidden hover:card-lift-on"
+      className="card card-lift group animate-fade-up flex flex-col overflow-hidden hover:card-lift-on"
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-canvas-2">
-        {visuel && (
-          <Image
-            src={visuel}
-            alt=""
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            placeholder="blur"
-            className={
-              'object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06] ' +
-              (ouvert ? 'opacity-90' : 'opacity-45 grayscale-[60%]')
-            }
-          />
+      <div className="relative aspect-[16/10] overflow-hidden bg-[var(--dom-tint)]">
+        {image ? (
+          <>
+            <Image
+              src={image}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className={
+                'object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06] ' +
+                (ouvert ? '' : 'grayscale-[55%]')
+              }
+            />
+            <div
+              aria-hidden
+              className="absolute inset-x-0 bottom-0 h-1/2"
+              style={{ background: 'linear-gradient(to top, rgba(10,12,16,.55), transparent)' }}
+            />
+            <span className="display absolute left-5 bottom-3 text-[2.25rem] leading-none text-white/90">
+              {numero}
+            </span>
+          </>
+        ) : (
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(ellipse 80% 90% at 20% 10%, color-mix(in srgb, var(--dom) 22%, transparent), transparent 65%)',
+            }}
+          >
+            <span className="display absolute left-5 bottom-3 text-[2.75rem] leading-none text-[var(--dom)] opacity-45">
+              {numero}
+            </span>
+          </div>
         )}
-        {/* Teinte du domaine, puis fondu vers la carte : la photo n'a pas de bord bas. */}
-        <div
-          aria-hidden
-          className="absolute inset-0 mix-blend-soft-light opacity-50 transition-opacity duration-500 group-hover:opacity-25"
-          style={{ background: 'var(--dom)' }}
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(to top, var(--color-surface) 2%, rgba(32,27,24,.55) 34%, transparent 72%)',
-          }}
-        />
-
-        {/* Le numéro à la Toko : gros, dans la teinte, en pied d'image. */}
-        <span className="display absolute left-5 bottom-3 text-[2.25rem] leading-none text-[var(--dom)] opacity-90">
-          {String(d.n).padStart(2, '0')}
-        </span>
       </div>
 
-      <div className="flex flex-1 flex-col px-5 pb-5">
+      <div className="flex flex-1 flex-col p-5">
         <h3 className="display text-[1.5rem] transition-colors duration-300 group-hover:text-[var(--dom)]">
           {d.title}
         </h3>
@@ -67,7 +71,7 @@ export default function DomainCard({ d, index = 0 }: { d: Domain; index?: number
 
         <div className="mt-5 flex items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-1.5">
-            <Badge ton="domaine">{d.topics} sujets</Badge>
+            {d.topics > 0 && <Badge ton="domaine">{d.topics} sujets</Badge>}
             {ouvert ? (
               <Badge ton="neutre">
                 {count} fiche{count > 1 ? 's' : ''}
@@ -76,7 +80,7 @@ export default function DomainCard({ d, index = 0 }: { d: Domain; index?: number
               <Badge ton="neutre">Bientôt</Badge>
             )}
           </div>
-          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-2 text-ink-3 transition-all duration-300 group-hover:bg-[var(--dom)] group-hover:text-canvas">
+          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-canvas-2 text-ink-3 transition-all duration-300 group-hover:bg-[var(--dom)] group-hover:text-white">
             <IconFleche className="size-4" />
           </span>
         </div>

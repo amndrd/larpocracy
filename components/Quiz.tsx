@@ -82,7 +82,7 @@ export default function Quiz({ items, domainId, cardId, onComplete }: Props) {
                       className={clsx(
                         'pressable flex w-full items-center gap-3 rounded-md border px-4 py-3 text-left text-[0.9375rem]',
                         !answered &&
-                          'border-line bg-canvas-2 hover:border-accent/50 hover:bg-accent-3 active:translate-y-[1px]',
+                          'border-line bg-surface hover:border-accent/40 hover:bg-accent-3 active:translate-y-[1px]',
                         answered && isRight && 'border-yes/35 bg-yes-2 text-yes',
                         answered && isPicked && !isRight && 'border-no/35 bg-no-2 text-no',
                         answered && !isRight && !isPicked && 'border-line-soft text-ink-3',
@@ -91,10 +91,10 @@ export default function Quiz({ items, domainId, cardId, onComplete }: Props) {
                       <span
                         className={clsx(
                           'grid size-6 shrink-0 place-items-center rounded-full text-[0.6875rem] font-semibold',
-                          !answered && 'bg-surface-2 text-ink-3',
-                          answered && isRight && 'bg-yes text-canvas',
-                          answered && isPicked && !isRight && 'bg-no text-canvas',
-                          answered && !isRight && !isPicked && 'bg-surface-2 text-ink-3',
+                          !answered && 'bg-canvas-2 text-ink-3',
+                          answered && isRight && 'bg-yes text-white',
+                          answered && isPicked && !isRight && 'bg-no text-white',
+                          answered && !isRight && !isPicked && 'bg-canvas-2 text-ink-3',
                         )}
                       >
                         {answered && isRight ? (

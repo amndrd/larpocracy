@@ -14,13 +14,13 @@ export function StatPills({ b, className }: { b: Bilan; className?: string }) {
       <span
         className={clsx(
           'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.8125rem] font-semibold',
-          b.serie > 0 ? 'bg-gold-2 text-gold' : 'bg-surface-2 text-ink-3',
+          b.serie > 0 ? 'bg-gold-2 text-gold' : 'bg-canvas-2 text-ink-3',
         )}
       >
         <IconFlamme className="size-3.5" />
         <span className="tabular-nums">{b.serie}</span> j
       </span>
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-3 py-1.5 text-[0.8125rem] font-semibold text-ink-2">
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-canvas-2 px-3 py-1.5 text-[0.8125rem] font-semibold text-ink-2">
         <IconTrophee className="size-3.5" />
         {b.rang.actuel.nom}
       </span>
@@ -79,7 +79,7 @@ export function Distinctions({ b }: { b: Bilan }) {
           <span
             className={clsx(
               'grid size-10 shrink-0 place-items-center rounded-full',
-              d.obtenue ? 'bg-gold-2 text-gold' : 'bg-surface-2 text-ink-3',
+              d.obtenue ? 'bg-gold-2 text-gold' : 'bg-canvas-2 text-ink-3',
             )}
           >
             {d.obtenue ? <IconTrophee className="size-5" /> : <IconCadenas className="size-4" />}

@@ -16,7 +16,7 @@ export default function Panel({
 }) {
   return (
     <section id={id} className={clsx('card my-8 overflow-hidden scroll-mt-24', className)}>
-      <h2 className="eyebrow border-b border-line-soft bg-canvas-2 px-5 py-3">{label}</h2>
+      <h2 className="eyebrow border-b border-line-soft bg-surface-2 px-5 py-3">{label}</h2>
       <div className={clsx('p-5 sm:p-6', bodyClassName)}>{children}</div>
     </section>
   );

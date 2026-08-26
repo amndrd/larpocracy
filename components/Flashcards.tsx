@@ -171,7 +171,7 @@ export default function Flashcards({
         <button
           type="button"
           onClick={() => rejouer(melange(deck.map((_, i) => i)))}
-          className="pressable inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2 hover:bg-surface-2 hover:text-ink"
+          className="pressable inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2 hover:bg-canvas-2 hover:text-ink"
         >
           <IconMelanger className="size-4" />
           Mélanger
@@ -223,7 +223,7 @@ export default function Flashcards({
           onClick={() => recule()}
           disabled={pos === 0}
           aria-label="Carte précédente"
-          className="pressable grid size-11 place-items-center rounded-full border border-line bg-surface text-ink-2 hover:border-ink/25 hover:bg-surface-2 hover:text-ink disabled:opacity-35"
+          className="pressable grid size-11 place-items-center rounded-full border border-line bg-surface text-ink-2 hover:border-ink/20 hover:bg-canvas-2 hover:text-ink disabled:opacity-35"
         >
           <IconChevron className="size-4 rotate-180" />
         </button>
@@ -234,8 +234,8 @@ export default function Flashcards({
           disabled={!retourne}
           className={clsx(
             'pressable inline-flex h-11 items-center gap-2 rounded-full px-5 text-[0.875rem] font-semibold',
-            'border border-no/35 bg-no-2 text-no shadow-[0_3px_0_var(--color-canvas-2)]',
-            'hover:bg-no hover:text-canvas active:translate-y-[3px] active:shadow-none',
+            'border border-no/35 bg-no-2 text-no shadow-[0_3px_0_var(--color-line)]',
+            'hover:bg-no hover:text-white active:translate-y-[3px] active:shadow-none',
             !retourne && 'pointer-events-none opacity-35',
           )}
         >
@@ -248,8 +248,8 @@ export default function Flashcards({
           disabled={!retourne}
           className={clsx(
             'pressable inline-flex h-11 items-center gap-2 rounded-full px-5 text-[0.875rem] font-semibold',
-            'border border-yes/35 bg-yes-2 text-yes shadow-[0_3px_0_var(--color-canvas-2)]',
-            'hover:bg-yes hover:text-canvas active:translate-y-[3px] active:shadow-none',
+            'border border-yes/35 bg-yes-2 text-yes shadow-[0_3px_0_var(--color-line)]',
+            'hover:bg-yes hover:text-white active:translate-y-[3px] active:shadow-none',
             !retourne && 'pointer-events-none opacity-35',
           )}
         >
@@ -261,7 +261,7 @@ export default function Flashcards({
           type="button"
           onClick={() => avance()}
           aria-label="Carte suivante"
-          className="pressable grid size-11 place-items-center rounded-full border border-line bg-surface text-ink-2 hover:border-ink/25 hover:bg-surface-2 hover:text-ink"
+          className="pressable grid size-11 place-items-center rounded-full border border-line bg-surface text-ink-2 hover:border-ink/25 hover:bg-canvas-2 hover:text-ink"
         >
           <IconChevron className="size-4" />
         </button>

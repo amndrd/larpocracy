@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { buttonClasses } from './Button';
 import { IconEclair, IconFlamme } from './icons';
+import { clsx } from '@/lib/clsx';
 import { createClient } from '@/lib/supabase/browser';
 import { isSupabaseConfigured } from '@/lib/supabase/config';
 
@@ -16,7 +17,7 @@ type Bilan = { xp: number; serie: number; rang: string };
  * leur prérendu statique. Les compteurs suivent le même chemin — ils
  * arrivent par /api/bilan une fois la session connue.
  */
-export default function AccountNav() {
+export default function AccountNav({ pleineLargeur = false }: { pleineLargeur?: boolean }) {
   const [email, setEmail] = useState<string | null>(null);
   const [bilan, setBilan] = useState<Bilan | null>(null);
   const [ready, setReady] = useState(!isSupabaseConfigured);
@@ -25,7 +26,7 @@ export default function AccountNav() {
   // Relu à chaque navigation, et pas seulement au montage : connexion et
   // déconnexion passent par des Server Actions, donc le client navigateur
   // n'émet aucun événement. Sans cette relecture, le lien resterait sur
-  // « Entrer » après une connexion jusqu'au prochain rechargement complet.
+  // « Connexion » après une connexion jusqu'au prochain rechargement complet.
   useEffect(() => {
     if (!isSupabaseConfigured) return;
     const supabase = createClient();
@@ -66,49 +67,63 @@ export default function AccountNav() {
 
   if (!ready) {
     // Réserve la place pour éviter que la barre ne saute au chargement.
-    return <span className="h-9 w-24" aria-hidden />;
+    return <span className={pleineLargeur ? 'block h-11' : 'block h-9 w-40'} aria-hidden />;
   }
 
   if (email) {
     return (
-      <div className="flex items-center gap-2">
-        {bilan && (
+      <div className={clsx('flex items-center gap-2', pleineLargeur && 'flex-col items-stretch')}>
+        {bilan && !pleineLargeur && (
           <>
             <span
               title={`${bilan.xp} points · rang ${bilan.rang}`}
-              className="hidden items-center gap-1.5 rounded-full bg-accent-3 px-3 py-1.5 text-[0.8125rem] font-semibold text-accent-ink sm:inline-flex"
+              className="hidden items-center gap-1.5 rounded-full bg-accent-3 px-3 py-1.5 text-[0.8125rem] font-semibold text-accent-ink lg:inline-flex"
             >
               <IconEclair className="size-3.5" />
               <span className="tabular-nums">{bilan.xp.toLocaleString('fr-FR')}</span>
             </span>
             <span
               title={`Série de ${bilan.serie} jour${bilan.serie > 1 ? 's' : ''}`}
-              className={
-                'hidden items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.8125rem] font-semibold md:inline-flex ' +
-                (bilan.serie > 0 ? 'bg-gold-2 text-gold' : 'bg-surface-2 text-ink-3')
-              }
+              className={clsx(
+                'hidden items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.8125rem] font-semibold xl:inline-flex',
+                bilan.serie > 0 ? 'bg-gold-2 text-gold' : 'bg-canvas-2 text-ink-3',
+              )}
             >
               <IconFlamme className="size-3.5" />
               <span className="tabular-nums">{bilan.serie}</span>
             </span>
           </>
         )}
-        <Link href="/compte" aria-label="Mon compte" className={buttonClasses('secondaire', 'sm')}>
+        <Link
+          href="/compte"
+          className={buttonClasses('secondaire', pleineLargeur ? 'md' : 'sm', pleineLargeur && 'w-full')}
+        >
           <span
             aria-hidden
             className="grid size-5 place-items-center rounded-full bg-accent text-[0.625rem] font-bold text-white"
           >
             {email[0]?.toUpperCase()}
           </span>
-          <span className="hidden lg:inline">Mon compte</span>
+          Mon compte
         </Link>
       </div>
     );
   }
 
   return (
-    <Link href="/connexion" className={buttonClasses('primaire', 'sm')}>
-      Entrer
-    </Link>
+    <div className={clsx('flex items-center gap-1.5', pleineLargeur && 'flex-col items-stretch gap-2')}>
+      <Link
+        href="/connexion"
+        className={buttonClasses('fantome', pleineLargeur ? 'md' : 'sm', pleineLargeur && 'w-full')}
+      >
+        Connexion
+      </Link>
+      <Link
+        href="/inscription"
+        className={buttonClasses('primaire', pleineLargeur ? 'md' : 'sm', pleineLargeur && 'w-full')}
+      >
+        S&apos;inscrire
+      </Link>
+    </div>
   );
 }

@@ -30,7 +30,7 @@ export default function Constellation({ className }: { className?: string }) {
       preserveAspectRatio="xMidYMid meet"
     >
       {/* Arcs filaires : la grille qui donne la profondeur */}
-      <g stroke="var(--color-accent)" strokeWidth="1" opacity="0.18">
+      <g stroke="var(--color-accent)" strokeWidth="1" opacity="0.11">
         <ellipse cx="730" cy="300" rx="330" ry="330" />
         <ellipse cx="730" cy="300" rx="229" ry="330" />
         <ellipse cx="730" cy="300" rx="119" ry="330" />
@@ -46,7 +46,7 @@ export default function Constellation({ className }: { className?: string }) {
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeDasharray="4 7"
-        opacity="0.40"
+        opacity="0.30"
       />
 
       {NOEUDS.map((n, i) => {

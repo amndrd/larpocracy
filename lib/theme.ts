@@ -6,8 +6,8 @@
  * ses couleurs par variables CSS (`--dom`, `--dom-tint`), ce qui évite de
  * générer quatorze jeux de classes que Tailwind ne pourrait pas voir.
  *
- * Les teintes sont calées pour un fond sombre : claires et un peu
- * désaturées, sinon elles vibrent sur le noir.
+ * Les teintes sont calées pour un fond clair : soutenues, sinon elles
+ * disparaissent sur le blanc.
  */
 export type DomainTheme = {
   /** Teinte pleine : titres de domaine, filets, barres, halo. */
@@ -17,23 +17,23 @@ export type DomainTheme = {
 };
 
 const THEMES: Record<string, DomainTheme> = {
-  'cave-table':   { hue: '#d4576b', tint: '#2a1519' },
-  vestiaire:      { hue: '#6b8ec9', tint: '#161c2a' },
-  horlogerie:     { hue: '#d0a35c', tint: '#2a2116' },
-  machines:       { hue: '#8fa3b5', tint: '#1c2126' },
-  lieux:          { hue: '#57b391', tint: '#12261f' },
-  business:       { hue: '#4fa8bd', tint: '#12242a' },
-  pouvoir:        { hue: '#b07cc4', tint: '#241a2a' },
-  art:            { hue: '#e08355', tint: '#2d1c14' },
-  culture:        { hue: '#8b8fe0', tint: '#1c1d2e' },
-  codes:          { hue: '#a8b46a', tint: '#22261a' },
-  conversation:   { hue: '#dd7396', tint: '#2c1720' },
-  monde:          { hue: '#5a9fd6', tint: '#14212c' },
-  sport:          { hue: '#86bd63', tint: '#1a2616' },
-  'meta-larp':    { hue: '#c4b5a8', tint: '#262019' },
+  'cave-table':   { hue: '#8e2b3f', tint: '#fbf1f3' },
+  vestiaire:      { hue: '#26406b', tint: '#eff2f8' },
+  horlogerie:     { hue: '#8a6a2f', tint: '#faf5ea' },
+  machines:       { hue: '#3f4c58', tint: '#f1f3f6' },
+  lieux:          { hue: '#245c4a', tint: '#edf6f2' },
+  business:       { hue: '#155e6b', tint: '#ecf6f8' },
+  pouvoir:        { hue: '#5a2c63', tint: '#f7f0f9' },
+  art:            { hue: '#a44a2a', tint: '#fdf3ee' },
+  culture:        { hue: '#3b3f8f', tint: '#f0f1fb' },
+  codes:          { hue: '#5c6330', tint: '#f5f7ea' },
+  conversation:   { hue: '#a03a5d', tint: '#fdf0f4' },
+  monde:          { hue: '#1d5b8f', tint: '#eef4fa' },
+  sport:          { hue: '#3f6b2c', tint: '#f1f7ec' },
+  'meta-larp':    { hue: '#463049', tint: '#f5f1f6' },
 };
 
-const DEFAUT: DomainTheme = { hue: '#c0384a', tint: '#2b1518' };
+const DEFAUT: DomainTheme = { hue: '#9e2a3c', tint: '#fdf2f4' };
 
 export function themeOf(domainId: string): DomainTheme {
   return THEMES[domainId] ?? DEFAUT;

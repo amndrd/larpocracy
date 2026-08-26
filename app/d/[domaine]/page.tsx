@@ -8,7 +8,7 @@ import { ButtonLink } from '@/components/Button';
 import { IconChevron } from '@/components/icons';
 import { domains, getCards, getDomain } from '@/lib/content';
 import { domainVars } from '@/lib/theme';
-import { visuelOf } from '@/lib/visuels';
+import { imageOfDomain } from '@/lib/images';
 
 type Props = { params: Promise<{ domaine: string }> };
 
@@ -28,7 +28,7 @@ export default async function DomainPage({ params }: Props) {
   if (!d) notFound();
 
   const cards = getCards(d.id);
-  const visuel = visuelOf(d.id);
+  const image = imageOfDomain(d);
 
   return (
     <div style={domainVars(d.id)}>
@@ -43,24 +43,16 @@ export default async function DomainPage({ params }: Props) {
 
         {/* Bandeau du domaine */}
         <header className="animate-fade-up relative overflow-hidden rounded-2xl shadow-md">
-          {visuel && (
-            <Image
-              src={visuel}
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              placeholder="blur"
-              className="object-cover opacity-80"
-            />
+          {image && (
+            <Image src={image} alt="" fill priority sizes="100vw" className="object-cover" />
           )}
           <div
             aria-hidden
             className="absolute inset-0"
             style={{
-              background:
-                'linear-gradient(100deg, rgba(13,11,10,.94) 0%, rgba(13,11,10,.82) 46%, rgba(13,11,10,.55) 100%), ' +
-                'linear-gradient(to top, var(--color-canvas), transparent 55%)',
+              background: image
+                ? 'linear-gradient(100deg, rgba(13,11,10,.86) 0%, rgba(13,11,10,.66) 48%, rgba(13,11,10,.40) 100%)'
+                : 'linear-gradient(120deg, var(--dom) 0%, color-mix(in srgb, var(--dom) 62%, #1d1d1f) 100%)',
             }}
           />
           <div className="relative px-6 py-12 sm:px-10 sm:py-14">

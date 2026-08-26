@@ -9,6 +9,8 @@ export type Domain = {
   topics: number;
   module: boolean;
   keywords?: string[];
+  /** Nom du fichier déposé dans `public/images/`, par exemple `cave-table.jpg`. */
+  image?: string;
 };
 
 export type Section = { h: string; body: string };
@@ -19,6 +21,8 @@ export type QuizItem = { q: string; a: string[]; ok: number; why: string };
 export type Card = {
   id: string;
   title: string;
+  /** Nom du fichier déposé dans `public/images/`. Facultatif. */
+  image?: string;
   level: Level;
   minutes?: number;
   summary: string;

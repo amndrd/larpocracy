@@ -60,20 +60,21 @@ Larpocracy est le manuel de terrain de cette surface d'accroche.
 ## 5. Stack technique
 
 - **Next.js 16** (App Router) + **TypeScript** + **Tailwind CSS v4**.
-- **Design « application sombre »**, inspiré de Toko (décision #020) : noir chaud,
-  cartes plus claires que le fond, pilules, bento, gros titres serrés.
+- **Design « clair », registre Apple / Quizlet** (décision #023) : gris `#f5f5f7`,
+  cartes blanches, grands rayons, ombres larges et douces, **barre flottante**
+  translucide détachée du bord haut.
   Jetons dans `app/globals.css` (`@theme`) : surfaces `canvas`/`canvas-2`/`surface`/
   `surface-2`/`surface-3`/`line`, encres `ink`/`ink-2`/`ink-3`, accents
   `accent`/`accent-ink`/`gold`/`yes`/`no`, rayons `--radius-*`, ombres `--shadow-*`.
   Titres en Instrument Serif (`display`, `headline`), interface en **Inter Tight**.
-- **Sur fond sombre, l'élévation vient de la surface, pas de l'ombre.** Une carte est
-  plus claire que le fond ; `--shadow-*` ne sert qu'aux éléments flottants.
 - **Gamification** (décision #021) : `lib/xp.ts` (barème, rangs, séries,
   distinctions) et `lib/stats.ts` (`bilan()`, fonction pure). Aucun point offert.
 - **Chaque domaine a sa teinte** (`lib/theme.ts`), posée en variables CSS `--dom` et
   `--dom-tint` par `domainVars()`, jamais en classes Tailwind générées.
-- **Visuels** : 15 photos/œuvres sous licence libre dans `public/visuels/`, crédits
-  dans `content/credits.json`, publiés sur `/credits` (décision #019).
+- **Images** : déposées à la main dans `public/images/`, puis **déclarées** dans le
+  JSON (`"image": "mon-fichier.jpg"`). Jamais devinées par convention de nom — une
+  image absente afficherait un trou. Sans image déclarée, le site pose un aplat
+  teinté à la place. Voir `lib/images.ts` et `public/images/LISEZMOI.md`.
 - **Supabase** : authentification (email + mot de passe) et Postgres.
 - Hébergement **Vercel**. Développement sur `localhost:3000` (`npm run dev`).
 - Contenu en **JSON** dans `content/`, importé statiquement par `lib/content.ts`.
@@ -101,6 +102,13 @@ Larpocracy est le manuel de terrain de cette surface d'accroche.
   réellement livrée en cherchant sa valeur dans `/_next/static/chunks/*.js`.
 - **Les compteurs de l'en-tête passent par `/api/bilan`**, jamais par le rendu
   serveur : lire la session dans le header basculerait tout le site en dynamique.
+- **`backdrop-filter` déclaré dans un `@utility` reste sans effet.** Tailwind v4
+  pilote cette propriété par ses propres variables et écrase la déclaration. Pour un
+  effet de verre dépoli, utiliser les classes `backdrop-blur-*` et
+  `backdrop-saturate-*` sur l'élément.
+- **La barre de navigation est flottante** (`position: fixed`), donc hors du flux :
+  `<main>` porte un `pt-20 sm:pt-24` pour dégager sa hauteur. Le supprimer ferait
+  passer les titres sous la barre.
 - **`upload.wikimedia.org` ne sert que les largeurs de vignette déjà en cache** et
   répond **400** sur toutes les autres. Pour ajouter un visuel : télécharger l'URL
   exacte renvoyée par l'API, puis redimensionner localement.
@@ -119,14 +127,13 @@ app/
   f/[domaine]/[fiche]/    une fiche
   f/[domaine]/[fiche]/cartes/   le paquet de cartes à retourner
   recherche/              résultats de recherche
-  credits/                crédits des visuels
   manifeste/  tarifs/     pages éditoriales
   connexion/ inscription/ compte/    comptes
   auth/actions.ts         Server Actions d'authentification
   auth/confirm/route.ts   cible du lien de confirmation email
   api/search/route.ts     recherche (dynamique — voir les pièges)
   api/bilan/route.ts      points et série pour l'en-tête (dynamique)
-components/               Header, Footer, SearchBox, AuthForm, …
+components/               Header (barre flottante), Footer, SearchBox, AuthForm, …
   Button/Badge/Progress   primitives (bouton pressable, pastille, barre + anneau)
   icons.tsx               les pictogrammes, dessinés à la main
   DomainCard/FicheCard    les vignettes du catalogue
@@ -140,17 +147,16 @@ lib/
   xp.ts                   barème, rangs, séries, distinctions (pur)
   stats.ts                `bilan()` : tout ce que l'interface affiche du parcours
   theme.ts                la teinte de chaque domaine
-  visuels.ts              les visuels importés + leurs crédits
+  images.ts               résolution des images déclarées dans le JSON
   types.ts                types du contenu
   progress.ts             lecture/écriture de la progression
   plans.ts                formules free | pro
   supabase/               clients serveur, navigateur, config
 proxy.ts                  rafraîchissement de session (ex-middleware)
 content/
-  domains.json            les 14 domaines
-  credits.json            provenance et licence de chaque visuel
+  domains.json            les domaines — **vide au 26 août 2026**
   modules/<id>.json       le contenu, un fichier par domaine
-public/visuels/           les 15 visuels (14 domaines + bannière)
+public/images/            vos images, déposées à la main
 supabase/schema.sql       schéma + RLS, à exécuter dans le SQL Editor
 docs/                     contexte, atlas, feuille de route, guide, décisions
 ```
@@ -160,10 +166,35 @@ deux colonnes sur `card_progress`. Le rejouer dans le SQL Editor de Supabase (il
 idempotent). Sans cela le site marche, mais la série reste à 0 et les cartes ne
 rapportent aucun point.
 
-**Pour ajouter un module de contenu** : créer `content/modules/<id>.json`,
-l'importer dans `lib/content.ts` et l'ajouter au tableau `moduleFiles`
-(import statique volontaire : c'est ce qui garantit que le contenu est
-embarqué dans le build).
+**Le site est vide de contenu au 26 août 2026** (décision #022) : `domains.json`
+vaut `[]` et `content/modules/` ne contient aucune fiche. Toutes les pages gèrent
+ce cas et affichent un état vide plutôt que de casser.
+
+**Pour ajouter un domaine** — dans `content/domains.json` :
+
+```json
+[
+  {
+    "id": "cave-table", "n": 1, "title": "Cave & Table",
+    "tagline": "Vin, champagne, spiritueux, gastronomie",
+    "blurb": "Deux ou trois phrases sur ce que le domaine couvre.",
+    "topics": 77, "module": true,
+    "keywords": ["vin", "champagne"],
+    "image": "cave-table.jpg"
+  }
+]
+```
+
+`image` est facultatif : le fichier doit être dans `public/images/`. Sans lui, la
+vignette affiche un aplat à la teinte du domaine (`lib/theme.ts`).
+
+**Pour ajouter un module de contenu** :
+1. créer `content/modules/<id-du-domaine>.json` (schéma dans `docs/CONTENT-GUIDE.md`) ;
+2. l'importer dans `lib/content.ts` ;
+3. l'ajouter au tableau `moduleFiles`.
+
+L'import est statique volontairement : c'est ce qui garantit que le contenu est
+embarqué dans le build sur Vercel.
 
 ## 7. Les 14 domaines
 

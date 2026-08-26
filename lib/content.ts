@@ -3,17 +3,21 @@ import type { Card, Domain, Level, Module } from './types';
 
 /* --------------------------------------------------------------
    Les modules de contenu sont importés explicitement.
-   POUR AJOUTER UN MODULE : créer content/modules/<id>.json,
-   l'importer ici, et l'ajouter au tableau `moduleFiles`.
-   (Import statique et non lecture de dossier : c'est ce qui garantit
-   que le contenu est bien embarqué dans le build sur Vercel.)
-   -------------------------------------------------------------- */
-import mCaveTable from '@/content/modules/cave-table.json';
-import mVestiaire from '@/content/modules/vestiaire.json';
-import mBusiness from '@/content/modules/business.json';
-import mCodes from '@/content/modules/codes.json';
 
-const moduleFiles = [mCaveTable, mVestiaire, mBusiness, mCodes] as unknown as Module[];
+   POUR AJOUTER UN MODULE :
+     1. créer `content/modules/<id-du-domaine>.json`
+     2. l'importer ci-dessous
+     3. l'ajouter au tableau `moduleFiles`
+
+   Import statique et non lecture de dossier : c'est ce qui garantit que le
+   contenu est bien embarqué dans le build sur Vercel.
+
+   Exemple, une fois le fichier créé :
+     import mCaveTable from '@/content/modules/cave-table.json';
+     const moduleFiles = [mCaveTable] as unknown as Module[];
+   -------------------------------------------------------------- */
+
+const moduleFiles: Module[] = [];
 
 export const domains = domainsJson as Domain[];
 

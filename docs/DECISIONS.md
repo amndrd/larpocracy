@@ -201,3 +201,40 @@ Tant que le SQL n'est pas rejoué, le site fonctionne : la série vaut 0 et les 
 ne comptent pas de points. Aucune erreur visible.
 Les compteurs de l'en-tête passent par `/api/bilan` plutôt que par le rendu serveur :
 lire la session dans le header basculerait tout le site en dynamique (voir #017).
+
+## 2026-08-26 — #022 Table rase du contenu
+`content/domains.json` repasse à `[]`, `content/modules/` est vidé, les 15 visuels et
+la page `/credits` sont supprimés. Le contenu sera reconstruit **étape par étape**.
+Raison : les 5 fiches et les 14 domaines étaient une démonstration ; le vrai contenu
+part d'une autre base. Rien n'est perdu — tout est dans l'historique git.
+
+Conséquence traitée : **chaque page gère l'état vide** plutôt que de casser. Accueil,
+catalogue, pied de page et compteurs affichent « le contenu arrive » au lieu de
+compter jusqu'à zéro. Le site reste présentable pendant toute la phase de
+remplissage, ce qui est la condition pour qu'elle soit tenable.
+
+Les images changent de régime : elles vivent dans `public/images/`, y sont déposées à
+la main, et sont **déclarées** dans le JSON (`"image": "fichier.jpg"`). Pas de
+convention de nom implicite : elle produirait une image cassée dès qu'un fichier
+manque, et Next ne peut pas vérifier l'existence d'un fichier au rendu. Sans image
+déclarée, un aplat à la teinte du domaine prend la place.
+
+## 2026-08-26 — #023 Retour au clair, registre Apple / Quizlet, barre flottante
+Troisième et dernier réglage visuel de la journée. Le sombre inspiré de Toko (#020)
+est remplacé par un **clair** : gris `#f5f5f7`, cartes blanches, grands rayons,
+ombres larges et douces.
+Ce qui survit de #020 : la structure (bento, cartes numérotées, piste horizontale,
+pilules), la gamification, Inter Tight, et le motif filaire de l'accueil.
+Ce qui survit depuis le début : Instrument Serif sur les titres.
+
+La navigation devient une **barre flottante** détachée du bord haut, en verre dépoli,
+avec logo, Contenu, Tarifs, une loupe qui déplie la recherche, puis Connexion et
+S'inscrire. Sur mobile, un panneau se déplie sous la barre.
+
+Deux pièges rencontrés, tous deux consignés dans `CLAUDE.md` :
+- `backdrop-filter` déclaré dans un `@utility` Tailwind v4 **ne s'applique pas** —
+  la propriété est pilotée par les variables internes de Tailwind. Il faut passer par
+  `backdrop-blur-*` et `backdrop-saturate-*`. Le menu mobile était translucide sans
+  flou, et le texte de la page se lisait au travers.
+- La barre étant `fixed`, elle sort du flux : `<main>` porte un `pt-20 sm:pt-24`,
+  sans quoi les titres passent dessous.

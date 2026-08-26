@@ -5,8 +5,8 @@ import DomainGrid from '@/components/DomainGrid';
 import { ButtonLink } from '@/components/Button';
 import { IconCartes, IconEclair, IconFleche, IconLire, IconNon, IconOui, IconTest, IconTrophee } from '@/components/icons';
 import { domains, stats } from '@/lib/content';
+import { imageAccueil } from '@/lib/images';
 import { RANGS } from '@/lib/xp';
-import { HERO } from '@/lib/visuels';
 
 const DIS_CA = [
   '« Vous avez du champagne de vigneron ? »',
@@ -21,30 +21,35 @@ const PAS_CA = [
 ];
 
 export default function Home() {
+  const banniere = imageAccueil();
+  const aDuContenu = stats.domains > 0;
+
   return (
     <>
       {/* ---------- Ouverture ---------- */}
-      <Container className="pt-6 sm:pt-8">
-        <section className="animate-fade-up relative overflow-hidden rounded-2xl border border-line bg-canvas-2">
-          {/* La photo n'est qu'une texture : elle passe très en retrait. */}
-          <Image
-            src={HERO}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            placeholder="blur"
-            className="object-cover object-[30%_center] opacity-25"
-          />
-          <div
-            aria-hidden
-            className="absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(100deg, rgba(20,17,15,.96) 0%, rgba(20,17,15,.86) 45%, rgba(20,17,15,.60) 100%)',
-            }}
-          />
-          <Constellation className="pointer-events-none absolute inset-0 size-full opacity-95" />
+      <Container className="pt-2 sm:pt-4">
+        <section className="animate-fade-up relative overflow-hidden rounded-2xl border border-line bg-surface shadow-md">
+          {banniere && (
+            <>
+              <Image
+                src={banniere}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-[30%_center]"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{
+                  background:
+                    'linear-gradient(100deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.88) 46%, rgba(255,255,255,.62) 100%)',
+                }}
+              />
+            </>
+          )}
+          <Constellation className="pointer-events-none absolute inset-0 size-full" />
 
           <div className="relative px-6 py-16 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
             <p className="eyebrow">Culture générale appliquée</p>
@@ -59,32 +64,34 @@ export default function Home() {
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
-              <ButtonLink href="/domaines" taille="lg">
+              <ButtonLink href={aDuContenu ? '/domaines' : '/inscription'} taille="lg">
                 <span className="grid size-6 place-items-center rounded-full bg-accent-2">
                   <IconEclair className="size-3.5" />
                 </span>
-                Commencer
+                {aDuContenu ? 'Commencer' : 'Créer un compte'}
               </ButtonLink>
               <ButtonLink href="/manifeste" taille="lg" variante="secondaire">
                 Le manifeste
               </ButtonLink>
             </div>
 
-            <dl className="mt-12 flex flex-wrap gap-2.5">
-              {[
-                { n: stats.domains, l: 'domaines' },
-                { n: stats.topics, l: 'sujets cartographiés' },
-                { n: stats.cards, l: 'fiches publiées' },
-              ].map((s) => (
-                <div
-                  key={s.l}
-                  className="inline-flex items-baseline gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 backdrop-blur-sm"
-                >
-                  <dt className="display text-[1.25rem] leading-none">{s.n}</dt>
-                  <dd className="text-[0.8125rem] text-ink-3">{s.l}</dd>
-                </div>
-              ))}
-            </dl>
+            {aDuContenu && (
+              <dl className="mt-12 flex flex-wrap gap-2.5">
+                {[
+                  { n: stats.domains, l: 'domaines' },
+                  { n: stats.topics, l: 'sujets cartographiés' },
+                  { n: stats.cards, l: 'fiches publiées' },
+                ].map((s) => (
+                  <div
+                    key={s.l}
+                    className="inline-flex items-baseline gap-2 rounded-full border border-line bg-surface/80 px-4 py-2 backdrop-blur-sm"
+                  >
+                    <dt className="display text-[1.25rem] leading-none">{s.n}</dt>
+                    <dd className="text-[0.8125rem] text-ink-3">{s.l}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
           </div>
         </section>
       </Container>
@@ -99,8 +106,8 @@ export default function Home() {
         </div>
 
         <div className="mt-9 grid gap-4 md:grid-cols-3">
-          <div className="card animate-fade-up flex flex-col p-6 md:row-span-2">
-            <span className="grid size-11 place-items-center rounded-full bg-surface-2 text-ink">
+          <div className="card animate-fade-up flex flex-col p-6">
+            <span className="grid size-11 place-items-center rounded-full bg-canvas-2 text-ink">
               <IconLire className="size-5" />
             </span>
             <h3 className="display mt-5 text-[1.375rem]">On lit la fiche</h3>
@@ -109,14 +116,14 @@ export default function Home() {
               zéro remplissage. Chaque fiche doit produire au moins une phrase prononçable le
               soir même.
             </p>
-            <p className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full bg-surface-2 px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2">
+            <p className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full bg-canvas-2 px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2">
               <IconEclair className="size-3.5" />+10 points
             </p>
           </div>
 
-          {/* La carte pleine, à la Toko : une seule, pour qu'elle porte. */}
+          {/* La carte pleine : une seule, pour qu'elle porte. */}
           <div
-            className="animate-fade-up flex flex-col rounded-lg bg-accent p-6 text-white md:col-span-2"
+            className="animate-fade-up flex flex-col rounded-lg bg-accent p-6 text-white shadow-md md:col-span-2"
             style={{ animationDelay: '70ms' }}
           >
             <span className="grid size-11 place-items-center rounded-full bg-white/15">
@@ -134,10 +141,10 @@ export default function Home() {
           </div>
 
           <div
-            className="card animate-fade-up flex flex-col p-6 md:col-span-2"
+            className="card animate-fade-up flex flex-col p-6 md:col-span-3"
             style={{ animationDelay: '140ms' }}
           >
-            <span className="grid size-11 place-items-center rounded-full bg-surface-2 text-ink">
+            <span className="grid size-11 place-items-center rounded-full bg-canvas-2 text-ink">
               <IconTest className="size-5" />
             </span>
             <h3 className="display mt-5 text-[1.375rem]">On se teste</h3>
@@ -145,7 +152,7 @@ export default function Home() {
               Des questions à choix, corrigées et expliquées. Le score reste, domaine par
               domaine — et il fait monter le rang.
             </p>
-            <p className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full bg-surface-2 px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2">
+            <p className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full bg-canvas-2 px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2">
               <IconEclair className="size-3.5" />+5 points par bonne réponse
             </p>
           </div>
@@ -153,7 +160,7 @@ export default function Home() {
       </Container>
 
       {/* ---------- Les rangs ---------- */}
-      <section className="border-y border-line bg-canvas-2">
+      <section className="border-y border-line bg-surface">
         <Container className="py-14">
           <div className="flex flex-wrap items-end justify-between gap-5">
             <div className="max-w-[44ch]">
@@ -244,12 +251,28 @@ export default function Home() {
               De la cave au conseil d&apos;administration
             </h2>
           </div>
-          <ButtonLink href="/domaines" variante="secondaire">
-            Voir les {stats.domains} domaines
-            <IconFleche className="size-4" />
-          </ButtonLink>
+          {aDuContenu && (
+            <ButtonLink href="/domaines" variante="secondaire">
+              Voir les {stats.domains} domaines
+              <IconFleche className="size-4" />
+            </ButtonLink>
+          )}
         </div>
-        <DomainGrid list={domains.slice(0, 6)} />
+
+        {aDuContenu ? (
+          <DomainGrid list={domains.slice(0, 6)} />
+        ) : (
+          <div className="card animate-pop px-8 py-16 text-center">
+            <p className="headline text-[1.75rem]">Le contenu arrive.</p>
+            <p className="mx-auto mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-ink-2">
+              Les domaines et les fiches se remplissent un par un. Créez un compte : la
+              progression sera là dès la première fiche publiée.
+            </p>
+            <ButtonLink href="/inscription" variante="secondaire" className="mt-7">
+              Créer un compte
+            </ButtonLink>
+          </div>
+        )}
       </Container>
     </>
   );

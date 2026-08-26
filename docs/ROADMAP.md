@@ -13,7 +13,7 @@
 | Documentation de contexte | ✅ |
 | Atlas des 673 sujets | ✅ |
 | Application Next.js sur localhost:3000 | ✅ |
-| Design « application sombre », inspiré de Toko | ✅ refonte du 26 août |
+| Design clair, registre Apple / Quizlet, barre flottante | ✅ refonte du 26 août |
 | Points, rangs, séries, distinctions | ✅ schéma à rejouer dans Supabase |
 | Pages de contenu prérendues + recherche | ✅ |
 | Comptes Supabase (auth + RLS) | ✅ code prêt — clés à renseigner |
@@ -21,15 +21,18 @@
 | Page formules (free / pro) | ✅ facturation non branchée |
 | Déploiement Vercel | ⏳ en attente de connexion au compte |
 | Mode Cartes (révision par retournement) | ✅ |
-| Visuels libres de droits + page de crédits | ✅ 15 visuels |
-| Modules de contenu remplis | 5 fiches · 4 / 14 domaines amorcés |
+| Images | ⏳ à déposer dans `public/images/` |
+| Modules de contenu remplis | **0 — contenu remis à zéro le 26 août (#022)** |
 
 **Pour activer les comptes** : créer un projet Supabase, exécuter
 `supabase/schema.sql` dans le SQL Editor, puis renseigner `NEXT_PUBLIC_SUPABASE_URL`
 et `NEXT_PUBLIC_SUPABASE_ANON_KEY` dans `.env.local` (voir `.env.example`) et dans les
 variables d'environnement Vercel.
 
-**Prochaine action de contenu** : les modules P0 du Domaine 6 (Business) et du
+**Prochaine action** : reconstruire le contenu domaine par domaine —
+voir « Pour ajouter un domaine » dans `CLAUDE.md`.
+
+**Ancienne note de contenu** : les modules P0 du Domaine 6 (Business) et du
 Domaine 11 (Conversation & Réseau) — les deux qui servent le plus vite en situation
 réelle.
 

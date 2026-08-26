@@ -47,7 +47,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Aller au contenu
         </a>
         <Header />
-        <main id="contenu" className="flex-1">
+        {/* La barre est flottante et sort du flux : on dégage la hauteur qu'elle occupe. */}
+        <main id="contenu" className="flex-1 pt-20 sm:pt-24">
           {children}
         </main>
         <Footer />
