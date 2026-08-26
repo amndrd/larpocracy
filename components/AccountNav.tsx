@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { buttonClasses } from './Button';
 import { createClient } from '@/lib/supabase/browser';
 import { isSupabaseConfigured } from '@/lib/supabase/config';
 
@@ -43,25 +44,25 @@ export default function AccountNav() {
 
   if (!ready) {
     // Réserve la place pour éviter que la barre ne saute au chargement.
-    return <span className="h-8 w-20" aria-hidden />;
+    return <span className="h-9 w-24" aria-hidden />;
   }
 
   if (email) {
     return (
-      <Link
-        href="/compte"
-        className="border border-rule px-3.5 py-1.5 text-[0.75rem] font-medium uppercase tracking-[0.12em] text-ink-2 transition-colors hover:border-ink hover:text-ink"
-      >
-        Mon compte
+      <Link href="/compte" aria-label="Mon compte" className={buttonClasses('secondaire', 'sm')}>
+        <span
+          aria-hidden
+          className="grid size-5 place-items-center rounded-full bg-accent text-[0.625rem] font-bold text-white"
+        >
+          {email[0]?.toUpperCase()}
+        </span>
+        <span className="hidden sm:inline">Mon compte</span>
       </Link>
     );
   }
 
   return (
-    <Link
-      href="/connexion"
-      className="border border-ink px-3.5 py-1.5 text-[0.75rem] font-medium uppercase tracking-[0.12em] transition-colors hover:bg-ink hover:text-paper"
-    >
+    <Link href="/connexion" className={buttonClasses('primaire', 'sm')}>
       Entrer
     </Link>
   );

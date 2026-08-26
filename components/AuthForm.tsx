@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useActionState } from 'react';
+import { Button } from './Button';
 import type { AuthState } from '@/app/auth/actions';
 
 type Props = {
@@ -15,7 +16,7 @@ export default function AuthForm({ mode, action, suite }: Props) {
   const isSignup = mode === 'signup';
 
   return (
-    <form action={formAction} className="mt-10 space-y-5">
+    <form action={formAction} className="mt-8 space-y-5">
       {suite && <input type="hidden" name="suite" value={suite} />}
 
       {isSignup && (
@@ -47,23 +48,25 @@ export default function AuthForm({ mode, action, suite }: Props) {
       />
 
       {state.error && (
-        <p role="alert" className="border-l-2 border-no bg-no/5 px-4 py-3 text-[0.875rem] text-no">
+        <p
+          role="alert"
+          className="animate-shake rounded-md border-l-[3px] border-no bg-no-2 px-4 py-3 text-[0.875rem] text-no"
+        >
           {state.error}
         </p>
       )}
       {state.notice && (
-        <p role="status" className="border-l-2 border-yes bg-yes/5 px-4 py-3 text-[0.875rem] text-yes">
+        <p
+          role="status"
+          className="animate-pop rounded-md border-l-[3px] border-yes bg-yes-2 px-4 py-3 text-[0.875rem] text-yes"
+        >
           {state.notice}
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full border border-ink bg-ink py-3 text-[0.75rem] font-medium uppercase tracking-[0.14em] text-paper transition-colors hover:bg-transparent hover:text-ink disabled:opacity-50"
-      >
+      <Button type="submit" disabled={pending} taille="lg" className="w-full">
         {pending ? 'Un instant…' : isSignup ? 'Créer mon compte' : 'Entrer'}
-      </button>
+      </Button>
 
       <p className="pt-2 text-center text-[0.875rem] text-ink-2">
         {isSignup ? (
@@ -96,7 +99,7 @@ function Field({
       <span className="eyebrow">{label}</span>
       <input
         {...props}
-        className="mt-2 w-full border border-rule bg-transparent px-4 py-2.5 text-[0.9375rem] text-ink placeholder:text-ink-3 focus:border-ink focus:outline-none"
+        className="mt-2 h-11 w-full rounded-md border border-line bg-canvas px-4 text-[0.9375rem] text-ink transition-all duration-200 placeholder:text-ink-3 focus:border-accent/40 focus:bg-surface focus:shadow-[var(--shadow-ring)] focus:outline-none"
       />
       {hint && <span className="mt-1.5 block text-[0.75rem] text-ink-3">{hint}</span>}
     </label>

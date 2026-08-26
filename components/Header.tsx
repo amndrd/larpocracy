@@ -5,29 +5,34 @@ import SearchBox from './SearchBox';
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-rule bg-paper/85 backdrop-blur-md">
-      <Container className="flex h-16 items-center gap-6">
-        <Link href="/" className="group flex shrink-0 items-baseline gap-2.5">
-          <span className="display text-[1.35rem] leading-none tracking-tight">
-            Larpocracy
-          </span>
-          <span className="hidden text-[0.6875rem] italic text-ink-3 sm:inline">
+    <header className="sticky top-0 z-40 border-b border-line bg-surface/85 backdrop-blur-xl">
+      <Container className="flex h-16 items-center gap-4 sm:gap-6">
+        <Link href="/" className="flex shrink-0 items-baseline gap-2.5">
+          <span className="display text-[1.4rem] leading-none tracking-tight">Larpocracy</span>
+          <span className="hidden text-[0.6875rem] italic text-ink-3 lg:inline">
             l&apos;art de tenir la salle
           </span>
         </Link>
 
-        <div className="ml-auto flex items-center gap-6">
+        <div className="ml-auto flex min-w-0 flex-1 justify-end sm:ml-4 sm:justify-center">
           <SearchBox />
-          <nav className="hidden items-center gap-6 text-[0.8125rem] md:flex">
-            <Link href="/domaines" className="text-ink-2 transition-colors hover:text-accent">
-              Domaines
-            </Link>
-            <Link href="/manifeste" className="text-ink-2 transition-colors hover:text-accent">
-              Manifeste
-            </Link>
-            <AccountNav />
-          </nav>
         </div>
+
+        <nav className="flex shrink-0 items-center gap-1">
+          <Link
+            href="/domaines"
+            className="hidden rounded-full px-3.5 py-2 text-[0.875rem] font-medium text-ink-2 transition-colors hover:bg-canvas-2 hover:text-ink md:block"
+          >
+            Domaines
+          </Link>
+          <Link
+            href="/manifeste"
+            className="hidden rounded-full px-3.5 py-2 text-[0.875rem] font-medium text-ink-2 transition-colors hover:bg-canvas-2 hover:text-ink lg:block"
+          >
+            Manifeste
+          </Link>
+          <AccountNav />
+        </nav>
       </Container>
     </header>
   );

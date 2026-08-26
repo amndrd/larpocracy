@@ -1,8 +1,14 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Container from '@/components/Container';
-import { LEVELS, domains, getCards, getDomain } from '@/lib/content';
+import FicheCard from '@/components/FicheCard';
+import { ButtonLink } from '@/components/Button';
+import { IconChevron } from '@/components/icons';
+import { domains, getCards, getDomain } from '@/lib/content';
+import { domainVars } from '@/lib/theme';
+import { visuelOf } from '@/lib/visuels';
 
 type Props = { params: Promise<{ domaine: string }> };
 
@@ -22,74 +28,83 @@ export default async function DomainPage({ params }: Props) {
   if (!d) notFound();
 
   const cards = getCards(d.id);
+  const visuel = visuelOf(d.id);
 
   return (
-    <Container className="py-16">
-      <nav className="eyebrow">
-        <Link href="/domaines" className="transition-colors hover:text-accent">
-          Domaines
-        </Link>
-        <span className="mx-2">/</span>
-        <span className="text-ink">{d.title}</span>
-      </nav>
-
-      <header className="mt-8 grid gap-8 border-b border-rule pb-12 md:grid-cols-12">
-        <div className="md:col-span-8">
-          <h1 className="display text-[clamp(2.25rem,5vw,3.5rem)]">{d.title}</h1>
-          <p className="mt-5 max-w-[54ch] text-[1.0625rem] leading-relaxed text-ink-2">
-            {d.blurb}
-          </p>
-        </div>
-        <div className="flex gap-8 self-end md:col-span-4 md:justify-end">
-          <div>
-            <div className="display text-[2rem] leading-none">{d.topics}</div>
-            <div className="eyebrow mt-1.5">Sujets</div>
-          </div>
-          <div>
-            <div className="display text-[2rem] leading-none">{cards.length}</div>
-            <div className="eyebrow mt-1.5">Fiches</div>
-          </div>
-        </div>
-      </header>
-
-      {cards.length > 0 ? (
-        <ol className="mt-4">
-          {cards.map((c, i) => (
-            <li key={c.id}>
-              <Link
-                href={`/f/${d.id}/${c.id}`}
-                className="group grid items-baseline gap-x-6 gap-y-2 border-b border-rule-soft py-7 transition-colors hover:bg-paper-2 md:grid-cols-12"
-              >
-                <span className="font-mono text-[0.6875rem] text-ink-3 md:col-span-1">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div className="md:col-span-8">
-                  <h2 className="display text-[1.5rem] transition-colors group-hover:text-accent">
-                    {c.title}
-                  </h2>
-                  <p className="mt-2 max-w-[62ch] text-[0.9375rem] leading-relaxed text-ink-2">
-                    {c.summary}
-                  </p>
-                </div>
-                <div className="eyebrow md:col-span-3 md:text-right">
-                  {LEVELS[c.level]} · {c.minutes ?? 5} min
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ol>
-      ) : (
-        <div className="mt-12 border border-dashed border-rule px-8 py-16 text-center">
-          <p className="display text-[1.5rem]">Ce domaine attend son tour.</p>
-          <p className="mx-auto mt-3 max-w-[46ch] text-[0.9375rem] leading-relaxed text-ink-2">
-            Ses {d.topics} sujets sont déjà découpés dans l&apos;atlas. Les domaines se
-            remplissent par fréquence d&apos;usage réel, pas par ordre alphabétique.
-          </p>
-          <Link href="/domaines" className="link hover:link-hover mt-6 inline-block text-[0.875rem]">
-            Retour aux domaines
+    <div style={domainVars(d.id)}>
+      <Container className="py-6 sm:py-8">
+        <nav className="mb-5 flex items-center gap-1.5 text-[0.8125rem] text-ink-3">
+          <Link href="/domaines" className="transition-colors hover:text-accent">
+            Domaines
           </Link>
-        </div>
-      )}
-    </Container>
+          <IconChevron className="size-3.5" />
+          <span className="text-ink-2">{d.title}</span>
+        </nav>
+
+        {/* Bandeau du domaine */}
+        <header className="animate-fade-up relative overflow-hidden rounded-2xl shadow-md">
+          {visuel && (
+            <Image
+              src={visuel}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              placeholder="blur"
+              className="object-cover"
+            />
+          )}
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(100deg, rgba(10,11,15,.93) 0%, rgba(10,11,15,.80) 46%, rgba(10,11,15,.58) 100%), ' +
+                'linear-gradient(to top, rgba(10,11,15,.40), transparent 60%)',
+            }}
+          />
+          <div className="relative px-6 py-12 sm:px-10 sm:py-14">
+            <p className="eyebrow text-white/55">Domaine {String(d.n).padStart(2, '0')}</p>
+            <h1 className="display mt-3 text-[clamp(2rem,5vw,3.25rem)] text-white">{d.title}</h1>
+            <p className="mt-4 max-w-[56ch] text-[1rem] leading-relaxed text-white/75">{d.blurb}</p>
+
+            <div className="mt-8 flex flex-wrap gap-8 border-t border-white/15 pt-6">
+              <div>
+                <div className="display text-[1.75rem] leading-none text-white">{d.topics}</div>
+                <div className="eyebrow mt-1.5 text-white/50">Sujets</div>
+              </div>
+              <div>
+                <div className="display text-[1.75rem] leading-none text-white">{cards.length}</div>
+                <div className="eyebrow mt-1.5 text-white/50">Fiches</div>
+              </div>
+            </div>
+          </div>
+        </header>
+      </Container>
+
+      <Container className="pb-16">
+        {cards.length > 0 ? (
+          <>
+            <h2 className="eyebrow mb-4">Les fiches</h2>
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {cards.map((c, i) => (
+                <FicheCard key={c.id} card={c} domainId={d.id} index={i} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="card animate-pop px-8 py-16 text-center">
+            <p className="display text-[1.625rem]">Ce domaine attend son tour.</p>
+            <p className="mx-auto mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-ink-2">
+              Ses {d.topics} sujets sont déjà découpés dans l&apos;atlas. Les domaines se
+              remplissent par fréquence d&apos;usage réel, pas par ordre alphabétique.
+            </p>
+            <ButtonLink href="/domaines" variante="secondaire" className="mt-7">
+              Voir les domaines ouverts
+            </ButtonLink>
+          </div>
+        )}
+      </Container>
+    </div>
   );
 }

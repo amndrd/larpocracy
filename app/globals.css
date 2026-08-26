@@ -1,34 +1,88 @@
 @import "tailwindcss";
 
 /* ============================================================
-   LARPOCRACY — design system « éditorial »
-   Blanc cassé, serif à fort contraste, filets 1px, grille stricte.
+   LARPOCRACY — design system « application »
+   Blanc, coins arrondis, ombres douces, cartes, mouvement.
+   Le serif reste pour les titres : c'est la signature du projet.
    ============================================================ */
 
 @theme {
+  /* --- Surfaces --- */
+  --color-canvas:     #f4f5f8;   /* fond de page, gris très clair */
+  --color-canvas-2:   #eceef3;   /* zones creusées, pistes de progression */
+  --color-surface:    #ffffff;   /* les cartes : toujours blanc pur */
+  --color-surface-2:  #f8f9fb;   /* survol d'une ligne dans une carte */
+  --color-line:       #e5e8ef;   /* bordure de carte, 1px */
+  --color-line-soft:  #eef0f5;   /* séparateur interne */
+
   /* --- Encres --- */
-  --color-paper:      #fbfaf7;   /* fond général, blanc cassé chaud */
-  --color-paper-2:    #f4f2ed;   /* fond secondaire, encarts */
-  --color-paper-3:    #eceae3;   /* survols, remplissages */
-  --color-ink:        #14140f;   /* texte principal, presque noir */
-  --color-ink-2:      #4a4942;   /* texte courant, gris chaud */
-  --color-ink-3:      #86847b;   /* légendes, métadonnées */
-  --color-rule:       #dedbd2;   /* filets */
-  --color-rule-soft:  #eae7de;   /* filets discrets */
+  --color-ink:        #101319;   /* titres, texte fort */
+  --color-ink-2:      #545d6d;   /* texte courant */
+  --color-ink-3:      #8a93a4;   /* légendes, métadonnées */
 
   /* --- Accents --- */
-  --color-accent:     #7d2b32;   /* rouge d'encre : liens, repères */
-  --color-accent-2:   #a8474d;   /* survol */
-  --color-yes:        #3f5f45;   /* vert profond : « Dis ça » */
-  --color-no:         #8f3a35;   /* rouge brique : « Pas ça » */
+  --color-accent:     #98283a;   /* bordeaux : actions principales */
+  --color-accent-2:   #7a1f2e;   /* pressé / survol */
+  --color-accent-3:   #fdf2f3;   /* fond teinté très clair */
+  --color-gold:       #b0834a;   /* liseré premium, badges */
+  --color-gold-2:     #fbf5ea;
+  --color-yes:        #17784b;   /* « Dis ça », bonne réponse */
+  --color-yes-2:      #eefaf3;
+  --color-no:         #b03a30;   /* « Pas ça », mauvaise réponse */
+  --color-no-2:       #fdf1ef;
 
   /* --- Typographie --- */
   --font-display: var(--font-instrument-serif), 'Iowan Old Style', Georgia, serif;
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* --- Mesure --- */
-  --spacing-gutter: 1.5rem;
+  /* --- Rayons --- */
+  --radius-xs:  0.5rem;
+  --radius-sm:  0.75rem;
+  --radius-md:  1rem;
+  --radius-lg:  1.25rem;
+  --radius-xl:  1.75rem;
+  --radius-2xl: 2.25rem;
+
+  /* --- Ombres : douces, jamais dures --- */
+  --shadow-xs: 0 1px 2px rgba(16, 19, 25, 0.05);
+  --shadow-sm: 0 1px 2px rgba(16, 19, 25, 0.06), 0 2px 6px rgba(16, 19, 25, 0.05);
+  --shadow-md: 0 2px 4px rgba(16, 19, 25, 0.05), 0 8px 20px rgba(16, 19, 25, 0.07);
+  --shadow-lg: 0 4px 8px rgba(16, 19, 25, 0.05), 0 18px 40px rgba(16, 19, 25, 0.10);
+  --shadow-xl: 0 8px 16px rgba(16, 19, 25, 0.06), 0 32px 64px rgba(16, 19, 25, 0.14);
+  --shadow-ring: 0 0 0 3px rgba(152, 40, 58, 0.16);
+
+  /* --- Mouvement --- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-fade-up:  fade-up 0.5s var(--ease-out-soft) both;
+  --animate-pop:      pop 0.34s var(--ease-spring) both;
+  --animate-slide-in: slide-in 0.35s var(--ease-out-soft) both;
+  --animate-shake:    shake 0.4s ease-in-out both;
+  --animate-sheen:    sheen 1.6s linear infinite;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(0.94); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateX(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-6px); }
+    75%      { transform: translateX(6px); }
+  }
+  @keyframes sheen {
+    from { background-position: -180% 0; }
+    to   { background-position: 180% 0; }
+  }
 }
 
 /* --- Réglages de base --- */
@@ -38,11 +92,11 @@ html {
 }
 
 body {
-  background: var(--color-paper);
+  background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: 'kern' 1, 'liga' 1;
@@ -51,14 +105,26 @@ body {
 p, li, dd, h1, h2, h3, h4 { text-wrap: pretty; }
 h1, h2, h3 { text-wrap: balance; }
 
-::selection { background: var(--color-ink); color: var(--color-paper); }
+::selection { background: var(--color-accent); color: #fff; }
 
 :focus-visible {
   outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-/* --- Utilitaires typographiques du système --- */
+/* Le mouvement est un confort, jamais une condition d'usage. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Utilitaires du système --- */
+
 @utility display {
   font-family: var(--font-display);
   font-weight: 400;
@@ -66,38 +132,102 @@ h1, h2, h3 { text-wrap: balance; }
   line-height: 1.06;
 }
 
-/* Le label en petites capitales espacées : signature du système */
+/* Petites capitales espacées : les libellés de section */
 @utility eyebrow {
   font-family: var(--font-sans);
-  font-size: 0.6875rem;      /* 11px */
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink-3);
 }
 
-/* Filet fin, l'élément structurant du thème */
-@utility rule {
-  border-top: 1px solid var(--color-rule);
-}
-
-/* Lien de texte courant : soulignement fin, décalé */
 @utility link {
   color: var(--color-accent);
+  font-weight: 500;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  text-decoration-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
   transition: text-decoration-color 0.15s;
 }
 @utility link-hover {
   text-decoration-color: var(--color-accent);
 }
 
+/* La carte : l'unité de base de toute l'interface */
+@utility card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Carte cliquable : elle se soulève */
+@utility card-lift {
+  transition: transform 0.25s var(--ease-out-soft), box-shadow 0.25s var(--ease-out-soft),
+              border-color 0.25s var(--ease-out-soft);
+  will-change: transform;
+}
+@utility card-lift-on {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: color-mix(in srgb, var(--color-ink) 12%, transparent);
+}
+
+/* Bouton pressable : l'arête basse se comprime sous le doigt */
+@utility pressable {
+  transition: transform 0.12s var(--ease-out-soft), box-shadow 0.12s var(--ease-out-soft),
+              background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+@utility pressable-down {
+  transform: translateY(2px);
+}
+
+/* Bandeau de chargement */
+@utility sheen {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-canvas-2) 30%,
+    var(--color-surface-2) 50%,
+    var(--color-canvas-2) 70%
+  );
+  background-size: 220% 100%;
+}
+
+/* Piste horizontale sans barre de défilement visible */
+@utility rail {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.rail::-webkit-scrollbar { display: none; }
+
+/* --- Carte à retourner (mode Cartes) --- */
+.flip-scene { perspective: 1600px; }
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s var(--ease-out-soft);
+}
+.flip-inner[data-face='verso'] { transform: rotateX(180deg); }
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.flip-face[data-side='verso'] { transform: rotateX(180deg); }
+
 /* --- Corps d'article --- */
 .prose-larp {
   color: var(--color-ink-2);
-  font-size: 1.0625rem;      /* 17px */
+  font-size: 1.0625rem;
   line-height: 1.75;
 }
 .prose-larp p { margin-block-end: 1.15em; }

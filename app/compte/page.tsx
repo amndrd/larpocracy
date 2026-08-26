@@ -1,10 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import Badge from '@/components/Badge';
 import Container from '@/components/Container';
+import { Button } from '@/components/Button';
+import { ProgressBar, ProgressRing } from '@/components/Progress';
+import { IconFleche } from '@/components/icons';
 import { signOut } from '@/app/auth/actions';
 import { domains, getCards, stats } from '@/lib/content';
 import { getProgress } from '@/lib/progress';
+import { domainVars } from '@/lib/theme';
 import { createClient } from '@/lib/supabase/server';
 import { isSupabaseConfigured } from '@/lib/supabase/config';
 
@@ -30,94 +35,90 @@ export default async function ComptePage() {
   const quizzed = progress.filter((p) => p.quiz_total != null);
   const quizCorrect = quizzed.reduce((a, p) => a + (p.quiz_correct ?? 0), 0);
   const quizTotal = quizzed.reduce((a, p) => a + (p.quiz_total ?? 0), 0);
+  const entames = domains.filter((d) => getCards(d.id).some((c) => readIds.has(c.id))).length;
 
   const name = profile?.display_name || user.email?.split('@')[0] || 'vous';
   const plan = profile?.plan ?? 'free';
 
   return (
-    <Container className="py-16">
-      <header className="flex flex-wrap items-end justify-between gap-6 border-b border-rule pb-10">
-        <div>
-          <p className="eyebrow">Mon compte</p>
-          <h1 className="display mt-3 text-[clamp(2rem,4.5vw,3rem)]">{name}</h1>
-          <p className="mt-2 text-[0.875rem] text-ink-3">
-            {user.email} · formule{' '}
-            <span className="text-ink">{plan === 'pro' ? 'Pro' : 'Libre'}</span>
+    <Container className="py-12 sm:py-16">
+      {/* En-tête de compte */}
+      <header className="card animate-fade-up flex flex-wrap items-center gap-5 p-6 sm:p-8">
+        <span
+          aria-hidden
+          className="display grid size-16 shrink-0 place-items-center rounded-full bg-accent text-[1.75rem] text-white"
+        >
+          {name[0]?.toUpperCase()}
+        </span>
+        <div className="min-w-0 flex-1">
+          <h1 className="display text-[clamp(1.75rem,4vw,2.5rem)]">{name}</h1>
+          <p className="mt-1.5 flex flex-wrap items-center gap-2 text-[0.875rem] text-ink-3">
+            <span className="truncate">{user.email}</span>
+            <Badge ton={plan === 'pro' ? 'or' : 'neutre'}>
+              {plan === 'pro' ? 'Pro' : 'Libre'}
+            </Badge>
           </p>
         </div>
         <form action={signOut}>
-          <button
-            type="submit"
-            className="border border-rule px-4 py-2 text-[0.75rem] font-medium uppercase tracking-[0.12em] text-ink-2 transition-colors hover:border-ink hover:text-ink"
-          >
+          <Button type="submit" variante="secondaire" taille="sm">
             Se déconnecter
-          </button>
+          </Button>
         </form>
       </header>
 
-      <div className="mt-10 flex flex-wrap gap-12">
-        <Stat n={`${readIds.size} / ${stats.cards}`} l="Fiches lues" />
-        <Stat n={quizTotal ? `${quizCorrect} / ${quizTotal}` : '—'} l="Réponses justes" />
-        <Stat
-          n={`${domains.filter((d) => getCards(d.id).some((c) => readIds.has(c.id))).length} / ${stats.openDomains}`}
-          l="Domaines entamés"
+      {/* Les trois compteurs */}
+      <div className="card mt-4 grid gap-8 p-8 sm:grid-cols-3">
+        <ProgressRing value={readIds.size} total={stats.cards} label={`${readIds.size} / ${stats.cards} fiches lues`} />
+        <ProgressRing
+          value={quizCorrect}
+          total={quizTotal}
+          label={quizTotal ? `${quizCorrect} / ${quizTotal} réponses justes` : 'Aucun test passé'}
+        />
+        <ProgressRing
+          value={entames}
+          total={stats.openDomains}
+          label={`${entames} / ${stats.openDomains} domaines entamés`}
         />
       </div>
 
-      <h2 className="display mt-16 text-[1.75rem]">Par domaine</h2>
-      <table className="mt-6 w-full border-collapse text-[0.875rem]">
-        <thead>
-          <tr className="border-b border-rule">
-            <th className="eyebrow py-3 text-left font-normal">Domaine</th>
-            <th className="eyebrow py-3 text-right font-normal">Lues</th>
-            <th className="eyebrow py-3 text-right font-normal">Quiz</th>
-            <th className="eyebrow py-3 text-right font-normal">Sujets</th>
-          </tr>
-        </thead>
-        <tbody>
-          {domains.map((d) => {
-            const cards = getCards(d.id);
-            const read = cards.filter((c) => readIds.has(c.id)).length;
-            const rows = progress.filter(
-              (p) => p.domain_id === d.id && p.quiz_total != null,
-            );
-            const ok = rows.reduce((a, p) => a + (p.quiz_correct ?? 0), 0);
-            const tot = rows.reduce((a, p) => a + (p.quiz_total ?? 0), 0);
-            return (
-              <tr key={d.id} className="border-b border-rule-soft">
-                <td className="py-3">
-                  <Link href={`/d/${d.id}`} className="transition-colors hover:text-accent">
-                    {d.title}
-                  </Link>
-                </td>
-                <td className="py-3 text-right font-mono text-[0.8125rem] text-ink-2">
-                  {cards.length ? `${read} / ${cards.length}` : '—'}
-                </td>
-                <td className="py-3 text-right font-mono text-[0.8125rem] text-ink-2">
-                  {tot ? `${ok} / ${tot}` : '—'}
-                </td>
-                <td className="py-3 text-right font-mono text-[0.8125rem] text-ink-3">
-                  {d.topics}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {/* Détail par domaine */}
+      <h2 className="display mt-12 text-[1.625rem]">Par domaine</h2>
+      <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {domains.map((d, i) => {
+          const cards = getCards(d.id);
+          const read = cards.filter((c) => readIds.has(c.id)).length;
+          const rows = progress.filter((p) => p.domain_id === d.id && p.quiz_total != null);
+          const ok = rows.reduce((a, p) => a + (p.quiz_correct ?? 0), 0);
+          const tot = rows.reduce((a, p) => a + (p.quiz_total ?? 0), 0);
+
+          return (
+            <Link
+              key={d.id}
+              href={`/d/${d.id}`}
+              style={{ ...domainVars(d.id), animationDelay: `${Math.min(i, 9) * 40}ms` }}
+              className="card card-lift group animate-fade-up p-5 hover:card-lift-on"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <h3 className="text-[0.9375rem] font-semibold text-ink transition-colors group-hover:text-[var(--dom)]">
+                  {d.title}
+                </h3>
+                <IconFleche className="mt-0.5 size-4 shrink-0 text-ink-3 transition-transform duration-300 group-hover:translate-x-1" />
+              </div>
+
+              <p className="mt-1 text-[0.75rem] text-ink-3">
+                {cards.length ? `${read} / ${cards.length} fiches lues` : `${d.topics} sujets à venir`}
+                {tot > 0 && ` · ${ok} / ${tot} au test`}
+              </p>
+
+              <ProgressBar value={read} total={cards.length} className="mt-4" />
+            </Link>
+          );
+        })}
+      </div>
 
       <p className="mt-10 text-[0.875rem] text-ink-3">
-        Votre progression est enregistrée sur votre compte, et n&apos;est visible que par
-        vous.
+        Votre progression est enregistrée sur votre compte, et n&apos;est visible que par vous.
       </p>
     </Container>
-  );
-}
-
-function Stat({ n, l }: { n: string; l: string }) {
-  return (
-    <div>
-      <div className="display text-[2.25rem] leading-none">{n}</div>
-      <div className="eyebrow mt-2">{l}</div>
-    </div>
   );
 }

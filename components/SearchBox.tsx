@@ -3,7 +3,15 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { IconRecherche } from './icons';
 import type { SearchHit } from '@/lib/content';
+
+const TONS: Record<SearchHit['kind'], string> = {
+  fiche: 'bg-accent-3 text-accent',
+  terme: 'bg-canvas-2 text-ink-2',
+  nom: 'bg-gold-2 text-gold',
+  domaine: 'bg-yes-2 text-yes',
+};
 
 export default function SearchBox() {
   const [q, setQ] = useState('');
@@ -69,7 +77,8 @@ export default function SearchBox() {
   }
 
   return (
-    <div ref={boxRef} className="relative w-40 sm:w-56 lg:w-72">
+    <div ref={boxRef} className="relative w-full max-w-md">
+      <IconRecherche className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-ink-3" />
       <input
         ref={inputRef}
         type="search"
@@ -83,17 +92,17 @@ export default function SearchBox() {
             inputRef.current?.blur();
           }
         }}
-        placeholder="Chercher…"
+        placeholder="Chercher un terme, un nom…"
         aria-label="Rechercher"
         autoComplete="off"
         spellCheck={false}
-        className="w-full border-b border-rule bg-transparent pb-1.5 text-[0.8125rem] text-ink placeholder:text-ink-3 focus:border-ink focus:outline-none"
+        className="h-10 w-full rounded-full border border-line bg-canvas pl-10 pr-4 text-[0.875rem] text-ink transition-all duration-200 placeholder:text-ink-3 focus:border-accent/40 focus:bg-surface focus:shadow-[var(--shadow-ring)] focus:outline-none"
       />
 
       {open && active && (
-        <div className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[60vh] overflow-auto border border-rule bg-paper shadow-[0_12px_32px_rgba(20,20,15,0.10)]">
+        <div className="animate-pop absolute left-0 right-0 top-full z-50 mt-2 max-h-[62vh] overflow-auto rounded-lg border border-line bg-surface p-1.5 shadow-xl">
           {visible.length === 0 ? (
-            <p className="px-4 py-3 text-[0.8125rem] text-ink-3">
+            <p className="px-3 py-3 text-[0.8125rem] text-ink-3">
               Rien pour l&apos;instant — le sujet attend peut-être d&apos;être écrit.
             </p>
           ) : (
@@ -102,11 +111,18 @@ export default function SearchBox() {
                 key={`${h.kind}-${h.label}-${h.href}`}
                 href={h.href}
                 onClick={() => setOpen(false)}
-                className="block border-b border-rule-soft px-4 py-2.5 last:border-b-0 hover:bg-paper-2"
+                className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-canvas"
               >
-                <span className="block text-[0.875rem] text-ink">{h.label}</span>
-                <span className="mt-0.5 block text-[0.75rem] text-ink-3">
-                  {h.kind} · {h.sub}
+                <span
+                  className={`shrink-0 rounded-full px-2 py-0.5 text-[0.625rem] font-semibold ${TONS[h.kind]}`}
+                >
+                  {h.kind}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-[0.875rem] font-medium text-ink">
+                    {h.label}
+                  </span>
+                  <span className="block truncate text-[0.75rem] text-ink-3">{h.sub}</span>
                 </span>
               </Link>
             ))

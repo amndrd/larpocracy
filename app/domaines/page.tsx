@@ -10,15 +10,15 @@ export const metadata: Metadata = {
 
 export default function DomainesPage() {
   return (
-    <Container className="py-16">
+    <Container className="py-12 sm:py-16">
       <header className="max-w-[52ch]">
-        <p className="eyebrow">Sommaire</p>
-        <h1 className="display mt-4 text-[clamp(2.25rem,5vw,3.25rem)]">
+        <p className="eyebrow">Catalogue</p>
+        <h1 className="display mt-3 text-[clamp(2.25rem,5vw,3.25rem)]">
           Les {stats.domains} domaines
         </h1>
-        <p className="mt-5 text-[1.0625rem] leading-relaxed text-ink-2">
-          {stats.topics} sujets cartographiés, {stats.cards} fiches publiées à ce jour.
-          Les domaines sans fiche sont déjà découpés dans{' '}
+        <p className="mt-4 text-[1.0625rem] leading-relaxed text-ink-2">
+          {stats.topics} sujets cartographiés, {stats.cards} fiches publiées à ce jour. Les
+          domaines sans fiche sont déjà découpés dans{' '}
           <a
             href="https://github.com/amndrd/larpocracy/blob/main/docs/TOPICS.md"
             className="link hover:link-hover"
@@ -28,7 +28,7 @@ export default function DomainesPage() {
           — ils attendent leur tour.
         </p>
       </header>
-      <div className="mt-12">
+      <div className="mt-10">
         <DomainGrid list={domains} />
       </div>
     </Container>

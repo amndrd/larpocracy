@@ -8,13 +8,13 @@ export const metadata: Metadata = {
 
 export default function ManifestePage() {
   return (
-    <Container narrow className="py-16">
+    <Container narrow className="py-12 sm:py-16">
       <p className="eyebrow">Manifeste</p>
-      <h1 className="display mt-4 text-[clamp(2.25rem,5vw,3.5rem)]">
+      <h1 className="display mt-3 text-[clamp(2.25rem,5vw,3.5rem)]">
         Ce que fait ce site, exactement
       </h1>
 
-      <div className="prose-larp mt-12">
+      <div className="prose-larp card mt-8 p-7 sm:p-10">
         <p>
           Les portes professionnelles ne s&apos;ouvrent presque jamais sur un CV. Elles
           s&apos;ouvrent sur une conversation. Et une conversation s&apos;ouvre sur une{' '}
@@ -30,7 +30,7 @@ export default function ManifestePage() {
           d&apos;être compris.
         </p>
 
-        <h2 className="display mt-12 border-t border-rule pt-8 text-[1.625rem] text-ink">
+        <h2 className="display mt-12 border-t border-line pt-8 text-[1.625rem] text-ink">
           L&apos;inégalité qu&apos;on attaque
         </h2>
         <p>
@@ -41,7 +41,7 @@ export default function ManifestePage() {
         </p>
         <p>Larpocracy écrit ce qui n&apos;est jamais écrit.</p>
 
-        <h2 className="display mt-12 border-t border-rule pt-8 text-[1.625rem] text-ink">
+        <h2 className="display mt-12 border-t border-line pt-8 text-[1.625rem] text-ink">
           Le nom
         </h2>
         <p>
@@ -52,7 +52,7 @@ export default function ManifestePage() {
           simplement ceux qui en ont appris les règles sans s&apos;en apercevoir.
         </p>
 
-        <h2 className="display mt-12 border-t border-rule pt-8 text-[1.625rem] text-ink">
+        <h2 className="display mt-12 border-t border-line pt-8 text-[1.625rem] text-ink">
           La seule ligne rouge
         </h2>
         <p>
@@ -67,13 +67,13 @@ export default function ManifestePage() {
           C&apos;est le seul faux pas qui coûte définitivement.
         </p>
 
-        <blockquote className="my-10 border-l-2 border-accent pl-6">
+        <blockquote className="my-10 rounded-md bg-accent-3 px-6 py-5">
           <p className="display text-[1.5rem] italic leading-snug text-ink">
             Apprends pour de vrai. C&apos;est moins cher que de faire semblant.
           </p>
         </blockquote>
 
-        <h2 className="display mt-12 border-t border-rule pt-8 text-[1.625rem] text-ink">
+        <h2 className="display mt-12 border-t border-line pt-8 text-[1.625rem] text-ink">
           Comment c&apos;est écrit
         </h2>
         <ul className="ml-5 list-disc space-y-3">
@@ -98,7 +98,7 @@ export default function ManifestePage() {
           </li>
         </ul>
 
-        <div className="my-10 border border-rule border-l-2 border-l-accent bg-paper-2 px-6 py-5">
+        <div className="my-10 rounded-md border border-line border-l-[3px] border-l-accent bg-canvas px-6 py-5">
           <p className="text-[0.9375rem]">
             <strong>Le site n&apos;admire pas.</strong> Il explique. Les milieux décrits ici
             ne sont ni un panthéon ni une cible : ce sont des milieux avec des règles, et
@@ -106,7 +106,7 @@ export default function ManifestePage() {
           </p>
         </div>
 
-        <h2 className="display mt-12 border-t border-rule pt-8 text-[1.625rem] text-ink">
+        <h2 className="display mt-12 border-t border-line pt-8 text-[1.625rem] text-ink">
           Ouvert
         </h2>
         <p>

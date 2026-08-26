@@ -126,3 +126,47 @@ export function search(q: string, limit = 12): SearchHit[] {
     .slice(0, limit)
     .map((h) => ({ kind: h.kind, label: h.label, sub: h.sub, href: h.href }));
 }
+
+/* --------------------------------------------------------------
+   Ce qu'une fiche contient, et ce qu'on peut en jouer.
+   -------------------------------------------------------------- */
+
+/** Comptes affichés sur la vignette d'une fiche. */
+export function cardStats(c: Card) {
+  return {
+    terms: c.terms?.length ?? 0,
+    names: c.names?.length ?? 0,
+    quiz: c.quiz?.length ?? 0,
+    phrases: (c.sayThis?.length ?? 0) + (c.notThis?.length ?? 0),
+  };
+}
+
+export type FlashCard = {
+  kind: 'terme' | 'nom';
+  recto: string;
+  verso: string;
+  /** Équivalent anglais, ou prononciation : la ligne secondaire du verso. */
+  note?: string;
+};
+
+/**
+ * Le paquet de cartes d'une fiche : les termes du lexique, puis les noms
+ * propres avec leur prononciation. Une fiche sans lexique ni nom n'a pas
+ * de paquet — le mode Cartes n'est alors pas proposé.
+ */
+export function deckOf(c: Card): FlashCard[] {
+  return [
+    ...(c.terms ?? []).map((t): FlashCard => ({
+      kind: 'terme',
+      recto: t.t,
+      verso: t.d,
+      note: t.en,
+    })),
+    ...(c.names ?? []).map((n): FlashCard => ({
+      kind: 'nom',
+      recto: n.n,
+      verso: n.d,
+      note: `se prononce « ${n.say} »`,
+    })),
+  ];
+}

@@ -13,8 +13,8 @@ export default function Container({
   return (
     <div
       className={clsx(
-        'mx-auto w-full px-6 md:px-10',
-        narrow ? 'max-w-[46rem]' : 'max-w-[74rem]',
+        'mx-auto w-full px-5 sm:px-7 lg:px-10',
+        narrow ? 'max-w-[48rem]' : 'max-w-[78rem]',
         className,
       )}
     >
