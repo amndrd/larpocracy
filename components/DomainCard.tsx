@@ -80,7 +80,7 @@ export default function DomainCard({ d, index = 0 }: { d: Domain; index?: number
               <Badge ton="neutre">Bientôt</Badge>
             )}
           </div>
-          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-canvas-2 text-ink-3 transition-all duration-300 group-hover:bg-[var(--dom)] group-hover:text-white">
+          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-white/[0.06] text-ink-3 transition-all duration-300 group-hover:bg-[var(--dom)] group-hover:text-canvas">
             <IconFleche className="size-4" />
           </span>
         </div>

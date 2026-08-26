@@ -91,10 +91,10 @@ export default function Quiz({ items, domainId, cardId, onComplete }: Props) {
                       <span
                         className={clsx(
                           'grid size-6 shrink-0 place-items-center rounded-full text-[0.6875rem] font-semibold',
-                          !answered && 'bg-canvas-2 text-ink-3',
-                          answered && isRight && 'bg-yes text-white',
-                          answered && isPicked && !isRight && 'bg-no text-white',
-                          answered && !isRight && !isPicked && 'bg-canvas-2 text-ink-3',
+                          !answered && 'bg-white/[0.06] text-ink-3',
+                          answered && isRight && 'bg-yes text-canvas',
+                          answered && isPicked && !isRight && 'bg-no text-canvas',
+                          answered && !isRight && !isPicked && 'bg-white/[0.06] text-ink-3',
                         )}
                       >
                         {answered && isRight ? (

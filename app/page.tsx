@@ -1,195 +1,188 @@
-import Image from 'next/image';
-import Constellation from '@/components/Constellation';
 import Container from '@/components/Container';
 import DomainGrid from '@/components/DomainGrid';
+import Faq from '@/components/Faq';
+import HeroPreview from '@/components/HeroPreview';
+import Reveal from '@/components/Reveal';
 import { ButtonLink } from '@/components/Button';
-import { IconCartes, IconEclair, IconFleche, IconLire, IconNon, IconOui, IconTest, IconTrophee } from '@/components/icons';
+import { IconCartes, IconEclair, IconFleche, IconLire, IconTest, IconTrophee } from '@/components/icons';
 import { domains, stats } from '@/lib/content';
-import { imageAccueil } from '@/lib/images';
+import { news } from '@/lib/news';
+import { PLANS } from '@/lib/plans';
 import { RANGS } from '@/lib/xp';
 
-const DIS_CA = [
-  '« Vous avez du champagne de vigneron ? »',
-  '« Je ne connais pas du tout — racontez-moi. »',
-  '« Vous levez à combien, pre ou post ? »',
+const MODES = [
+  {
+    icon: <IconLire className="size-5" />,
+    titre: 'Lire',
+    texte:
+      "Le fait, le terme, le nom — et sa prononciation. Sept minutes, densité maximale, zéro remplissage.",
+    points: '+10 pts',
+  },
+  {
+    icon: <IconCartes className="size-5" />,
+    titre: 'Cartes',
+    texte:
+      "Recto le terme, verso la définition. On juge « je savais » ou « à revoir », et on ne rejoue que les ratées.",
+    points: '+2 pts',
+  },
+  {
+    icon: <IconTest className="size-5" />,
+    titre: 'Test',
+    texte:
+      'Des questions à choix, corrigées et expliquées — même quand la réponse est juste.',
+    points: '+5 pts',
+  },
 ];
 
-const PAS_CA = [
-  "« Prenez du Dom Pérignon, c'est le meilleur champagne. »",
-  '« Ah oui, bien sûr, j’en ai beaucoup entendu parler. »',
-  '« Cette bouteille doit valoir dans les 300 €, non ? »',
+const FAQ = [
+  {
+    q: 'Est-ce que ça apprend à mentir ?',
+    r: "Non, et c'est la seule ligne qui ne bougera jamais. LarpLvl enseigne la culture, les codes et l'aisance — jamais le faux diplôme, la fausse référence ou la fausse fortune. Une erreur de culture se rattrape en une phrase ; un mensonge vérifiable, jamais.",
+  },
+  {
+    q: 'À qui ça s’adresse ?',
+    r: "À qui se retrouve dans des pièces dont il ne connaît pas les codes, et qui n'a pas vingt ans à consacrer à les acquérir par osmose familiale.",
+  },
+  {
+    q: 'Pourquoi des points et des rangs ?',
+    r: "Parce qu'on ne révise pas sans repère. Mais aucun point n'est offert : 10 par fiche lue, 5 par bonne réponse, 2 par carte sue. Un compteur qui monterait sans qu'on ait appris serait le contraire de ce que le site enseigne.",
+  },
+  {
+    q: 'Le contenu est-il déjà là ?',
+    r: "Pas encore. Le site est remis à zéro et se remplit domaine par domaine. Le compte, la progression et les trois modes sont prêts et vous attendent.",
+  },
+  {
+    q: 'Faut-il payer ?',
+    r: "Non. Tout ce qui est publié est en accès libre, et aucune fiche déjà publiée ne passera un jour derrière un paiement.",
+  },
 ];
 
 export default function Home() {
-  const banniere = imageAccueil();
   const aDuContenu = stats.domains > 0;
 
   return (
     <>
-      {/* ---------- Ouverture ---------- */}
-      <Container className="pt-2 sm:pt-4">
-        <section className="animate-fade-up relative overflow-hidden rounded-2xl border border-line bg-surface shadow-md">
-          {banniere && (
-            <>
-              <Image
-                src={banniere}
-                alt=""
-                fill
-                priority
-                sizes="100vw"
-                className="object-cover object-[30%_center]"
-              />
-              <div
-                aria-hidden
-                className="absolute inset-0"
-                style={{
-                  background:
-                    'linear-gradient(100deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.88) 46%, rgba(255,255,255,.62) 100%)',
-                }}
-              />
-            </>
-          )}
-          <Constellation className="pointer-events-none absolute inset-0 size-full" />
+      {/* ---------- Bannière ---------- */}
+      <section className="relative">
+        {/* Le ciel de crépuscule, puis son fondu vers le noir. */}
+        <div aria-hidden className="crepuscule absolute inset-x-0 top-0 h-[125vh] max-h-[1100px]" />
+        <div
+          aria-hidden
+          className="fondu-bas absolute inset-x-0 top-0 h-[125vh] max-h-[1100px]"
+        />
 
-          <div className="relative px-6 py-16 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
-            <p className="eyebrow">Culture générale appliquée</p>
-            <h1 className="headline mt-6 max-w-[16ch] text-[clamp(2.75rem,7.5vw,5.5rem)]">
+        <Container className="relative pt-36 text-center sm:pt-44">
+          <Reveal>
+            <span className="chip">Culture générale appliquée</span>
+          </Reveal>
+
+          <Reveal delay={80}>
+            <h1 className="headline mx-auto mt-8 max-w-[15ch] text-[clamp(2.75rem,7vw,4.75rem)]">
               Une porte ne s&apos;ouvre jamais sur un CV.{' '}
-              <em className="italic text-ink-3">Elle s&apos;ouvre sur une conversation.</em>
+              <span className="headline-dim">Elle s&apos;ouvre sur une conversation.</span>
             </h1>
-            <p className="mt-8 max-w-[44ch] text-[1.0625rem] leading-relaxed text-ink-2">
-              Larpocracy enseigne les codes, le vocabulaire et les références des milieux du
+          </Reveal>
+
+          <Reveal delay={160}>
+            <p className="mx-auto mt-7 max-w-[50ch] text-[1.0625rem] leading-relaxed text-ink-3">
+              LarpLvl enseigne les codes, le vocabulaire et les références des milieux du
               business, du luxe et du pouvoir. Pour avoir quelque chose à dire — de juste — à
               n&apos;importe qui, dans n&apos;importe quelle pièce.
             </p>
+          </Reveal>
 
-            <div className="mt-9 flex flex-wrap gap-3">
-              <ButtonLink href={aDuContenu ? '/domaines' : '/inscription'} taille="lg">
-                <span className="grid size-6 place-items-center rounded-full bg-accent-2">
-                  <IconEclair className="size-3.5" />
-                </span>
-                {aDuContenu ? 'Commencer' : 'Créer un compte'}
+          <Reveal delay={240}>
+            <div className="mt-9 flex flex-wrap justify-center gap-3">
+              <ButtonLink href="/inscription" taille="lg">
+                Get started
               </ButtonLink>
-              <ButtonLink href="/manifeste" taille="lg" variante="secondaire">
-                Le manifeste
+              <ButtonLink href="/features" taille="lg" variante="secondaire">
+                Features
               </ButtonLink>
             </div>
+          </Reveal>
 
-            {aDuContenu && (
-              <dl className="mt-12 flex flex-wrap gap-2.5">
-                {[
-                  { n: stats.domains, l: 'domaines' },
-                  { n: stats.topics, l: 'sujets cartographiés' },
-                  { n: stats.cards, l: 'fiches publiées' },
-                ].map((s) => (
-                  <div
-                    key={s.l}
-                    className="inline-flex items-baseline gap-2 rounded-full border border-line bg-surface/80 px-4 py-2 backdrop-blur-sm"
-                  >
-                    <dt className="display text-[1.25rem] leading-none">{s.n}</dt>
-                    <dd className="text-[0.8125rem] text-ink-3">{s.l}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-          </div>
-        </section>
+          <Reveal delay={340} className="mt-16 sm:mt-20">
+            <HeroPreview />
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* ---------- La déclaration ---------- */}
+      <Container className="py-28 sm:py-36">
+        <div className="max-w-[62rem] space-y-8">
+          {/* Le premier bloc arrive en pleine lumière, le second en retrait :
+              c'est le rythme du modèle, une idée puis son commentaire. */}
+          <Reveal>
+            <p className="headline text-[clamp(1.375rem,3.2vw,2.25rem)] text-ink">
+              Un réseau se construit sur la conversation. Quelqu&apos;un qui sait parler
+              d&apos;un Barolo, d&apos;un LBO, d&apos;un Royal Oak et du protocole japonais
+              inspire confiance.
+            </p>
+          </Reveal>
+          <Reveal delay={160}>
+            <p className="headline text-[clamp(1.375rem,3.2vw,2.25rem)] text-ink-4">
+              Ce n&apos;est pas de la frime : c&apos;est de la surface d&apos;accroche. Plus
+              vous avez de sujets, plus vous avez de portes.
+            </p>
+          </Reveal>
+        </div>
       </Container>
 
-      {/* ---------- Les trois modes, en bento ---------- */}
-      <Container className="py-16 sm:py-20">
-        <div className="max-w-[46ch]">
-          <p className="eyebrow">Comment ça s&apos;apprend</p>
-          <h2 className="headline mt-3 text-[clamp(1.875rem,4vw,2.75rem)]">
-            Une fiche se lit, se révise, se vérifie.
+      {/* ---------- Les trois modes ---------- */}
+      <Container className="py-16">
+        <Reveal>
+          <span className="chip">Core features</span>
+          <h2 className="headline mt-6 max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)]">
+            Une fiche se lit, se révise,{' '}
+            <span className="headline-dim">se vérifie.</span>
           </h2>
-        </div>
+        </Reveal>
 
-        <div className="mt-9 grid gap-4 md:grid-cols-3">
-          <div className="card animate-fade-up flex flex-col p-6">
-            <span className="grid size-11 place-items-center rounded-full bg-canvas-2 text-ink">
-              <IconLire className="size-5" />
-            </span>
-            <h3 className="display mt-5 text-[1.375rem]">On lit la fiche</h3>
-            <p className="mt-2.5 flex-1 text-[0.9375rem] leading-relaxed text-ink-2">
-              Le fait, le terme, le nom — et sa prononciation. Sept minutes, densité maximale,
-              zéro remplissage. Chaque fiche doit produire au moins une phrase prononçable le
-              soir même.
-            </p>
-            <p className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full bg-canvas-2 px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2">
-              <IconEclair className="size-3.5" />+10 points
-            </p>
-          </div>
-
-          {/* La carte pleine : une seule, pour qu'elle porte. */}
-          <div
-            className="animate-fade-up flex flex-col rounded-lg bg-accent p-6 text-white shadow-md md:col-span-2"
-            style={{ animationDelay: '70ms' }}
-          >
-            <span className="grid size-11 place-items-center rounded-full bg-white/15">
-              <IconCartes className="size-5" />
-            </span>
-            <h3 className="display mt-5 text-[1.375rem]">On révise en cartes</h3>
-            <p className="mt-2.5 flex-1 text-[0.9375rem] leading-relaxed text-white/80">
-              Recto le terme, verso la définition. Pour un nom propre, le verso porte la
-              prononciation — parce qu&apos;un nom mal dit annule dix pages de savoir. On juge
-              « je savais » ou « à revoir », et on ne rejoue que les ratées.
-            </p>
-            <p className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-[0.75rem] font-semibold">
-              <IconEclair className="size-3.5" />+2 points par carte
-            </p>
-          </div>
-
-          <div
-            className="card animate-fade-up flex flex-col p-6 md:col-span-3"
-            style={{ animationDelay: '140ms' }}
-          >
-            <span className="grid size-11 place-items-center rounded-full bg-canvas-2 text-ink">
-              <IconTest className="size-5" />
-            </span>
-            <h3 className="display mt-5 text-[1.375rem]">On se teste</h3>
-            <p className="mt-2.5 flex-1 text-[0.9375rem] leading-relaxed text-ink-2">
-              Des questions à choix, corrigées et expliquées. Le score reste, domaine par
-              domaine — et il fait monter le rang.
-            </p>
-            <p className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full bg-canvas-2 px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2">
-              <IconEclair className="size-3.5" />+5 points par bonne réponse
-            </p>
-          </div>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {MODES.map((m, i) => (
+            <Reveal key={m.titre} delay={i * 110}>
+              <div className="card card-lift flex h-full flex-col p-7 hover:card-lift-on">
+                <span className="grid size-11 place-items-center rounded-full bg-white/[0.06] text-ink">
+                  {m.icon}
+                </span>
+                <h3 className="display mt-6 text-[1.375rem]">{m.titre}</h3>
+                <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-ink-3">{m.texte}</p>
+                <p className="chip mt-6 w-fit">
+                  <IconEclair className="size-3.5" />
+                  {m.points}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </Container>
 
-      {/* ---------- Les rangs ---------- */}
-      <section className="border-y border-line bg-surface">
-        <Container className="py-14">
-          <div className="flex flex-wrap items-end justify-between gap-5">
-            <div className="max-w-[44ch]">
-              <p className="eyebrow">La progression</p>
-              <h2 className="headline mt-3 text-[clamp(1.625rem,3.2vw,2.25rem)]">
-                D&apos;invité à maître de maison.
-              </h2>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-2">
-                Sept rangs, et pas un point offert : ils ne montent qu&apos;en lisant, en
-                révisant et en répondant juste.
-              </p>
-            </div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-gold-2 px-4 py-2 text-[0.8125rem] font-semibold text-gold">
-              <IconTrophee className="size-4" />6 distinctions à décrocher
-            </span>
-          </div>
+      {/* ---------- Progression ---------- */}
+      <Container className="py-16">
+        <Reveal>
+          <span className="chip">
+            <IconTrophee className="size-3.5" />
+            Progression
+          </span>
+          <h2 className="headline mt-6 max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)]">
+            D&apos;invité <span className="headline-dim">à maître de maison.</span>
+          </h2>
+          <p className="mt-5 max-w-[54ch] text-[1rem] leading-relaxed text-ink-3">
+            Sept rangs, et pas un point offert : ils ne montent qu&apos;en lisant, en révisant
+            et en répondant juste.
+          </p>
+        </Reveal>
 
-          <ol className="rail mt-8 flex gap-2.5 overflow-x-auto pb-2">
+        <Reveal delay={100}>
+          <ol className="rail mt-9 flex gap-2.5 overflow-x-auto pb-2">
             {RANGS.map((r, i) => (
-              <li
-                key={r.nom}
-                style={{ animationDelay: `${i * 45}ms` }}
-                className="card animate-fade-up flex shrink-0 items-center gap-3 px-4 py-3"
-              >
-                <span className="display text-[1.25rem] leading-none text-ink-3">
+              <li key={r.nom} className="card flex shrink-0 items-center gap-3 px-5 py-4">
+                <span className="display text-[1.25rem] leading-none text-ink-4">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <span>
-                  <span className="block whitespace-nowrap text-[0.9375rem] font-semibold text-ink">
+                  <span className="block whitespace-nowrap text-[0.9375rem] font-medium text-ink">
                     {r.nom}
                   </span>
                   <span className="block text-[0.75rem] tabular-nums text-ink-3">
@@ -199,80 +192,136 @@ export default function Home() {
               </li>
             ))}
           </ol>
-        </Container>
-      </section>
+        </Reveal>
+      </Container>
 
-      {/* ---------- Le format signature ---------- */}
-      <Container className="py-16 sm:py-20">
+      {/* ---------- Le catalogue ---------- */}
+      <Container className="py-16">
+        <Reveal>
+          <span className="chip">Contenu</span>
+          <h2 className="headline mt-6 max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)]">
+            De la cave <span className="headline-dim">au conseil d&apos;administration.</span>
+          </h2>
+        </Reveal>
+
+        <div className="mt-10">
+          {aDuContenu ? (
+            <>
+              <DomainGrid list={domains.slice(0, 6)} />
+              <Reveal delay={120}>
+                <div className="mt-8 flex justify-center">
+                  <ButtonLink href="/domaines" variante="secondaire">
+                    Voir les {stats.domains} domaines
+                    <IconFleche className="size-4" />
+                  </ButtonLink>
+                </div>
+              </Reveal>
+            </>
+          ) : (
+            <Reveal delay={80}>
+              <div className="card px-8 py-20 text-center">
+                <p className="display text-[1.75rem]">Le contenu arrive.</p>
+                <p className="mx-auto mt-4 max-w-[50ch] text-[0.9375rem] leading-relaxed text-ink-3">
+                  Les domaines et les fiches se remplissent un par un. Créez un compte : la
+                  progression sera là dès la première fiche publiée.
+                </p>
+                <ButtonLink href="/inscription" variante="secondaire" className="mt-8">
+                  Get started
+                </ButtonLink>
+              </div>
+            </Reveal>
+          )}
+        </div>
+      </Container>
+
+      {/* ---------- Pricing ---------- */}
+      <Container className="py-16">
+        <Reveal>
+          <span className="chip">Pricing</span>
+          <h2 className="headline mt-6 max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)]">
+            Pour l&apos;instant, <span className="headline-dim">tout est ouvert.</span>
+          </h2>
+        </Reveal>
+
+        <div className="mt-10 grid max-w-4xl gap-4 md:grid-cols-2">
+          {(['free', 'pro'] as const).map((cle, i) => {
+            const p = PLANS[cle];
+            const pro = cle === 'pro';
+            return (
+              <Reveal key={p.id} delay={i * 110}>
+                <div
+                  className={
+                    'flex h-full flex-col rounded-md p-7 ' +
+                    (pro
+                      ? 'bg-white/[0.03] ring-1 ring-white/[0.08] ring-inset'
+                      : 'card ring-white/[0.14]')
+                  }
+                >
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h3 className="display text-[1.5rem]">{p.name}</h3>
+                    <span className="text-[0.75rem] text-ink-3">{p.period || 'disponible'}</span>
+                  </div>
+                  <p className="display mt-4 text-[2.5rem] leading-none">{p.price}</p>
+                  <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-3">{p.pitch}</p>
+                  <div className="mt-7">
+                    {pro ? (
+                      <span className="block rounded-full px-5 py-3 text-center text-[0.8125rem] font-medium text-ink-4 ring-1 ring-white/10 ring-inset">
+                        Pas encore disponible
+                      </span>
+                    ) : (
+                      <ButtonLink href="/inscription" taille="lg" className="w-full">
+                        Get started
+                      </ButtonLink>
+                    )}
+                  </div>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </Container>
+
+      {/* ---------- FAQ ---------- */}
+      <Container className="py-16">
         <div className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <p className="eyebrow">Le principe</p>
-            <h2 className="headline mt-3 text-[clamp(1.875rem,4vw,2.75rem)]">Dis ça. Pas ça.</h2>
-            <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-2">
-              Le format signature du site : la même idée, formulée par quelqu&apos;un qui sait,
-              et par quelqu&apos;un qui essaie. La différence n&apos;est presque jamais le
-              vocabulaire.
-            </p>
+          <div className="lg:col-span-5">
+            <Reveal>
+              <span className="chip">FAQ</span>
+              <h2 className="headline mt-6 max-w-[16ch] text-[clamp(1.875rem,4vw,3rem)]">
+                Les questions <span className="headline-dim">qui reviennent.</span>
+              </h2>
+            </Reveal>
           </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
-            <div className="card animate-fade-up overflow-hidden">
-              <h3 className="flex items-center gap-2 border-b border-line-soft bg-yes-2 px-5 py-3 text-[0.8125rem] font-semibold text-yes">
-                <IconOui className="size-4" />
-                Dis ça
-              </h3>
-              <ul className="space-y-4 p-5 text-[0.9375rem] leading-relaxed text-ink-2">
-                {DIS_CA.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="card animate-fade-up overflow-hidden" style={{ animationDelay: '90ms' }}>
-              <h3 className="flex items-center gap-2 border-b border-line-soft bg-no-2 px-5 py-3 text-[0.8125rem] font-semibold text-no">
-                <IconNon className="size-4" />
-                Pas ça
-              </h3>
-              <ul className="space-y-4 p-5 text-[0.9375rem] leading-relaxed text-ink-2">
-                {PAS_CA.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
-            </div>
+          <div className="lg:col-span-7">
+            <Reveal delay={100}>
+              <Faq items={FAQ} />
+            </Reveal>
           </div>
         </div>
       </Container>
 
-      {/* ---------- Le catalogue ---------- */}
-      <Container className="pb-16 sm:pb-20">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="eyebrow">Le catalogue</p>
-            <h2 className="headline mt-3 text-[clamp(1.875rem,4vw,2.75rem)]">
-              De la cave au conseil d&apos;administration
-            </h2>
-          </div>
-          {aDuContenu && (
-            <ButtonLink href="/domaines" variante="secondaire">
-              Voir les {stats.domains} domaines
+      {/* ---------- News ---------- */}
+      <Container className="py-16 pb-24">
+        <Reveal>
+          <span className="chip">News</span>
+          <h2 className="headline mt-6 max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)]">
+            Ce qui change, <span className="headline-dim">et pourquoi.</span>
+          </h2>
+        </Reveal>
+
+        <Reveal delay={100}>
+          <div className="card mt-10 flex flex-wrap items-center justify-between gap-6 px-8 py-10">
+            <p className="max-w-[46ch] text-[0.9375rem] leading-relaxed text-ink-3">
+              {news.length === 0
+                ? "Le journal de bord démarrera avec la première fiche publiée. Le site se construit à découvert : code, contenu et décisions sont publics."
+                : `${news.length} entrée${news.length > 1 ? 's' : ''} au journal de bord.`}
+            </p>
+            <ButtonLink href="/news" variante="secondaire">
+              Voir les nouvelles
               <IconFleche className="size-4" />
             </ButtonLink>
-          )}
-        </div>
-
-        {aDuContenu ? (
-          <DomainGrid list={domains.slice(0, 6)} />
-        ) : (
-          <div className="card animate-pop px-8 py-16 text-center">
-            <p className="headline text-[1.75rem]">Le contenu arrive.</p>
-            <p className="mx-auto mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-ink-2">
-              Les domaines et les fiches se remplissent un par un. Créez un compte : la
-              progression sera là dès la première fiche publiée.
-            </p>
-            <ButtonLink href="/inscription" variante="secondaire" className="mt-7">
-              Créer un compte
-            </ButtonLink>
           </div>
-        )}
+        </Reveal>
       </Container>
     </>
   );

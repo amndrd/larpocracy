@@ -18,8 +18,8 @@ export default async function ConnexionPage({ searchParams }: Props) {
   return (
     <Container narrow className="py-16">
       <div className="card animate-fade-up mx-auto max-w-[26rem] p-7 sm:p-9">
-        <p className="eyebrow">Votre compte</p>
-        <h1 className="headline mt-3 text-[2.5rem]">Entrer</h1>
+        <span className="chip">Votre compte</span>
+        <h1 className="headline mt-3 text-[2.5rem]">Login</h1>
         <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-2">
           Un compte sert à retenir où vous en êtes, domaine par domaine. Le contenu, lui,
           reste en accès libre.

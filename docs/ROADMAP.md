@@ -1,4 +1,4 @@
-# FEUILLE DE ROUTE — Larpocracy
+# FEUILLE DE ROUTE — LarpLvl
 
 ---
 
@@ -9,15 +9,17 @@
 
 | Élément | État |
 |---|---|
+| Nom | ✅ **LarpLvl** (dépôt inchangé) |
 | Repo public | ✅ github.com/amndrd/larpocracy |
 | Documentation de contexte | ✅ |
 | Atlas des 673 sujets | ✅ |
 | Application Next.js sur localhost:3000 | ✅ |
-| Design clair, registre Apple / Quizlet, barre flottante | ✅ refonte du 26 août |
+| Design « nuit » repris de fora.so, barre flottante | ✅ refonte du 26 août (#024) |
 | Points, rangs, séries, distinctions | ✅ schéma à rejouer dans Supabase |
 | Pages de contenu prérendues + recherche | ✅ |
 | Comptes Supabase (auth + RLS) | ✅ code prêt — clés à renseigner |
 | Progression liée au compte | ✅ code prêt — clés à renseigner |
+| Pages About · Features · Pricing · News | ✅ |
 | Page formules (free / pro) | ✅ facturation non branchée |
 | Déploiement Vercel | ⏳ en attente de connexion au compte |
 | Mode Cartes (révision par retournement) | ✅ |

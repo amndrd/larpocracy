@@ -72,7 +72,7 @@ export default function StudyModes({
               'grid size-11 shrink-0 place-items-center rounded-full transition-colors duration-300 ' +
               (m.actif
                 ? 'bg-[var(--dom)] text-white'
-                : 'bg-canvas-2 text-ink-2 group-hover:bg-[var(--dom)] group-hover:text-white')
+                : 'bg-white/[0.06] text-ink-2 group-hover:bg-[var(--dom)] group-hover:text-canvas')
             }
           >
             {m.icon}

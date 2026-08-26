@@ -1,4 +1,4 @@
-# CONTEXTE — pourquoi Larpocracy existe
+# CONTEXTE — pourquoi LarpLvl existe
 
 ## L'observation de départ
 
@@ -20,11 +20,11 @@ Ce capital-là se transmet normalement par la famille, l'école, le milieu. Il e
 jamais enseigné, jamais écrit nulle part. Ceux qui l'ont ne savent même pas qu'ils l'ont.
 Ceux qui ne l'ont pas croient qu'il leur manque « quelque chose » sans pouvoir le nommer.
 
-Larpocracy écrit ce qui n'est jamais écrit.
+LarpLvl écrit ce qui n'est jamais écrit.
 
 ## Le nom
 
-**Larpocracy** = LARP (live action role play) + -cracy (le pouvoir).
+**LarpLvl** = LARP (live action role play) + -cracy (le pouvoir).
 Le mot dit exactement ce que fait le site, avec l'auto-dérision nécessaire pour que ce
 ne soit pas grotesque. On assume le jeu de rôle social — parce que tout le monde le joue,
 et que ceux qui prétendent le contraire sont simplement ceux qui ont appris les règles
@@ -84,7 +84,7 @@ La position du site tient en une ligne, répétée dans le module Méta-Larp :
 
 | Sujet | Décision | Raison |
 |---|---|---|
-| Nom | Larpocracy | Mémorable, auto-dérision, dit ce que fait le site |
+| Nom | LarpLvl | Mémorable, auto-dérision, dit ce que fait le site |
 | Langue | Français, termes techniques avec équivalent anglais | Densité et nuance ; l'anglais viendra plus tard |
 | Stack | HTML/CSS/JS vanilla, JSON, GitHub Pages | Le contenu doit primer sur l'outillage, sur des années |
 | Compte utilisateur | Aucun. localStorage | Pas de backend, pas de RGPD, pas de friction |

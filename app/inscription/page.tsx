@@ -14,8 +14,8 @@ export default async function InscriptionPage() {
   return (
     <Container narrow className="py-16">
       <div className="card animate-fade-up mx-auto max-w-[26rem] p-7 sm:p-9">
-        <p className="eyebrow">Votre compte</p>
-        <h1 className="headline mt-3 text-[2.5rem]">Créer un compte</h1>
+        <span className="chip">Votre compte</span>
+        <h1 className="headline mt-3 text-[2.5rem]">Get started</h1>
         <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-2">
           Gratuit. Pas de carte bancaire, pas de vérification d&apos;identité — le
           contraire de ce que le site enseigne par ailleurs.

@@ -1,72 +1,73 @@
 @import "tailwindcss";
 
 /* ============================================================
-   LARPOCRACY — design system « clair »
-   Registre Apple / Quizlet : gris très clair, cartes blanches,
-   grands rayons, ombres larges et douces, barre flottante translucide.
-   Le serif Instrument reste sur les titres : signature du projet.
+   LARPLVL — design system « nuit »
+   Registre repris de fora.so : noir pur, blanc chaud, filets à 10 %,
+   panneaux translucides, dégradé de crépuscule, révélations au défilement.
    ============================================================ */
 
 @theme {
   /* --- Surfaces --- */
-  --color-canvas:     #f5f5f7;   /* le gris Apple : fond de page */
-  --color-canvas-2:   #ebebef;   /* zones creusées, pistes, champs */
-  --color-surface:    #ffffff;   /* les cartes */
-  --color-surface-2:  #f7f7f9;   /* carte survolée, ligne active */
-  --color-surface-3:  #efeff2;   /* survol dans une carte */
-  --color-line:       #e3e3e8;   /* bordure de carte */
-  --color-line-soft:  #eeeef1;   /* séparateur interne */
+  --color-canvas:     #000000;   /* fond de page : noir pur, pas gris */
+  --color-canvas-2:   #0a0a0a;   /* zones creusées, champs */
+  --color-surface:    #171717;   /* les panneaux */
+  --color-surface-2:  #1f1f1f;   /* panneau survolé */
+  --color-surface-3:  #282828;   /* survol dans un panneau */
+  --color-line:       #ffffff1a; /* filet à 10 % : la bordure de la nuit */
+  --color-line-soft:  #ffffff0d; /* filet à 5 %, interne */
 
   /* --- Encres --- */
-  --color-ink:        #1d1d1f;   /* titres, texte fort */
-  --color-ink-2:      #5f6169;   /* texte courant */
-  --color-ink-3:      #86868b;   /* légendes, métadonnées */
+  --color-ink:        #fff3f0;   /* blanc chaud, jamais #fff pur */
+  --color-ink-2:      #ffffffcc; /* 80 % : texte courant */
+  --color-ink-3:      #ffffffa6; /* 65 % : légendes */
+  --color-ink-4:      #ffffff59; /* 35 % : lignes en attente de révélation */
 
   /* --- Accents --- */
-  --color-accent:     #9e2a3c;   /* bordeaux : actions principales */
-  --color-accent-2:   #82202f;   /* pressé */
-  --color-accent-3:   #fdf2f4;   /* fond teinté */
-  --color-accent-ink: #8d2435;   /* texte sur fond teinté */
-  --color-gold:       #9a7233;   /* rappel premium, distinctions */
-  --color-gold-2:     #faf4e9;
-  --color-yes:        #17784b;
-  --color-yes-2:      #edf9f2;
-  --color-no:         #b3372b;
-  --color-no-2:       #fdf1ef;
+  --color-accent:     #c9736f;   /* le rose fané du crépuscule */
+  --color-accent-2:   #a85a57;
+  --color-accent-3:   #1e1413;   /* fond teinté */
+  --color-accent-ink: #e6a5a1;
+  --color-gold:       #c9a468;
+  --color-gold-2:     #1c170f;
+  --color-yes:        #5ec98e;
+  --color-yes-2:      #0f2018;
+  --color-no:         #e0685c;
+  --color-no-2:       #201211;
 
   /* --- Typographie --- */
-  --font-display: var(--font-instrument-serif), 'Iowan Old Style', Georgia, serif;
   --font-sans: var(--font-inter-tight), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* --- Rayons : généreux --- */
+  /* --- Rayons --- */
   --radius-xs:  0.5rem;
   --radius-sm:  0.75rem;
-  --radius-md:  1rem;
+  --radius-md:  1rem;      /* 16px : le rayon dominant du modèle */
   --radius-lg:  1.25rem;
   --radius-xl:  1.75rem;
   --radius-2xl: 2.25rem;
 
-  /* --- Ombres : larges et très douces, jamais dures --- */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.05), 0 8px 24px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.05), 0 16px 40px rgba(0, 0, 0, 0.09);
-  --shadow-xl: 0 8px 20px rgba(0, 0, 0, 0.06), 0 28px 68px rgba(0, 0, 0, 0.12);
-  --shadow-ring: 0 0 0 3px rgba(158, 42, 60, 0.15);
+  /* --- Ombres : diffuses et basses, jamais portées --- */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 1px 32px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.45);
+  --shadow-xl: 0 24px 80px rgba(0, 0, 0, 0.6);
+  --shadow-ring: 0 0 0 3px rgba(255, 255, 255, 0.12);
 
   /* --- Mouvement --- */
+  /* La courbe du modèle : symétrique, sans rebond. */
+  --ease-fora:     cubic-bezier(0.44, 0, 0.56, 1);
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  --animate-fade-up:  fade-up 0.5s var(--ease-out-soft) both;
+  --animate-fade-up:  fade-up 0.8s var(--ease-fora) both;
   --animate-pop:      pop 0.34s var(--ease-spring) both;
   --animate-slide-in: slide-in 0.35s var(--ease-out-soft) both;
   --animate-shake:    shake 0.4s ease-in-out both;
   --animate-count:    count-in 0.6s var(--ease-spring) both;
 
   @keyframes fade-up {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: none; }
   }
   @keyframes pop {
@@ -92,7 +93,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 body {
@@ -109,15 +110,14 @@ body {
 p, li, dd, h1, h2, h3, h4 { text-wrap: pretty; }
 h1, h2, h3 { text-wrap: balance; }
 
-::selection { background: var(--color-accent); color: #fff; }
+::selection { background: var(--color-ink); color: var(--color-canvas); }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-ink);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* Le mouvement est un confort, jamais une condition d'usage. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -125,85 +125,122 @@ h1, h2, h3 { text-wrap: balance; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  /* Une révélation qui ne peut pas s'animer doit rester visible. */
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
 }
 
-/* --- Utilitaires du système --- */
-
+/* --- Titres --- */
+/* Grand, léger, très serré : les trois réglages qui font le modèle. */
 @utility display {
-  font-family: var(--font-display);
   font-weight: 400;
-  letter-spacing: -0.015em;
-  line-height: 1.06;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
 }
-
 @utility headline {
-  font-family: var(--font-display);
   font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 0.96;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+/* La seconde ligne d'un titre s'éteint : la signature typographique du modèle. */
+@utility headline-dim {
+  color: var(--color-ink-3);
 }
 
 @utility eyebrow {
-  font-family: var(--font-sans);
   font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-ink-3);
 }
 
 @utility link {
-  color: var(--color-accent);
+  color: var(--color-ink);
   font-weight: 500;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  text-decoration-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
-  transition: text-decoration-color 0.15s, color 0.15s;
+  text-decoration-color: color-mix(in srgb, var(--color-ink) 35%, transparent);
+  transition: text-decoration-color 0.4s var(--ease-fora);
 }
 @utility link-hover {
-  text-decoration-color: var(--color-accent);
+  text-decoration-color: var(--color-ink);
 }
 
-/* Bordure du verre dépoli. Le flou et la saturation sont posés par les
-   utilitaires Tailwind (`backdrop-blur-*`, `backdrop-saturate-*`) : déclarer
-   `backdrop-filter` ici resterait sans effet, Tailwind v4 pilotant cette
-   propriété par ses propres variables. */
-@utility glass-edge {
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-/* La carte : l'unité de base de toute l'interface */
-@utility card {
-  background: var(--color-surface);
+/* La pastille d'accroche posée au-dessus de chaque titre de section. */
+@utility chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.375rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-ink-2);
+}
+
+/* Le panneau : translucide, cerné d'un filet clair intérieur. */
+@utility panel {
+  background: rgba(23, 23, 23, 0.85);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), var(--shadow-md);
+}
+
+@utility card {
+  background: rgba(23, 23, 23, 0.85);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 @utility card-lift {
-  transition: transform 0.25s var(--ease-out-soft), box-shadow 0.25s var(--ease-out-soft),
-              border-color 0.25s var(--ease-out-soft);
+  transition: transform 0.5s var(--ease-fora), box-shadow 0.5s var(--ease-fora),
+              background-color 0.5s var(--ease-fora);
   will-change: transform;
 }
 @utility card-lift-on {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  background: rgba(31, 31, 31, 0.9);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), var(--shadow-lg);
 }
 
-/* Bouton pressable : l'arête basse se comprime sous le doigt. */
 @utility pressable {
-  transition: transform 0.12s var(--ease-out-soft), box-shadow 0.12s var(--ease-out-soft),
-              background-color 0.15s, border-color 0.15s, color 0.15s;
+  transition: transform 0.15s var(--ease-fora), background-color 0.4s var(--ease-fora),
+              color 0.4s var(--ease-fora), box-shadow 0.4s var(--ease-fora);
 }
 
-/* Piste horizontale sans barre de défilement visible */
 @utility rail {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 .rail::-webkit-scrollbar { display: none; }
+
+/* --- Le ciel de crépuscule : le fond de la bannière --- */
+@utility crepuscule {
+  background-image: radial-gradient(
+    200% 83% at 50% 0,
+    #1b2228 0%,
+    #353f44 42%,
+    #c98a86 100%
+  );
+}
+/* Le raccord vers le noir, pour que la bannière n'ait pas de bord franc. */
+@utility fondu-bas {
+  background-image: linear-gradient(to bottom, transparent 40%, #000 100%);
+}
+
+/* --- Révélation au défilement --- */
+/* Posé par le composant Reveal : invisible, puis remis en place. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--ease-fora), transform 0.9s var(--ease-fora);
+}
+[data-reveal='vu'] {
+  opacity: 1;
+  transform: none;
+}
 
 /* --- Carte à retourner (mode Cartes) --- */
 .flip-scene { perspective: 1600px; }
@@ -227,15 +264,6 @@ h1, h2, h3 { text-wrap: balance; }
 }
 .flip-face[data-side='verso'] { transform: rotateX(180deg); }
 
-/* --- Halo teinté, pour les fonds de section --- */
-@utility halo {
-  background-image: radial-gradient(
-    ellipse 60% 70% at 50% 0%,
-    color-mix(in srgb, var(--dom, var(--color-accent)) 12%, transparent),
-    transparent 70%
-  );
-}
-
 /* --- Corps d'article --- */
 .prose-larp {
   color: var(--color-ink-2);
@@ -249,7 +277,7 @@ h1, h2, h3 { text-wrap: balance; }
 
 /* --- Impression --- */
 @media print {
-  body { background: #fff; }
+  body { background: #fff; color: #000; }
   header, footer, nav, .no-print { display: none !important; }
   a { text-decoration: none; color: #000; }
 }

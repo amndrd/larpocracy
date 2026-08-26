@@ -46,3 +46,13 @@ export type ProgressRow = {
   cards_known: number | null;
   cards_total: number | null;
 };
+
+/** Une entrée du journal de bord, dans `content/news.json`. */
+export type NewsItem = {
+  id: string;
+  date: string; // AAAA-MM-JJ
+  tag?: string;
+  title: string;
+  body: string;
+  image?: string;
+};

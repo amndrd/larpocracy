@@ -99,7 +99,7 @@ function Field({
       <span className="eyebrow">{label}</span>
       <input
         {...props}
-        className="mt-2 h-11 w-full rounded-md border border-line bg-canvas-2 px-4 text-[0.9375rem] text-ink transition-all duration-200 placeholder:text-ink-3 focus:border-accent/40 focus:bg-surface focus:shadow-[var(--shadow-ring)] focus:outline-none"
+        className="mt-2 h-11 w-full rounded-md bg-white/[0.06] px-4 ring-1 ring-white/10 ring-inset text-[0.9375rem] text-ink transition-all duration-200 placeholder:text-ink-3 focus:bg-white/[0.10] focus:ring-white/25 focus:outline-none"
       />
       {hint && <span className="mt-1.5 block text-[0.75rem] text-ink-3">{hint}</span>}
     </label>

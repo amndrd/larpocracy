@@ -26,7 +26,7 @@ export default function AccountNav({ pleineLargeur = false }: { pleineLargeur?: 
   // Relu à chaque navigation, et pas seulement au montage : connexion et
   // déconnexion passent par des Server Actions, donc le client navigateur
   // n'émet aucun événement. Sans cette relecture, le lien resterait sur
-  // « Connexion » après une connexion jusqu'au prochain rechargement complet.
+  // « Login » après une connexion jusqu'au prochain rechargement complet.
   useEffect(() => {
     if (!isSupabaseConfigured) return;
     const supabase = createClient();
@@ -104,7 +104,7 @@ export default function AccountNav({ pleineLargeur = false }: { pleineLargeur?: 
           >
             {email[0]?.toUpperCase()}
           </span>
-          Mon compte
+          Account
         </Link>
       </div>
     );
@@ -116,13 +116,13 @@ export default function AccountNav({ pleineLargeur = false }: { pleineLargeur?: 
         href="/connexion"
         className={buttonClasses('fantome', pleineLargeur ? 'md' : 'sm', pleineLargeur && 'w-full')}
       >
-        Connexion
+        Login
       </Link>
       <Link
         href="/inscription"
         className={buttonClasses('primaire', pleineLargeur ? 'md' : 'sm', pleineLargeur && 'w-full')}
       >
-        S&apos;inscrire
+        Get started
       </Link>
     </div>
   );

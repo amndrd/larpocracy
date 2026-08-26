@@ -1,6 +1,6 @@
 # L'ATLAS — inventaire complet des sujets
 
-> Ce document est la **carte totale** de ce que Larpocracy doit un jour couvrir.
+> Ce document est la **carte totale** de ce que LarpLvl doit un jour couvrir.
 > Il est volontairement plus grand que ce qu'on produira cette année. Il sert à :
 > 1. ne jamais se demander « qu'est-ce qu'on pourrait ajouter ? »
 > 2. décider dans quel ordre remplir (voir `ROADMAP.md`)

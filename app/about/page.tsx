@@ -2,14 +2,14 @@ import type { Metadata } from 'next';
 import Container from '@/components/Container';
 
 export const metadata: Metadata = {
-  title: 'Manifeste',
-  description: "Ce que fait Larpocracy, exactement — et la seule ligne qu'il ne franchira pas.",
+  title: 'About',
+  description: "Ce que fait LarpLvl, exactement — et la seule ligne qu'il ne franchira pas.",
 };
 
-export default function ManifestePage() {
+export default function AboutPage() {
   return (
     <Container narrow className="py-12 sm:py-16">
-      <p className="eyebrow">Manifeste</p>
+      <p className="chip">Manifeste</p>
       <h1 className="headline mt-3 text-[clamp(2.5rem,5.5vw,3.75rem)]">
         Ce que fait ce site, exactement
       </h1>
@@ -39,13 +39,13 @@ export default function ManifestePage() {
           savent même pas qu&apos;ils l&apos;ont. Ceux qui ne l&apos;ont pas croient
           qu&apos;il leur manque « quelque chose » sans pouvoir le nommer.
         </p>
-        <p>Larpocracy écrit ce qui n&apos;est jamais écrit.</p>
+        <p>LarpLvl écrit ce qui n&apos;est jamais écrit.</p>
 
         <h2 className="display mt-12 border-t border-line pt-8 text-[1.625rem] text-ink">
           Le nom
         </h2>
         <p>
-          <strong>Larpocracy</strong> — de <em>LARP</em> (live action role play) et{' '}
+          <strong>LarpLvl</strong> — de <em>LARP</em> (live action role play) et{' '}
           <em>-cracy</em>, le pouvoir. Le mot dit exactement ce que fait le site, avec
           l&apos;auto-dérision nécessaire pour que ce ne soit pas grotesque. On assume le
           jeu de rôle social : tout le monde le joue. Ceux qui prétendent le contraire sont

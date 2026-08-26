@@ -6,15 +6,15 @@ import { IconOui } from '@/components/icons';
 import { PLANS } from '@/lib/plans';
 
 export const metadata: Metadata = {
-  title: 'Formules',
+  title: 'Pricing',
   description: 'Tout le contenu publié est en accès libre. La formule Pro viendra plus tard.',
 };
 
-export default function TarifsPage() {
+export default function PricingPage() {
   return (
     <Container className="py-12 sm:py-16">
       <header className="max-w-[54ch]">
-        <p className="eyebrow">Formules</p>
+        <p className="chip">Pricing</p>
         <h1 className="headline mt-3 text-[clamp(2.5rem,5.5vw,3.75rem)]">
           Pour l&apos;instant, tout est ouvert.
         </h1>

@@ -5,7 +5,7 @@
 ---
 
 ## 2026-08-25 — #001 Nom du projet
-**Larpocracy** (LARP + -cracy). Retenu contre *Maison Larp*, *Larp Society*, *LarpCode*.
+**LarpLvl** (LARP + -cracy). Retenu contre *Maison Larp*, *Larp Society*, *LarpCode*.
 Raison : dit exactement ce que fait le site, mémorable, porte l'auto-dérision nécessaire
 pour que le concept ne soit pas grotesque. Baseline : « L'art de tenir la salle. »
 
@@ -170,7 +170,7 @@ Toko que parce qu'aucune photo n'illustre « aller faire les courses en espagnol
 nos sujets, eux, se photographient ; et la grotesque en titre, remplacée par
 Instrument Serif.
 
-Le sombre sert mieux Larpocracy que Toko : le noir chaud avec bordeaux et or est le
+Le sombre sert mieux LarpLvl que Toko : le noir chaud avec bordeaux et or est le
 registre du luxe et du pouvoir, et les visuels (Versailles, la galerie de musée, les
 rouages, la cave) y gagnent beaucoup par rapport au fond blanc.
 Conséquence assumée : la refonte claire du matin est remplacée, pas complétée.
@@ -238,3 +238,42 @@ Deux pièges rencontrés, tous deux consignés dans `CLAUDE.md` :
   flou, et le texte de la page se lisait au travers.
 - La barre étant `fixed`, elle sort du flux : `<main>` porte un `pt-20 sm:pt-24`,
   sans quoi les titres passent dessous.
+
+## 2026-08-26 — #024 Le site devient LarpLvl, et prend le registre de fora.so
+**Nom** : Larpocracy devient **LarpLvl**. Le dépôt, lui, reste
+`github.com/amndrd/larpocracy` — renommer un dépôt public casse les liens entrants
+pour un gain nul.
+
+**Design** : référence explicite, `fora.so`. Relevé sur le site puis reproduit —
+noir pur `#000`, blanc chaud `#fff3f0` (jamais `#fff`), secondaires à 80 % et 65 %,
+filets à 10 %, panneaux `rgba(23,23,23,.85)` cernés d'un filet clair intérieur,
+rayon dominant 16 px, ombre unique et diffuse `0 1px 32px rgba(0,0,0,.35)`.
+Le dégradé de bannière est un radial de crépuscule, transposé du modèle
+(`200% 83% at 50% 0`, ardoise → gris-bleu → rose fané).
+
+Composition reprise : tout est **centré** en bannière, chaque section s'ouvre sur une
+pastille, et le titre tient sur deux temps dont **le second s'éteint**
+(`headline-dim`) — c'est la signature typographique du modèle.
+Typographie : graisse 400, interlettre −0.04 em, interligne 1.15.
+
+**Conséquence assumée : Instrument Serif est retiré.** Le serif avait survécu à trois
+refontes et faisait l'identité du projet, mais le modèle est intégralement en
+grotesque et le nouveau nom, plus court et plus technique, s'en accommode mieux.
+C'est réversible en un commit si le serif manque.
+
+**Mouvement** : le modèle n'utilise **aucune animation CSS** — tout est déclenché au
+défilement (`will-change: transform` sur une centaine d'éléments) avec une courbe
+`cubic-bezier(0.44, 0, 0.56, 1)`, reprise ici en `--ease-fora`. On reproduit la figure
+avec `components/Reveal.tsx` (IntersectionObserver, fondu + remontée de 24 px, cascade
+par `delay`). L'état initial vit dans la feuille de style plutôt que dans une classe :
+sinon le bloc clignoterait avant l'hydratation.
+
+**Navigation en anglais** : Contenu · About · Features · Pricing · News, puis Login et
+Get started. Trois pages nouvelles (`/about` reprend le manifeste, `/features`,
+`/news`), et `/tarifs` devient `/pricing`. Les anciennes adresses redirigent en 308
+depuis `next.config.ts` plutôt que de renvoyer un 404.
+Le contenu des fiches reste en français : c'est la langue du produit, l'anglais ne
+sert qu'à la barre, comme sur la plupart des sites du même registre.
+
+**Le journal de bord** (`content/news.json`) est vide, comme le reste du contenu, et
+s'alimente entrée par entrée.

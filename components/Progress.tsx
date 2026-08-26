@@ -13,7 +13,7 @@ export function ProgressBar({
   const pct = total > 0 ? Math.round((value / total) * 100) : 0;
   return (
     <div
-      className={clsx('h-1.5 w-full overflow-hidden rounded-full bg-canvas-2', className)}
+      className={clsx('h-1.5 w-full overflow-hidden rounded-full bg-white/10', className)}
       role="progressbar"
       aria-valuenow={pct}
       aria-valuemin={0}
@@ -47,7 +47,7 @@ export function ProgressRing({
     <div className="flex flex-col items-center gap-3">
       <div className="relative" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="-rotate-90">
-          <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth="7" className="stroke-canvas-2" />
+          <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth="7" className="stroke-white/10" />
           <circle
             cx={size / 2}
             cy={size / 2}

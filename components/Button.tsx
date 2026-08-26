@@ -10,16 +10,13 @@ const BASE =
 
 /* L'arête basse pleine se comprime au clic : le bouton a une épaisseur. */
 const VARIANTES: Record<Variante, string> = {
-  primaire:
-    'bg-accent text-white shadow-[0_3px_0_var(--color-accent-2)] hover:bg-accent-2 ' +
-    'active:translate-y-[3px] active:shadow-none',
+  // Le bouton principal est clair sur fond noir : c'est le seul aplat plein
+  // du système, ce qui le rend impossible à manquer.
+  primaire: 'bg-ink text-canvas hover:bg-white active:scale-[0.98]',
   secondaire:
-    'bg-surface text-ink border border-line shadow-[0_3px_0_var(--color-line)] ' +
-    'hover:border-ink/20 hover:bg-surface-2 active:translate-y-[3px] active:shadow-none',
-  clair:
-    'bg-ink text-white shadow-[0_3px_0_#000] hover:bg-ink/90 ' +
-    'active:translate-y-[3px] active:shadow-none',
-  fantome: 'text-ink-2 hover:bg-canvas-2 hover:text-ink',
+    'bg-white/[0.06] text-ink ring-1 ring-white/12 ring-inset hover:bg-white/[0.12] active:scale-[0.98]',
+  clair: 'bg-ink text-canvas hover:bg-white active:scale-[0.98]',
+  fantome: 'text-ink-3 hover:text-ink',
 };
 
 const TAILLES: Record<Taille, string> = {

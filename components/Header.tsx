@@ -4,19 +4,23 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import AccountNav from './AccountNav';
+import Logo from './Logo';
 import SearchBox from './SearchBox';
 import { IconRecherche } from './icons';
 import { clsx } from '@/lib/clsx';
 
 const LIENS = [
   { href: '/domaines', label: 'Contenu' },
-  { href: '/tarifs', label: 'Tarifs' },
+  { href: '/about', label: 'About' },
+  { href: '/features', label: 'Features' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/news', label: 'News' },
 ];
 
 /**
- * Barre flottante, détachée du bord haut : elle survole la page au lieu de la
- * coiffer. Le verre dépoli (flou + saturation) est ce qui la rattache au
- * registre Apple ; sans la saturation, le flou seul rend gris et terne.
+ * Barre flottante, détachée du bord haut. Le verre dépoli est posé par les
+ * utilitaires Tailwind : déclarer `backdrop-filter` dans un `@utility` reste
+ * sans effet en v4 (voir les pièges du projet).
  */
 export default function Header() {
   const [menu, setMenu] = useState(false);
@@ -25,44 +29,35 @@ export default function Header() {
 
   return (
     <header className="fixed inset-x-0 top-3 z-50 px-3 sm:top-4 sm:px-5">
-      <div className="mx-auto w-full max-w-[74rem]">
-        <div className="glass-edge flex h-14 items-center gap-2 rounded-full bg-white/72 px-3 shadow-lg backdrop-blur-xl backdrop-saturate-150 sm:h-15 sm:px-4">
-          <Link
-            href="/"
-            className="flex shrink-0 items-baseline gap-2.5 rounded-full px-2 py-1"
-            aria-label="Larpocracy, accueil"
-          >
-            <span className="display text-[1.3rem] leading-none tracking-tight">Larpocracy</span>
-            <span className="hidden text-[0.6875rem] italic text-ink-3 xl:inline">
-              l&apos;art de tenir la salle
-            </span>
+      <div className="mx-auto w-full max-w-[76rem]">
+        <div className="flex h-14 items-center gap-2 rounded-full bg-white/[0.05] px-3 shadow-md backdrop-blur-xl backdrop-saturate-150 ring-1 ring-white/10 ring-inset sm:h-15 sm:px-4">
+          <Link href="/" aria-label="LarpLvl, accueil" className="rounded-full px-1.5 py-1">
+            <Logo />
           </Link>
 
-          {/* Le champ de recherche prend toute la barre quand il s'ouvre. */}
           {cherche ? (
             <div className="flex flex-1 items-center gap-2">
               <SearchBox autoFocus onNavigate={() => setCherche(false)} />
               <button
                 type="button"
                 onClick={() => setCherche(false)}
-                className="shrink-0 rounded-full px-3 py-2 text-[0.8125rem] font-medium text-ink-2 transition-colors hover:bg-canvas-2 hover:text-ink"
+                className="shrink-0 rounded-full px-3 py-2 text-[0.8125rem] font-medium text-ink-3 transition-colors duration-[400ms] ease-[var(--ease-fora)] hover:text-ink"
               >
                 Fermer
               </button>
             </div>
           ) : (
             <>
-              <nav className="ml-2 hidden items-center gap-1 md:flex">
+              {/* Les liens sont centrés dans la barre, comme sur le modèle. */}
+              <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 xl:flex">
                 {LIENS.map((l) => (
                   <Link
                     key={l.href}
                     href={l.href}
                     aria-current={pathname === l.href ? 'page' : undefined}
                     className={clsx(
-                      'rounded-full px-3.5 py-2 text-[0.875rem] font-medium transition-colors',
-                      pathname === l.href
-                        ? 'bg-canvas-2 text-ink'
-                        : 'text-ink-2 hover:bg-canvas-2 hover:text-ink',
+                      'rounded-full px-3.5 py-2 text-[0.875rem] font-medium transition-colors duration-[400ms] ease-[var(--ease-fora)]',
+                      pathname === l.href ? 'text-ink' : 'text-ink-3 hover:text-ink',
                     )}
                   >
                     {l.label}
@@ -75,7 +70,7 @@ export default function Header() {
                   type="button"
                   onClick={() => setCherche(true)}
                   aria-label="Rechercher"
-                  className="grid size-9 place-items-center rounded-full text-ink-2 transition-colors hover:bg-canvas-2 hover:text-ink"
+                  className="grid size-9 place-items-center rounded-full text-ink-3 transition-colors duration-[400ms] ease-[var(--ease-fora)] hover:text-ink"
                 >
                   <IconRecherche className="size-4" />
                 </button>
@@ -89,7 +84,7 @@ export default function Header() {
                   onClick={() => setMenu((v) => !v)}
                   aria-expanded={menu}
                   aria-label={menu ? 'Fermer le menu' : 'Ouvrir le menu'}
-                  className="grid size-9 place-items-center rounded-full text-ink-2 transition-colors hover:bg-canvas-2 hover:text-ink md:hidden"
+                  className="grid size-9 place-items-center rounded-full text-ink-3 transition-colors hover:text-ink xl:hidden"
                 >
                   <Burger ouvert={menu} />
                 </button>
@@ -98,19 +93,18 @@ export default function Header() {
           )}
         </div>
 
-        {/* Panneau mobile */}
+        {/* Panneau mobile. Un clic n'importe où le referme : cela couvre aussi
+            les liens de compte, qu'on ne peut pas équiper un par un. */}
         {menu && (
-          // Un clic n'importe où dans le panneau le referme : cela couvre aussi
-          // les liens de compte, qu'on ne peut pas équiper un par un.
           <div
             onClick={() => setMenu(false)}
-            className="glass-edge animate-pop mt-2 rounded-2xl bg-white/95 p-2 shadow-xl backdrop-blur-xl backdrop-saturate-150 md:hidden"
+            className="animate-pop mt-2 rounded-2xl bg-[#0d0d0d]/95 p-2 shadow-xl ring-1 ring-white/10 ring-inset backdrop-blur-xl xl:hidden"
           >
             {LIENS.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="block rounded-xl px-4 py-3 text-[0.9375rem] font-medium text-ink transition-colors hover:bg-canvas-2"
+                className="block rounded-xl px-4 py-3 text-[0.9375rem] font-medium text-ink transition-colors hover:bg-white/5"
               >
                 {l.label}
               </Link>

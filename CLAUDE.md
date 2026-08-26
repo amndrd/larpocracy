@@ -8,7 +8,7 @@
 
 ## 1. Ce qu'est le projet
 
-**Larpocracy** est un site de culture générale appliquée : il apprend à un utilisateur
+**LarpLvl** est un site de culture générale appliquée : il apprend à un utilisateur
 les codes, le vocabulaire et les références des milieux du business, du luxe et du
 pouvoir — pour qu'il puisse **tenir une conversation crédible et intéressante** avec
 n'importe qui, dans n'importe quel milieu.
@@ -26,7 +26,7 @@ LBO, d'un Royal Oak, d'un Rothko et du protocole japonais **inspire confiance et
 envie de travailler avec lui**. Ce n'est pas de la frime : c'est de la surface d'accroche.
 Plus tu as de sujets, plus tu as de portes.
 
-Larpocracy est le manuel de terrain de cette surface d'accroche.
+LarpLvl est le manuel de terrain de cette surface d'accroche.
 
 ## 3. Utilisateur cible
 
@@ -60,15 +60,25 @@ Larpocracy est le manuel de terrain de cette surface d'accroche.
 ## 5. Stack technique
 
 - **Next.js 16** (App Router) + **TypeScript** + **Tailwind CSS v4**.
-- **Design « clair », registre Apple / Quizlet** (décision #023) : gris `#f5f5f7`,
-  cartes blanches, grands rayons, ombres larges et douces, **barre flottante**
-  translucide détachée du bord haut.
-  Jetons dans `app/globals.css` (`@theme`) : surfaces `canvas`/`canvas-2`/`surface`/
-  `surface-2`/`surface-3`/`line`, encres `ink`/`ink-2`/`ink-3`, accents
-  `accent`/`accent-ink`/`gold`/`yes`/`no`, rayons `--radius-*`, ombres `--shadow-*`.
-  Titres en Instrument Serif (`display`, `headline`), interface en **Inter Tight**.
+- **Design « nuit », repris de fora.so** (décision #024) : noir pur `#000`, blanc
+  chaud `#fff3f0`, filets à 10 % de blanc, panneaux translucides `rgba(23,23,23,.85)`
+  cernés d'un `ring-inset` clair, **barre flottante**, et un dégradé de crépuscule
+  en bannière (`@utility crepuscule`).
+  Jetons dans `app/globals.css` (`@theme`) : surfaces `canvas`/`canvas-2`/`surface`,
+  encres `ink`/`ink-2`/`ink-3`/`ink-4`, `--radius-*`, `--shadow-*`, et la courbe
+  `--ease-fora` (`cubic-bezier(0.44, 0, 0.56, 1)`) utilisée partout.
+- **Typographie : Inter Tight uniquement.** Instrument Serif a été retiré avec la
+  refonte #024. Les titres sont grands, de graisse 400 et **très serrés**
+  (`headline` : `-0.04em`) ; leur seconde moitié s'éteint (`headline-dim`).
+- **Mouvement : une seule figure**, la révélation au défilement (`components/Reveal.tsx`,
+  IntersectionObserver). L'état initial est dans la feuille de style (`[data-reveal]`)
+  pour éviter tout clignotement avant l'hydratation, et un `<noscript>` du layout le
+  neutralise si JavaScript est absent.
 - **Gamification** (décision #021) : `lib/xp.ts` (barème, rangs, séries,
   distinctions) et `lib/stats.ts` (`bilan()`, fonction pure). Aucun point offert.
+- **Navigation en anglais** : Contenu · About · Features · Pricing · News, puis Login
+  et Get started. Les routes suivent (`/about`, `/features`, `/pricing`, `/news`) ;
+  `/manifeste` et `/tarifs` redirigent en 308 depuis `next.config.ts`.
 - **Chaque domaine a sa teinte** (`lib/theme.ts`), posée en variables CSS `--dom` et
   `--dom-tint` par `domainVars()`, jamais en classes Tailwind générées.
 - **Images** : déposées à la main dans `public/images/`, puis **déclarées** dans le
@@ -127,7 +137,7 @@ app/
   f/[domaine]/[fiche]/    une fiche
   f/[domaine]/[fiche]/cartes/   le paquet de cartes à retourner
   recherche/              résultats de recherche
-  manifeste/  tarifs/     pages éditoriales
+  about/  features/  pricing/  news/    pages de présentation
   connexion/ inscription/ compte/    comptes
   auth/actions.ts         Server Actions d'authentification
   auth/confirm/route.ts   cible du lien de confirmation email
@@ -139,7 +149,10 @@ components/               Header (barre flottante), Footer, SearchBox, AuthForm,
   DomainCard/FicheCard    les vignettes du catalogue
   StudyModes.tsx          le sélecteur Lire · Cartes · Test d'une fiche
   GameStats.tsx           pilules de points, carte de rang, mur de distinctions
-  Constellation.tsx       le motif filaire de l'accueil
+  Reveal.tsx              révélation au défilement
+  Logo.tsx                le monogramme
+  HeroPreview.tsx         l'aperçu produit de la bannière, dessiné en HTML
+  Faq.tsx                 repliage natif `<details>`
   Flashcards.tsx          le mode Cartes
   Quiz.tsx                le test d'une fiche
 lib/
@@ -148,6 +161,7 @@ lib/
   stats.ts                `bilan()` : tout ce que l'interface affiche du parcours
   theme.ts                la teinte de chaque domaine
   images.ts               résolution des images déclarées dans le JSON
+  news.ts                 le journal de bord (`content/news.json`)
   types.ts                types du contenu
   progress.ts             lecture/écriture de la progression
   plans.ts                formules free | pro
@@ -155,6 +169,7 @@ lib/
 proxy.ts                  rafraîchissement de session (ex-middleware)
 content/
   domains.json            les domaines — **vide au 26 août 2026**
+  news.json               le journal de bord — vide lui aussi
   modules/<id>.json       le contenu, un fichier par domaine
 public/images/            vos images, déposées à la main
 supabase/schema.sql       schéma + RLS, à exécuter dans le SQL Editor
@@ -165,6 +180,10 @@ docs/                     contexte, atlas, feuille de route, guide, décisions
 deux colonnes sur `card_progress`. Le rejouer dans le SQL Editor de Supabase (il est
 idempotent). Sans cela le site marche, mais la série reste à 0 et les cartes ne
 rapportent aucun point.
+
+**Pour ajouter une nouvelle** : un objet dans `content/news.json`
+(`id`, `date` au format AAAA-MM-JJ, `title`, `body`, et `tag`/`image` facultatifs).
+Rien d'autre à toucher — la page `/news` trie par date décroissante.
 
 **Le site est vide de contenu au 26 août 2026** (décision #022) : `domains.json`
 vaut `[]` et `content/modules/` ne contient aucune fiche. Toutes les pages gèrent

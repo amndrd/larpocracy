@@ -1,19 +1,9 @@
 import type { Metadata } from 'next';
-import { Instrument_Serif, Inter_Tight } from 'next/font/google';
+import { Inter_Tight } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './globals.css';
 
-const display = Instrument_Serif({
-  weight: '400',
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  variable: '--font-instrument-serif',
-  display: 'swap',
-});
-
-// Inter Tight plutôt qu'Inter : le resserrement est ce qui donne à l'interface
-// sa densité — c'est la police de Toko, et elle tient à côté du serif.
 const sans = Inter_Tight({
   subsets: ['latin'],
   variable: '--font-inter-tight',
@@ -22,14 +12,14 @@ const sans = Inter_Tight({
 
 export const metadata: Metadata = {
   title: {
-    default: "Larpocracy — L'art de tenir la salle",
-    template: '%s · Larpocracy',
+    default: "LarpLvl — L'art de tenir la salle",
+    template: '%s · LarpLvl',
   },
   description:
     "La culture générale appliquée du business, du luxe et du pouvoir. Les codes, le vocabulaire et les références pour tenir une conversation avec n'importe qui.",
   metadataBase: new URL('https://larpocracy.vercel.app'),
   openGraph: {
-    title: 'Larpocracy',
+    title: 'LarpLvl',
     description: "L'art de tenir la salle.",
     type: 'website',
     locale: 'fr_FR',
@@ -38,17 +28,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" data-scroll-behavior="smooth" className={`${display.variable} ${sans.variable}`}>
+    <html lang="fr" data-scroll-behavior="smooth" className={sans.variable}>
+      <head>
+        {/* Sans JavaScript, rien ne révélerait les blocs animés au défilement. */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1 !important;transform:none !important}`}</style>
+        </noscript>
+      </head>
       <body className="min-h-screen flex flex-col">
         <a
           href="#contenu"
-          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-4 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-4 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-canvas"
         >
           Aller au contenu
         </a>
         <Header />
-        {/* La barre est flottante et sort du flux : on dégage la hauteur qu'elle occupe. */}
-        <main id="contenu" className="flex-1 pt-20 sm:pt-24">
+        <main id="contenu" className="flex-1">
           {children}
         </main>
         <Footer />

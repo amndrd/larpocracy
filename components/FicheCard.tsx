@@ -68,7 +68,7 @@ export default function FicheCard({
             </span>
           )}
         </div>
-        <span className="grid size-8 place-items-center rounded-full bg-surface-2 text-ink-3 transition-all duration-300 group-hover:bg-[var(--dom)] group-hover:text-white">
+        <span className="grid size-8 place-items-center rounded-full bg-surface-2 text-ink-3 transition-all duration-300 group-hover:bg-[var(--dom)] group-hover:text-canvas">
           <IconFleche className="size-4" />
         </span>
       </div>

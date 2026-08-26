@@ -3,7 +3,7 @@
 
 ---
 
-**Larpocracy** apprend les codes, le vocabulaire et les références des milieux du
+**LarpLvl** apprend les codes, le vocabulaire et les références des milieux du
 business, du luxe et du pouvoir — pour pouvoir tenir une conversation crédible et
 intéressante avec n'importe qui, dans n'importe quel milieu.
 
