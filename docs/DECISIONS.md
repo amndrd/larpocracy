@@ -113,3 +113,44 @@ Le repli n'expose jamais la chaîne technique d'origine : elle n'aide pas
 l'utilisateur et renseigne inutilement sur l'infrastructure.
 Un email inconnu et un mot de passe faux donnent volontairement le **même**
 message : les distinguer révélerait quelles adresses ont un compte.
+
+## 2026-08-26 — #017 Refonte du design : de l'éditorial à l'application
+Le site abandonne le thème « papier » (blanc cassé, filets 1px, angles vifs, aucune
+image, aucune animation) pour un design d'**application d'apprentissage** : fond gris
+très clair, cartes blanches à coins arrondis, ombres douces, mouvement, et une photo
+par domaine.
+Raison : le contenu était présenté comme un long texte à lire alors que le produit est
+un outil d'entraînement. Un catalogue de cartes annonce ce qu'on peut *faire* d'une
+fiche ; un article ne l'annonce pas.
+Ce qui **ne** change **pas** : le serif Instrument reste sur les titres. C'est la
+signature du projet, et c'est ce qui empêche le site de ressembler à n'importe quelle
+application d'apprentissage. L'anglo-saxonisme du modèle s'arrête au comportement.
+Chaque domaine porte sa propre teinte (`lib/theme.ts`), exposée en variables CSS
+`--dom` / `--dom-tint` plutôt qu'en classes : Tailwind ne peut pas voir quatorze jeux
+de classes construits dynamiquement.
+
+## 2026-08-26 — #018 Mode Cartes (révision par retournement)
+Une fiche n'est plus seulement lisible : son lexique et ses noms propres se rejouent
+en paquet de cartes sur `/f/<domaine>/<fiche>/cartes`. Recto le terme, verso la
+définition ; pour un nom propre, le verso porte la prononciation — c'est exactement
+ce que le principe n°3 du projet demande d'entraîner.
+On juge « je savais » / « à revoir », et l'écran de fin ne repropose que les ratées.
+Le paquet est dérivé du contenu existant (`deckOf`) : aucun champ à ajouter au JSON,
+aucune fiche à réécrire. Une fiche sans lexique ni nom n'a pas de paquet, et le mode
+n'est alors pas proposé.
+
+## 2026-08-26 — #019 Visuels : Wikimedia Commons et Art Institute, licences vérifiables
+Les 15 visuels (14 domaines + bannière) viennent de **Wikimedia Commons** et de
+l'**Art Institute of Chicago**, exclusivement sous licence libre.
+Raison du choix de la source : c'est la seule où la licence, l'auteur et l'URL
+d'origine sont récupérables **par API** — donc vérifiables et consignables. Un site
+qui exige « zéro fait inventé » ne peut pas illustrer avec des images dont il ne sait
+pas d'où elles viennent.
+Les crédits sont dans `content/credits.json` et publiés sur `/credits`.
+Deux domaines (Conversation, Codes) sont illustrés par des **peintures en domaine
+public** plutôt que par des photographies : aucune photo libre convenable n'existait,
+et une scène de conversation peinte au XVIIe sert le sujet mieux qu'un cliché de
+banque d'images.
+Piège rencontré : `upload.wikimedia.org` ne sert que les largeurs de vignette déjà
+en cache et renvoie **400** sur les autres. Il faut télécharger la taille fournie par
+l'API et redimensionner localement.

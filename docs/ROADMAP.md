@@ -13,12 +13,14 @@
 | Documentation de contexte | ✅ |
 | Atlas des 673 sujets | ✅ |
 | Application Next.js sur localhost:3000 | ✅ |
-| Design éditorial, thème clair | ✅ |
+| Design « application » : cartes, photos, animation | ✅ refonte du 26 août |
 | Pages de contenu prérendues + recherche | ✅ |
 | Comptes Supabase (auth + RLS) | ✅ code prêt — clés à renseigner |
 | Progression liée au compte | ✅ code prêt — clés à renseigner |
 | Page formules (free / pro) | ✅ facturation non branchée |
 | Déploiement Vercel | ⏳ en attente de connexion au compte |
+| Mode Cartes (révision par retournement) | ✅ |
+| Visuels libres de droits + page de crédits | ✅ 15 visuels |
 | Modules de contenu remplis | 5 fiches · 4 / 14 domaines amorcés |
 
 **Pour activer les comptes** : créer un projet Supabase, exécuter
@@ -92,6 +94,7 @@ Critère de sortie : 120 fiches, 14 domaines ouverts, aucun domaine vide.
 ## PHASE 5 — Outils
 
 - [ ] Parcours guidés (Dîner d'affaires, Premier gala, Lever des fonds, Client du Golfe, Week-end à la campagne)
+- [x] Mode Cartes : révision par retournement, tri « su » / « à revoir »
 - [ ] Mode révision par répétition espacée
 - [ ] Simulations à choix multiples avec conséquences
 - [ ] Quiz chronométré, score, classement personnel

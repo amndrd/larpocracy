@@ -44,6 +44,8 @@ Larpocracy est le manuel de terrain de cette surface d'accroche.
    passe et celle qui trahit. C'est le plus fort différenciateur du site.
 3. **La prononciation compte autant que le fait.** Un nom mal prononcé annule dix
    pages de savoir. Chaque nom propre étranger porte sa phonétique.
+   C'est aussi ce qui alimente le mode Cartes : `terms` et `names` deviennent
+   automatiquement un paquet à réviser, sans rien ajouter au JSON.
 4. **Sobriété > étalage.** Le site enseigne systématiquement que sous-jouer bat
    surjouer. Le name-dropping est le marqueur n°1 de l'imposteur.
 5. **Zéro fraude.** On enseigne la culture, les codes et l'aisance. Jamais l'usurpation
@@ -58,6 +60,15 @@ Larpocracy est le manuel de terrain de cette surface d'accroche.
 ## 5. Stack technique
 
 - **Next.js 16** (App Router) + **TypeScript** + **Tailwind CSS v4**.
+- **Design « application »** : fond gris clair, cartes blanches arrondies, ombres
+  douces, animations d'entrée. Les jetons sont dans `app/globals.css` (`@theme`) :
+  surfaces `canvas`/`surface`/`line`, encres `ink`/`ink-2`/`ink-3`, accents
+  `accent`/`gold`/`yes`/`no`, rayons `--radius-*`, ombres `--shadow-*`.
+  Le serif Instrument reste réservé aux titres (`display`) — voir décision #017.
+- **Chaque domaine a sa teinte** (`lib/theme.ts`), posée en variables CSS `--dom` et
+  `--dom-tint` par `domainVars()`, jamais en classes Tailwind générées.
+- **Visuels** : 15 photos/œuvres sous licence libre dans `public/visuels/`, crédits
+  dans `content/credits.json`, publiés sur `/credits` (décision #019).
 - **Supabase** : authentification (email + mot de passe) et Postgres.
 - Hébergement **Vercel**. Développement sur `localhost:3000` (`npm run dev`).
 - Contenu en **JSON** dans `content/`, importé statiquement par `lib/content.ts`.
@@ -83,6 +94,9 @@ Larpocracy est le manuel de terrain de cette surface d'accroche.
   Changer la valeur ne suffit pas : il faut redéployer. Et un « Redeploy » qui
   réutilise le cache de build peut resservir l'ancienne valeur — vérifier la clé
   réellement livrée en cherchant sa valeur dans `/_next/static/chunks/*.js`.
+- **`upload.wikimedia.org` ne sert que les largeurs de vignette déjà en cache** et
+  répond **400** sur toutes les autres. Pour ajouter un visuel : télécharger l'URL
+  exacte renvoyée par l'API, puis redimensionner localement.
 - **Ne jamais recopier une clé à la main depuis un terminal** : `l` et `1` s'y
   confondent. Une clé anon mal recopiée a fait échouer toute l'auth en production
   avec le seul message « Impossible d'aboutir ». Copier-coller, toujours.
@@ -96,15 +110,25 @@ app/
   domaines/               sommaire des 14 domaines
   d/[domaine]/            page d'un domaine
   f/[domaine]/[fiche]/    une fiche
+  f/[domaine]/[fiche]/cartes/   le paquet de cartes à retourner
   recherche/              résultats de recherche
+  credits/                crédits des visuels
   manifeste/  tarifs/     pages éditoriales
   connexion/ inscription/ compte/    comptes
   auth/actions.ts         Server Actions d'authentification
   auth/confirm/route.ts   cible du lien de confirmation email
   api/search/route.ts     recherche (dynamique — voir les pièges)
-components/               Header, Footer, SearchBox, Quiz, AuthForm, …
+components/               Header, Footer, SearchBox, AuthForm, …
+  Button/Badge/Progress   primitives (bouton pressable, pastille, barre + anneau)
+  icons.tsx               les pictogrammes, dessinés à la main
+  DomainCard/FicheCard    les vignettes du catalogue
+  StudyModes.tsx          le sélecteur Lire · Cartes · Test d'une fiche
+  Flashcards.tsx          le mode Cartes
+  Quiz.tsx                le test d'une fiche
 lib/
-  content.ts              chargement du contenu + index de recherche
+  content.ts              chargement du contenu + index de recherche + `deckOf`
+  theme.ts                la teinte de chaque domaine
+  visuels.ts              les visuels importés + leurs crédits
   types.ts                types du contenu
   progress.ts             lecture/écriture de la progression
   plans.ts                formules free | pro
@@ -112,7 +136,9 @@ lib/
 proxy.ts                  rafraîchissement de session (ex-middleware)
 content/
   domains.json            les 14 domaines
+  credits.json            provenance et licence de chaque visuel
   modules/<id>.json       le contenu, un fichier par domaine
+public/visuels/           les 15 visuels (14 domaines + bannière)
 supabase/schema.sql       schéma + RLS, à exécuter dans le SQL Editor
 docs/                     contexte, atlas, feuille de route, guide, décisions
 ```
