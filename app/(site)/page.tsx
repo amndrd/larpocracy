@@ -210,7 +210,7 @@ export default function Home() {
               <DomainGrid list={domains.slice(0, 6)} />
               <Reveal delay={120}>
                 <div className="mt-8 flex justify-center">
-                  <ButtonLink href="/domaines" variante="secondaire">
+                  <ButtonLink href="/app" variante="secondaire">
                     Voir les {stats.domains} domaines
                     <IconFleche className="size-4" />
                   </ButtonLink>

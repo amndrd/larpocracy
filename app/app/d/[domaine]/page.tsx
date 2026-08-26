@@ -6,15 +6,12 @@ import Container from '@/components/Container';
 import FicheCard from '@/components/FicheCard';
 import { ButtonLink } from '@/components/Button';
 import { IconChevron } from '@/components/icons';
-import { domains, getCards, getDomain } from '@/lib/content';
+import { getCards, getDomain } from '@/lib/content';
+import { getSession } from '@/lib/session';
 import { domainVars } from '@/lib/theme';
 import { imageOfDomain } from '@/lib/images';
 
 type Props = { params: Promise<{ domaine: string }> };
-
-export function generateStaticParams() {
-  return domains.map((d) => ({ domaine: d.id }));
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const d = getDomain((await params).domaine);
@@ -28,14 +25,15 @@ export default async function DomainPage({ params }: Props) {
   if (!d) notFound();
 
   const cards = getCards(d.id);
+  const { plan } = await getSession();
   const image = imageOfDomain(d);
 
   return (
     <div style={domainVars(d.id)}>
       <Container className="py-6 sm:py-8">
         <nav className="mb-5 flex items-center gap-1.5 text-[0.8125rem] text-ink-3">
-          <Link href="/domaines" className="transition-colors hover:text-accent">
-            Domaines
+          <Link href="/app" className="transition-colors hover:text-ink">
+            Tableau de bord
           </Link>
           <IconChevron className="size-3.5" />
           <span className="text-ink-2">{d.title}</span>
@@ -80,7 +78,7 @@ export default async function DomainPage({ params }: Props) {
             <h2 className="eyebrow mb-4">Les fiches</h2>
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {cards.map((c, i) => (
-                <FicheCard key={c.id} card={c} domainId={d.id} index={i} />
+                <FicheCard key={c.id} card={c} domainId={d.id} index={i} plan={plan} />
               ))}
             </div>
           </>
@@ -91,7 +89,7 @@ export default async function DomainPage({ params }: Props) {
               Ses {d.topics} sujets sont déjà découpés dans l&apos;atlas. Les domaines se
               remplissent par fréquence d&apos;usage réel, pas par ordre alphabétique.
             </p>
-            <ButtonLink href="/domaines" variante="secondaire" className="mt-7">
+            <ButtonLink href="/app" variante="secondaire" className="mt-7">
               Voir les domaines ouverts
             </ButtonLink>
           </div>

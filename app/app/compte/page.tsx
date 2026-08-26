@@ -136,7 +136,7 @@ export default async function ComptePage() {
           return (
             <Link
               key={d.id}
-              href={`/d/${d.id}`}
+              href={`/app/d/${d.id}`}
               style={{ ...domainVars(d.id), animationDelay: `${Math.min(i, 9) * 40}ms` }}
               className="card card-lift group animate-fade-up p-5 hover:card-lift-on"
             >

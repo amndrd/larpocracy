@@ -8,7 +8,7 @@ const LIENS = [
   { href: '/features', label: 'Features' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/news', label: 'News' },
-  { href: '/domaines', label: 'Contenu' },
+  { href: '/app', label: 'Contenu' },
 ];
 
 export default function Footer() {

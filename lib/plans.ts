@@ -1,36 +1,48 @@
 /**
- * Les formules. La facturation (Stripe) n'est pas encore branchée : le champ
- * `plan` de la table profiles existe déjà et vaut 'free' pour tout le monde.
- * Quand Stripe arrivera, seul le passage de 'free' à 'pro' changera.
+ * Les formules.
+ *
+ * Le modèle est freemium depuis la décision #025 : une fiche porte
+ * `"free": true` et reste ouverte à tous, ou ne le porte pas et demande Pro.
+ * La facturation (Stripe) n'est pas branchée — le champ `plan` de la table
+ * profiles existe et vaut 'free' pour tout le monde. Quand Stripe arrivera,
+ * seul le passage de 'free' à 'pro' changera.
  */
 export type Plan = 'free' | 'pro';
+
+/**
+ * Le montant reste à fixer. Il est isolé ici pour n'avoir qu'une ligne à
+ * changer le jour où il est arrêté — et pour qu'aucun prix inventé ne traîne
+ * dans une page.
+ */
+export const PRIX_PRO = '—';
 
 export const PLANS = {
   free: {
     id: 'free' as const,
     name: 'Libre',
     price: '0 €',
-    period: '',
-    pitch: "Tout le contenu publié, sans limite de lecture.",
+    period: 'pour toujours',
+    pitch: "De quoi juger sur pièce, sans donner de carte bancaire.",
     features: [
-      'Les 14 domaines et toutes les fiches publiées',
-      'Recherche complète : fiches, termes, prononciations',
-      'Quiz de vérification',
+      'Les fiches marquées libres, entièrement',
+      'Les trois modes dessus : lire, cartes, test',
+      'Points, rang, série et distinctions',
+      'Recherche dans le contenu ouvert',
       'Progression enregistrée sur votre compte',
     ],
   },
   pro: {
     id: 'pro' as const,
     name: 'Pro',
-    price: '—',
-    period: 'à venir',
-    pitch: "Ce qui viendra s'ajouter quand le contenu sera assez dense pour le justifier.",
+    price: PRIX_PRO,
+    period: 'bientôt',
+    pitch: "Tout le contenu, sans verrou, y compris ce qui sera publié ensuite.",
     features: [
-      'Parcours guidés : dîner d’affaires, premier gala, levée de fonds',
-      'Fiches « 5 minutes avant » pour un événement précis',
-      'Révision par répétition espacée',
-      'Simulations de conversation à choix multiples',
-      'Export PDF et fiches imprimables',
+      'Toutes les fiches des 14 domaines',
+      'Tout le lexique et toutes les prononciations',
+      'Recherche complète, contenu verrouillé compris',
+      'Les nouveaux domaines dès leur publication',
+      'Soutient directement l’écriture de la suite',
     ],
   },
 } satisfies Record<Plan, unknown>;

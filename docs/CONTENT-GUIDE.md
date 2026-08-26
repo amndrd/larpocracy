@@ -9,6 +9,7 @@
   "level": 1,
   "minutes": 7,
   "image": "champagne.jpg",
+  "free": true,
   "summary": "Une phrase qui dit ce que la fiche débloque concrètement.",
 
   "sections": [
@@ -36,6 +37,9 @@
 Champs obligatoires : `id`, `title`, `level`, `summary`, `sections`.
 `image` désigne un fichier de `public/images/` — facultatif, et jamais deviné :
 si le champ est absent, le site n'affiche simplement pas d'image.
+`free: true` ouvre la fiche à tous les comptes. Sans ce drapeau, elle demande la
+formule Pro. Une fiche publiée comme libre le reste : c'est un engagement tenu sur
+la page Pricing, pas une promotion de lancement.
 Tout le reste est optionnel mais **fortement** recommandé — une fiche sans
 `sayThis`/`notThis` rate le cœur du produit.
 

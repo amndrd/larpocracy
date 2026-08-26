@@ -70,7 +70,11 @@ export type SearchHit = {
   href: string;
 };
 
-type IndexedHit = SearchHit & { hay: string };
+type IndexedHit = SearchHit & {
+  hay: string;
+  /** L'entrée vient-elle d'une fiche ouverte à tous ? */
+  libre: boolean;
+};
 
 export const norm = (s: string) =>
   s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -82,8 +86,9 @@ const searchIndex: IndexedHit[] = (() => {
       kind: 'domaine',
       label: d.title,
       sub: d.tagline,
-      href: `/d/${d.id}`,
+      href: `/app/d/${d.id}`,
       hay: norm(`${d.title} ${d.tagline} ${(d.keywords ?? []).join(' ')}`),
+      libre: true,
     });
     for (const c of getCards(d.id)) {
       const body = [
@@ -93,8 +98,10 @@ const searchIndex: IndexedHit[] = (() => {
         (c.terms ?? []).map((t) => `${t.t} ${t.d} ${t.en ?? ''}`).join(' '),
         (c.names ?? []).map((n) => `${n.n} ${n.d}`).join(' '),
       ].join(' ');
-      const href = `/f/${d.id}/${c.id}`;
-      out.push({ kind: 'fiche', label: c.title, sub: d.title, href, hay: norm(body) });
+      const href = `/app/f/${d.id}/${c.id}`;
+      const libre = c.free === true;
+      // Le titre d'une fiche verrouillée reste trouvable : il n'en livre rien.
+      out.push({ kind: 'fiche', label: c.title, sub: d.title, href, hay: norm(body), libre: true });
       for (const t of c.terms ?? [])
         out.push({
           kind: 'terme',
@@ -102,6 +109,7 @@ const searchIndex: IndexedHit[] = (() => {
           sub: t.en ? `${t.en} — ${d.title}` : d.title,
           href,
           hay: norm(`${t.t} ${t.d} ${t.en ?? ''}`),
+          libre,
         });
       for (const n of c.names ?? [])
         out.push({
@@ -110,19 +118,26 @@ const searchIndex: IndexedHit[] = (() => {
           sub: `se dit « ${n.say} »`,
           href,
           hay: norm(`${n.n} ${n.d} ${n.say}`),
+          libre,
         });
     }
   }
   return out;
 })();
 
-export function search(q: string, limit = 12): SearchHit[] {
+/**
+ * Recherche. `plan` conditionne ce qui remonte : un terme ou une
+ * prononciation issus d'une fiche verrouillée livreraient du contenu payant
+ * dans la liste de résultats — les titres de fiches, eux, restent visibles.
+ */
+export function search(q: string, limit = 12, plan: 'free' | 'pro' = 'free'): SearchHit[] {
   const n = norm(q.trim());
   if (n.length < 2) return [];
   const exact: IndexedHit[] = [];
   const partial: IndexedHit[] = [];
   for (const it of searchIndex) {
     if (!it.hay.includes(n)) continue;
+    if (plan === 'free' && !it.libre && (it.kind === 'terme' || it.kind === 'nom')) continue;
     (norm(it.label).startsWith(n) ? exact : partial).push(it);
     if (exact.length + partial.length > 200) break;
   }

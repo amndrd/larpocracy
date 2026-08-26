@@ -7,24 +7,22 @@ import Panel from '@/components/Panel';
 import Quiz from '@/components/Quiz';
 import StudyModes from '@/components/StudyModes';
 import TrackRead from '@/components/TrackRead';
+import Verrou from '@/components/app/Verrou';
 import { IconChevron, IconNon, IconOui } from '@/components/icons';
 import { markRead, saveQuizScore } from '@/lib/progress';
 import {
   LEVELS,
-  allCards,
   deckOf,
   getCard,
   getDomain,
   getNeighbours,
 } from '@/lib/content';
 import { Paragraphs, rich } from '@/lib/mdlite';
+import { canOpen } from '@/lib/access';
+import { getSession } from '@/lib/session';
 import { domainVars } from '@/lib/theme';
 
 type Props = { params: Promise<{ domaine: string; fiche: string }> };
-
-export function generateStaticParams() {
-  return allCards().map(({ domain, card }) => ({ domaine: domain.id, fiche: card.id }));
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { domaine, fiche } = await params;
@@ -41,18 +39,20 @@ export default async function FichePage({ params }: Props) {
 
   const { prev, next } = getNeighbours(domaine, fiche);
   const deck = deckOf(c);
+  const { plan } = await getSession();
+  const ouverte = canOpen(c, plan);
 
   return (
     <div style={domainVars(d.id)}>
       <Container narrow className="py-8 sm:py-10">
-        <TrackRead domainId={d.id} cardId={c.id} onRead={markRead} />
+        {ouverte && <TrackRead domainId={d.id} cardId={c.id} onRead={markRead} />}
 
         <nav className="flex flex-wrap items-center gap-1.5 text-[0.8125rem] text-ink-3">
-          <Link href="/domaines" className="transition-colors hover:text-accent">
-            Domaines
+          <Link href="/app" className="transition-colors hover:text-ink">
+            Tableau de bord
           </Link>
           <IconChevron className="size-3.5" />
-          <Link href={`/d/${d.id}`} className="transition-colors hover:text-accent">
+          <Link href={`/app/d/${d.id}`} className="transition-colors hover:text-ink">
             {d.title}
           </Link>
         </nav>
@@ -68,6 +68,14 @@ export default async function FichePage({ params }: Props) {
           </p>
         </header>
 
+        {!ouverte ? (
+          <Verrou
+            sections={c.sections.length}
+            cartes={deck.length}
+            questions={c.quiz?.length ?? 0}
+          />
+        ) : (
+          <>
         <div className="mt-4">
           <StudyModes
             domainId={d.id}
@@ -167,10 +175,12 @@ export default async function FichePage({ params }: Props) {
             </div>
           </Panel>
         )}
+          </>
+        )}
 
         <nav className="mt-10 grid gap-3 sm:grid-cols-2">
           {prev ? (
-            <Link href={`/f/${d.id}/${prev.id}`} className="card card-lift group p-5 hover:card-lift-on">
+            <Link href={`/app/f/${d.id}/${prev.id}`} className="card card-lift group p-5 hover:card-lift-on">
               <span className="eyebrow">Précédent</span>
               <span className="display mt-1.5 block text-[1.125rem] transition-colors group-hover:text-[var(--dom)]">
                 {prev.title}
@@ -181,7 +191,7 @@ export default async function FichePage({ params }: Props) {
           )}
           {next ? (
             <Link
-              href={`/f/${d.id}/${next.id}`}
+              href={`/app/f/${d.id}/${next.id}`}
               className="card card-lift group p-5 hover:card-lift-on sm:text-right"
             >
               <span className="eyebrow">Suivant</span>
@@ -191,7 +201,7 @@ export default async function FichePage({ params }: Props) {
             </Link>
           ) : (
             <Link
-              href={`/d/${d.id}`}
+              href={`/app/d/${d.id}`}
               className="card card-lift group p-5 hover:card-lift-on sm:text-right"
             >
               <span className="eyebrow">Retour</span>

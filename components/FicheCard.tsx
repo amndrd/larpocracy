@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import Badge from './Badge';
-import { IconCartes, IconFleche, IconLire, IconTest } from './icons';
+import { IconCadenas, IconCartes, IconFleche, IconLire, IconTest } from './icons';
 import { LEVELS, cardStats, deckOf } from '@/lib/content';
+import { canOpen } from '@/lib/access';
+import type { Plan } from '@/lib/plans';
 import type { Card } from '@/lib/types';
 
 /**
@@ -12,17 +14,20 @@ export default function FicheCard({
   card,
   domainId,
   index = 0,
+  plan = 'pro',
 }: {
   card: Card;
   domainId: string;
   index?: number;
+  plan?: Plan;
 }) {
   const s = cardStats(card);
   const cartes = deckOf(card).length;
+  const ouverte = canOpen(card, plan);
 
   return (
     <Link
-      href={`/f/${domainId}/${card.id}`}
+      href={`/app/f/${domainId}/${card.id}`}
       style={{ animationDelay: `${Math.min(index, 8) * 55}ms` }}
       className="card card-lift group animate-fade-up relative flex flex-col overflow-hidden p-5 hover:card-lift-on sm:p-6"
     >
@@ -37,9 +42,16 @@ export default function FicheCard({
           <Badge ton="domaine">{LEVELS[card.level]}</Badge>
           <span className="text-[0.75rem] text-ink-3">{card.minutes ?? 5} min</span>
         </div>
-        <span className="display text-[1.5rem] leading-none text-ink-3/60">
-          {String(index + 1).padStart(2, '0')}
-        </span>
+        {ouverte ? (
+          <span className="display text-[1.5rem] leading-none text-ink-3/60">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+        ) : (
+          <Badge ton="or">
+            <IconCadenas className="size-3" />
+            Pro
+          </Badge>
+        )}
       </div>
 
       <h3 className="display mt-3 text-[1.375rem] transition-colors duration-300 group-hover:text-[var(--dom)]">

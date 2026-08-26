@@ -20,7 +20,9 @@
 | Comptes Supabase (auth + RLS) | ✅ code prêt — clés à renseigner |
 | Progression liée au compte | ✅ code prêt — clés à renseigner |
 | Pages About · Features · Pricing · News | ✅ |
-| Page formules (free / pro) | ✅ facturation non branchée |
+| Vitrine et application séparées (façon Figma) | ✅ #025 |
+| Contenu freemium (`free: true` par fiche) | ✅ verrou vérifié |
+| Page formules (free / pro) | ✅ facturation non branchée · `PRIX_PRO` à fixer |
 | Déploiement Vercel | ⏳ en attente de connexion au compte |
 | Mode Cartes (révision par retournement) | ✅ |
 | Images | ⏳ à déposer dans `public/images/` |

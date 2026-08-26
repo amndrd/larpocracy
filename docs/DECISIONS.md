@@ -277,3 +277,47 @@ sert qu'à la barre, comme sur la plupart des sites du même registre.
 
 **Le journal de bord** (`content/news.json`) est vide, comme le reste du contenu, et
 s'alimente entrée par entrée.
+
+## 2026-08-26 — #025 Vitrine et application séparées, contenu freemium
+Modèle repris de Figma : le visiteur arrive sur une page de vente, crée un compte, et
+**entre alors dans une application** qui ne ressemble pas à la vitrine.
+
+**Deux mondes, deux châssis.**
+- `app/(site)/**` — la vitrine. Prérendue en statique, barre flottante, pied de page.
+- `app/app/**` — l'application. Rendue à la demande, barre latérale, session requise.
+
+Le contraste est le but : c'est lui qui fait sentir qu'on est entré quelque part.
+Un compte déjà connecté qui arrive sur `/` est envoyé sur `/app` — la redirection vit
+dans `proxy.ts` et non dans la page, sinon la vitrine entière basculerait en dynamique.
+
+**Freemium.** Une fiche porte `"free": true` et s'ouvre à tous, ou demande la formule
+Pro. Pas de règle dérivée du niveau ou du rang dans le domaine : une règle implicite
+se retournerait contre soi le jour où une fiche de bases mériterait d'être l'appât
+payant. Le choix est explicite, fiche par fiche.
+
+**Le point technique qui commande tout le reste** : un contenu verrouillé ne doit
+jamais partir dans le HTML. Masquer visuellement ne suffit pas — la source reste
+lisible. Donc :
+- `app/app/**` est `dynamic = 'force-dynamic'` : le rendu connaît la formule ;
+- la page de fiche **coupe avant** de rendre sections, lexique et test, elle ne les
+  cache pas ;
+- le mode Cartes d'une fiche fermée renvoie sur la fiche, qui porte le verrou ;
+- `search(q, limit, plan)` écarte les termes et prononciations des fiches
+  verrouillées. Les titres restent trouvables : un titre ne livre rien.
+
+Vérifié en conditions réelles avec un contenu d'essai portant des marqueurs :
+aucun des cinq marqueurs secrets n'apparaissait dans le HTML de la fiche fermée.
+
+**Ce que cette décision remplace.** #014 promettait qu'« aucune fiche déjà publiée ne
+passera derrière un paiement ». Le contenu ayant été remis à zéro (#022), aucune fiche
+publiée n'est verrouillée rétroactivement — la promesse n'est pas rompue, elle est
+reformulée : **une fiche publiée comme libre le reste**. C'est écrit sur la page
+Pricing, qui répond aussi à la question directement.
+
+**Stripe n'est pas branché.** Tout le verrouillage, les écrans de déblocage et la
+bascule `free → pro` côté base sont en place ; le bouton mène à un écran d'attente.
+`PRIX_PRO` (`lib/plans.ts`) vaut `—` : aucun prix inventé ne traîne dans une page, il
+reste une ligne à changer le jour où le montant est arrêté.
+
+**Mode démo.** Sans clés Supabase, l'application s'ouvre entièrement, n'enregistre
+rien et l'annonce dans la barre latérale. Sans cela le site serait mort en local.

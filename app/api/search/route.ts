@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { search } from '@/lib/content';
+import { getSession } from '@/lib/session';
 
 /**
  * La réponse dépend de la chaîne de requête : la route doit rester dynamique.
@@ -8,7 +9,9 @@ import { search } from '@/lib/content';
  */
 export const dynamic = 'force-dynamic';
 
-export function GET(request: Request) {
+export async function GET(request: Request) {
   const q = new URL(request.url).searchParams.get('q') ?? '';
-  return NextResponse.json({ hits: search(q, 8) });
+  // La formule filtre les résultats : voir `search` dans lib/content.ts.
+  const { plan } = await getSession();
+  return NextResponse.json({ hits: search(q, 8, plan) });
 }

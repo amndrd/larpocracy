@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter_Tight } from 'next/font/google';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import './globals.css';
 
 const sans = Inter_Tight({
@@ -26,6 +24,11 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Coquille commune. Elle ne porte ni en-tête ni pied de page : la vitrine et
+ * l'application ont chacune leur châssis, et c'est ce qui fait sentir qu'on
+ * change de monde en se connectant.
+ */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" data-scroll-behavior="smooth" className={sans.variable}>
@@ -35,19 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <style>{`[data-reveal]{opacity:1 !important;transform:none !important}`}</style>
         </noscript>
       </head>
-      <body className="min-h-screen flex flex-col">
-        <a
-          href="#contenu"
-          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-4 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-canvas"
-        >
-          Aller au contenu
-        </a>
-        <Header />
-        <main id="contenu" className="flex-1">
-          {children}
-        </main>
-        <Footer />
-      </body>
+      <body className="min-h-screen">{children}</body>
     </html>
   );
 }

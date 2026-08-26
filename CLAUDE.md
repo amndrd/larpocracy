@@ -79,6 +79,16 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
 - **Navigation en anglais** : Contenu · About · Features · Pricing · News, puis Login
   et Get started. Les routes suivent (`/about`, `/features`, `/pricing`, `/news`) ;
   `/manifeste` et `/tarifs` redirigent en 308 depuis `next.config.ts`.
+- **Vitrine et application sont deux mondes** (décision #025), à la manière de Figma :
+  - `app/(site)/**` — la vitrine, **prérendue en statique**, châssis `Header` flottant
+    + `Footer` ;
+  - `app/app/**` — l'application, **rendue à la demande** (`dynamic = 'force-dynamic'`),
+    châssis `AppShell` à barre latérale, session obligatoire.
+  Le contraste entre les deux châssis est voulu : c'est ce qui fait sentir qu'on entre.
+- **Freemium** : une fiche porte `"free": true` et s'ouvre à tous, ou demande la
+  formule Pro. `lib/access.ts` (`isFree`, `canOpen`) et `lib/session.ts` (`getSession`,
+  qui rend `plan`). Le montant de Pro est dans `PRIX_PRO` (`lib/plans.ts`) et reste
+  à fixer — aucun prix inventé ne traîne dans une page.
 - **Chaque domaine a sa teinte** (`lib/theme.ts`), posée en variables CSS `--dom` et
   `--dom-tint` par `domainVars()`, jamais en classes Tailwind générées.
 - **Images** : déposées à la main dans `public/images/`, puis **déclarées** dans le
@@ -119,6 +129,15 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
 - **La barre de navigation est flottante** (`position: fixed`), donc hors du flux :
   `<main>` porte un `pt-20 sm:pt-24` pour dégager sa hauteur. Le supprimer ferait
   passer les titres sous la barre.
+- **Le contenu verrouillé ne doit jamais partir dans le HTML.** C'est la raison pour
+  laquelle `app/app/**` est dynamique : une page prérendue livrerait le texte payant
+  à qui inspecte la source, quel que soit le masquage visuel. La page de fiche coupe
+  **avant** de rendre sections, lexique et test, elle ne les cache pas.
+- **La recherche filtre selon la formule** : `search(q, limit, plan)` écarte les
+  termes et prononciations issus d'une fiche verrouillée. Les titres de fiches, eux,
+  restent trouvables — un titre ne livre rien.
+- **Les redirections d'entrée sont dans `proxy.ts`**, pas dans les pages : un
+  `redirect()` depuis l'accueil ferait basculer toute la vitrine en dynamique.
 - **`upload.wikimedia.org` ne sert que les largeurs de vignette déjà en cache** et
   répond **400** sur toutes les autres. Pour ajouter un visuel : télécharger l'URL
   exacte renvoyée par l'API, puis redimensionner localement.
@@ -131,14 +150,17 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
 ```
 app/
   layout.tsx              coquille, polices, header/footer
-  page.tsx                accueil
-  domaines/               sommaire des 14 domaines
-  d/[domaine]/            page d'un domaine
-  f/[domaine]/[fiche]/    une fiche
-  f/[domaine]/[fiche]/cartes/   le paquet de cartes à retourner
-  recherche/              résultats de recherche
-  about/  features/  pricing/  news/    pages de présentation
-  connexion/ inscription/ compte/    comptes
+  (site)/                 LA VITRINE — statique, barre flottante
+    page.tsx              accueil
+    about/ features/ pricing/ news/    présentation
+    connexion/ inscription/            entrée
+  app/                    L'APPLICATION — dynamique, barre latérale, session requise
+    layout.tsx            AppShell + chargement du bilan
+    page.tsx              tableau de bord
+    d/[domaine]/          un domaine
+    f/[domaine]/[fiche]/  une fiche (verrou compris)
+    f/[domaine]/[fiche]/cartes/   le paquet
+    compte/  recherche/
   auth/actions.ts         Server Actions d'authentification
   auth/confirm/route.ts   cible du lien de confirmation email
   api/search/route.ts     recherche (dynamique — voir les pièges)
@@ -153,6 +175,8 @@ components/               Header (barre flottante), Footer, SearchBox, AuthForm,
   Logo.tsx                le monogramme
   HeroPreview.tsx         l'aperçu produit de la bannière, dessiné en HTML
   Faq.tsx                 repliage natif `<details>`
+  app/AppShell.tsx        le châssis de l'application
+  app/Verrou.tsx          l'écran de déblocage d'une fiche fermée
   Flashcards.tsx          le mode Cartes
   Quiz.tsx                le test d'une fiche
 lib/
@@ -162,6 +186,9 @@ lib/
   theme.ts                la teinte de chaque domaine
   images.ts               résolution des images déclarées dans le JSON
   news.ts                 le journal de bord (`content/news.json`)
+  access.ts               qui peut lire quoi (`isFree`, `canOpen`)
+  session.ts              qui consulte, et avec quelle formule
+  plans.ts                les formules — `PRIX_PRO` est à fixer
   types.ts                types du contenu
   progress.ts             lecture/écriture de la progression
   plans.ts                formules free | pro
@@ -180,6 +207,14 @@ docs/                     contexte, atlas, feuille de route, guide, décisions
 deux colonnes sur `card_progress`. Le rejouer dans le SQL Editor de Supabase (il est
 idempotent). Sans cela le site marche, mais la série reste à 0 et les cartes ne
 rapportent aucun point.
+
+**Sans clés Supabase**, l'application bascule en mode démo : tout est ouvert, rien
+n'est enregistré, et un encart le dit dans la barre latérale. Sans cela le site
+serait inaccessible en local — voir `lib/session.ts`.
+
+**Pour ouvrir une fiche à tous** : `"free": true` dans son objet JSON. Sans ce
+drapeau, elle demande la formule Pro. Aucune règle implicite tirée du niveau ou du
+rang : c'est un choix explicite, fiche par fiche.
 
 **Pour ajouter une nouvelle** : un objet dans `content/news.json`
 (`id`, `date` au format AAAA-MM-JJ, `title`, `body`, et `tag`/`image` facultatifs).

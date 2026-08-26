@@ -95,7 +95,7 @@ export default function AccountNav({ pleineLargeur = false }: { pleineLargeur?: 
           </>
         )}
         <Link
-          href="/compte"
+          href="/app/compte"
           className={buttonClasses('secondaire', pleineLargeur ? 'md' : 'sm', pleineLargeur && 'w-full')}
         >
           <span

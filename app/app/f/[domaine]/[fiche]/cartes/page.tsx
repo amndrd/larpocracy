@@ -1,22 +1,17 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Container from '@/components/Container';
 import Flashcards from '@/components/Flashcards';
 import StudyModes from '@/components/StudyModes';
 import { IconChevron } from '@/components/icons';
-import { allCards, deckOf, getCard, getDomain } from '@/lib/content';
+import { deckOf, getCard, getDomain } from '@/lib/content';
+import { canOpen } from '@/lib/access';
+import { getSession } from '@/lib/session';
 import { saveCardsScore } from '@/lib/progress';
 import { domainVars } from '@/lib/theme';
 
 type Props = { params: Promise<{ domaine: string; fiche: string }> };
-
-/** Seules les fiches qui ont un lexique ou des noms propres ont un paquet. */
-export function generateStaticParams() {
-  return allCards()
-    .filter(({ card }) => deckOf(card).length > 0)
-    .map(({ domain, card }) => ({ domaine: domain.id, fiche: card.id }));
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { domaine, fiche } = await params;
@@ -34,15 +29,19 @@ export default async function CartesPage({ params }: Props) {
   const deck = deckOf(c);
   if (deck.length === 0) notFound();
 
+  // Le paquet suit l'accès de la fiche : on renvoie sur elle, qui porte le verrou.
+  const { plan } = await getSession();
+  if (!canOpen(c, plan)) redirect(`/app/f/${d.id}/${c.id}`);
+
   return (
     <div style={domainVars(d.id)}>
       <Container narrow className="py-8 sm:py-10">
         <nav className="flex flex-wrap items-center gap-1.5 text-[0.8125rem] text-ink-3">
-          <Link href={`/d/${d.id}`} className="transition-colors hover:text-accent">
+          <Link href={`/app/d/${d.id}`} className="transition-colors hover:text-accent">
             {d.title}
           </Link>
           <IconChevron className="size-3.5" />
-          <Link href={`/f/${d.id}/${c.id}`} className="transition-colors hover:text-accent">
+          <Link href={`/app/f/${d.id}/${c.id}`} className="transition-colors hover:text-accent">
             {c.title}
           </Link>
         </nav>

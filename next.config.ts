@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
     return [
       { source: '/manifeste', destination: '/about', permanent: true },
       { source: '/tarifs', destination: '/pricing', permanent: true },
+      // Le contenu est passé sous /app avec la séparation vitrine / application.
+      { source: '/domaines', destination: '/app', permanent: true },
+      { source: '/d/:chemin*', destination: '/app/d/:chemin*', permanent: true },
+      { source: '/f/:chemin*', destination: '/app/f/:chemin*', permanent: true },
+      { source: '/compte', destination: '/app/compte', permanent: true },
+      { source: '/recherche', destination: '/app/recherche', permanent: true },
     ];
   },
 };

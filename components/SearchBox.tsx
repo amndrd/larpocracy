@@ -81,7 +81,7 @@ export default function SearchBox({
     setOpen(false);
     inputRef.current?.blur();
     onNavigate?.();
-    router.push(`/recherche?q=${encodeURIComponent(q.trim())}`);
+    router.push(`/app/recherche?q=${encodeURIComponent(q.trim())}`);
   }
 
   return (

@@ -23,6 +23,8 @@ export type Card = {
   title: string;
   /** Nom du fichier déposé dans `public/images/`. Facultatif. */
   image?: string;
+  /** Fiche ouverte à tous. Sans ce drapeau, elle demande la formule Pro. */
+  free?: boolean;
   level: Level;
   minutes?: number;
   summary: string;

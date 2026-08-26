@@ -10,7 +10,7 @@ import { IconRecherche } from './icons';
 import { clsx } from '@/lib/clsx';
 
 const LIENS = [
-  { href: '/domaines', label: 'Contenu' },
+  { href: '/app', label: 'Contenu' },
   { href: '/about', label: 'About' },
   { href: '/features', label: 'Features' },
   { href: '/pricing', label: 'Pricing' },

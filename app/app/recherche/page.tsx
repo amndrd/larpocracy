@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Container from '@/components/Container';
 import { IconFleche } from '@/components/icons';
 import { search } from '@/lib/content';
+import { getSession } from '@/lib/session';
 import type { SearchHit } from '@/lib/content';
 
 export const metadata: Metadata = { title: 'Recherche' };
@@ -18,12 +19,13 @@ type Props = { searchParams: Promise<{ q?: string }> };
 
 export default async function RecherchePage({ searchParams }: Props) {
   const q = (await searchParams).q ?? '';
-  const hits = q ? search(q, 60) : [];
+  const { plan } = await getSession();
+  const hits = q ? search(q, 60, plan) : [];
 
   return (
     <Container narrow className="py-12 sm:py-16">
-      <p className="eyebrow">Recherche</p>
-      <h1 className="headline mt-3 text-[clamp(2.25rem,4.5vw,3.25rem)]">
+      <span className="chip">Recherche</span>
+      <h1 className="headline mt-3 text-[clamp(2rem,4vw,2.75rem)]">
         {q ? `« ${q} »` : 'Chercher'}
       </h1>
       <p className="mt-3 text-[0.9375rem] text-ink-2">

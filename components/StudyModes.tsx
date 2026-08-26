@@ -28,7 +28,7 @@ export default function StudyModes({
   questions: number;
   actif?: 'lire' | 'cartes' | 'test';
 }) {
-  const base = `/f/${domainId}/${cardId}`;
+  const base = `/app/f/${domainId}/${cardId}`;
   const modes: Mode[] = [
     {
       href: actif === 'lire' ? '#lecture' : base,

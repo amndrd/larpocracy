@@ -38,11 +38,22 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Les pages du compte exigent une session.
-  if (!user && request.nextUrl.pathname.startsWith('/compte')) {
+  const chemin = request.nextUrl.pathname;
+
+  // L'application exige une session. La vitrine, jamais.
+  if (!user && chemin.startsWith('/app')) {
     const url = request.nextUrl.clone();
     url.pathname = '/connexion';
-    url.searchParams.set('suite', request.nextUrl.pathname);
+    url.searchParams.set('suite', chemin);
+    return NextResponse.redirect(url);
+  }
+
+  // Un compte déjà connecté ne revoit pas la page de vente : il entre.
+  // C'est ici et pas dans la page, sinon l'accueil basculerait en rendu
+  // dynamique et perdrait son prérendu.
+  if (user && chemin === '/') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/app';
     return NextResponse.redirect(url);
   }
 
