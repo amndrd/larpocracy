@@ -15,6 +15,15 @@ function safeNext(raw: FormDataEntryValue | null): string {
   return v.startsWith('/') && !v.startsWith('//') ? v : '/compte';
 }
 
+/**
+ * Trace l'erreur brute côté serveur. L'utilisateur ne reçoit qu'un message
+ * neutre : sans cette trace, une clé mal configurée est indiscernable d'un
+ * mot de passe erroné dans les journaux de production.
+ */
+function logAuthError(action: string, error: { code?: string; message: string }) {
+  console.error(`[auth:${action}] ${error.code ?? 'sans code'} — ${error.message}`);
+}
+
 function readCredentials(formData: FormData) {
   return {
     email: String(formData.get('email') ?? '').trim().toLowerCase(),
@@ -32,6 +41,7 @@ export async function signIn(_prev: AuthState, formData: FormData): Promise<Auth
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
+    logAuthError('signIn', error);
     // Message volontairement identique pour un email inconnu et un mot de passe
     // faux : distinguer les deux révélerait quels emails ont un compte.
     return { error: 'Email ou mot de passe incorrect.' };
@@ -61,7 +71,10 @@ export async function signUp(_prev: AuthState, formData: FormData): Promise<Auth
     },
   });
 
-  if (error) return { error: authMessage(error.code, error.message) };
+  if (error) {
+    logAuthError('signUp', error);
+    return { error: authMessage(error.code, error.message) };
+  }
 
   // Session immédiate : la confirmation par email est désactivée côté projet.
   if (data.session) {

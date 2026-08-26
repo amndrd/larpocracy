@@ -31,6 +31,12 @@ export function authMessage(code: string | undefined, raw: string): string {
   if (has('failed to fetch', 'network', 'fetch failed'))
     return 'Connexion au serveur impossible. Réessayez dans un instant.';
 
+  // Signature d'une clé mal recopiée dans les variables d'environnement :
+  // le message doit désigner la configuration, pas l'utilisateur, sinon
+  // le défaut se cherche du mauvais côté.
+  if (has('invalid_api_key', 'invalid api key', 'no api key'))
+    return "Le service d'authentification refuse la configuration du site. Signalez-le.";
+
   // Repli : on n'expose pas la chaîne brute, qui n'aide personne.
   return "Impossible d'aboutir. Réessayez, et si cela persiste, signalez-le.";
 }
