@@ -5,7 +5,7 @@ import SearchBox from './SearchBox';
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-surface/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-line bg-canvas/80 backdrop-blur-xl">
       <Container className="flex h-16 items-center gap-4 sm:gap-6">
         <Link href="/" className="flex shrink-0 items-baseline gap-2.5">
           <span className="display text-[1.4rem] leading-none tracking-tight">Larpocracy</span>
@@ -21,13 +21,13 @@ export default function Header() {
         <nav className="flex shrink-0 items-center gap-1">
           <Link
             href="/domaines"
-            className="hidden rounded-full px-3.5 py-2 text-[0.875rem] font-medium text-ink-2 transition-colors hover:bg-canvas-2 hover:text-ink md:block"
+            className="hidden rounded-full px-3.5 py-2 text-[0.875rem] font-medium text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink md:block"
           >
             Domaines
           </Link>
           <Link
             href="/manifeste"
-            className="hidden rounded-full px-3.5 py-2 text-[0.875rem] font-medium text-ink-2 transition-colors hover:bg-canvas-2 hover:text-ink lg:block"
+            className="hidden rounded-full px-3.5 py-2 text-[0.875rem] font-medium text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink lg:block"
           >
             Manifeste
           </Link>

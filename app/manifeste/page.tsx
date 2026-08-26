@@ -10,7 +10,7 @@ export default function ManifestePage() {
   return (
     <Container narrow className="py-12 sm:py-16">
       <p className="eyebrow">Manifeste</p>
-      <h1 className="display mt-3 text-[clamp(2.25rem,5vw,3.5rem)]">
+      <h1 className="headline mt-3 text-[clamp(2.5rem,5.5vw,3.75rem)]">
         Ce que fait ce site, exactement
       </h1>
 
@@ -98,7 +98,7 @@ export default function ManifestePage() {
           </li>
         </ul>
 
-        <div className="my-10 rounded-md border border-line border-l-[3px] border-l-accent bg-canvas px-6 py-5">
+        <div className="my-10 rounded-md border border-line border-l-[3px] border-l-accent bg-canvas-2 px-6 py-5">
           <p className="text-[0.9375rem]">
             <strong>Le site n&apos;admire pas.</strong> Il explique. Les milieux décrits ici
             ne sont ni un panthéon ni une cible : ce sont des milieux avec des règles, et

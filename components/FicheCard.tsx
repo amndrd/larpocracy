@@ -32,9 +32,14 @@ export default function FicheCard({
         className="absolute inset-y-0 left-0 w-1 bg-[var(--dom)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
       />
 
-      <div className="flex items-center gap-2">
-        <Badge ton="domaine">{LEVELS[card.level]}</Badge>
-        <span className="text-[0.75rem] text-ink-3">{card.minutes ?? 5} min</span>
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <Badge ton="domaine">{LEVELS[card.level]}</Badge>
+          <span className="text-[0.75rem] text-ink-3">{card.minutes ?? 5} min</span>
+        </div>
+        <span className="display text-[1.5rem] leading-none text-ink-3/60">
+          {String(index + 1).padStart(2, '0')}
+        </span>
       </div>
 
       <h3 className="display mt-3 text-[1.375rem] transition-colors duration-300 group-hover:text-[var(--dom)]">
@@ -63,7 +68,7 @@ export default function FicheCard({
             </span>
           )}
         </div>
-        <span className="grid size-8 place-items-center rounded-full bg-canvas-2 text-ink-3 transition-all duration-300 group-hover:bg-[var(--dom)] group-hover:text-white">
+        <span className="grid size-8 place-items-center rounded-full bg-surface-2 text-ink-3 transition-all duration-300 group-hover:bg-[var(--dom)] group-hover:text-canvas">
           <IconFleche className="size-4" />
         </span>
       </div>

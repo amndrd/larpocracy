@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Instrument_Serif, Inter } from 'next/font/google';
+import { Instrument_Serif, Inter_Tight } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './globals.css';
@@ -12,9 +12,11 @@ const display = Instrument_Serif({
   display: 'swap',
 });
 
-const sans = Inter({
+// Inter Tight plutôt qu'Inter : le resserrement est ce qui donne à l'interface
+// sa densité — c'est la police de Toko, et elle tient à côté du serif.
+const sans = Inter_Tight({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-inter-tight',
   display: 'swap',
 });
 

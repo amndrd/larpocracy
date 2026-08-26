@@ -6,7 +6,7 @@ export default function NotFound() {
     <Container narrow className="py-20">
       <div className="card animate-pop px-8 py-20 text-center">
         <p className="eyebrow">Erreur 404</p>
-        <h1 className="display mt-4 text-[clamp(2rem,5vw,3rem)]">Cette page n&apos;existe pas.</h1>
+        <h1 className="headline mt-4 text-[clamp(2.25rem,5vw,3.25rem)]">Cette page n&apos;existe pas.</h1>
         <p className="mt-4 text-[1.0625rem] text-ink-2">
           Ce qui, socialement, est toujours rattrapable.
         </p>

@@ -15,7 +15,7 @@ export default function TarifsPage() {
     <Container className="py-12 sm:py-16">
       <header className="max-w-[54ch]">
         <p className="eyebrow">Formules</p>
-        <h1 className="display mt-3 text-[clamp(2.25rem,5vw,3.25rem)]">
+        <h1 className="headline mt-3 text-[clamp(2.5rem,5.5vw,3.75rem)]">
           Pour l&apos;instant, tout est ouvert.
         </h1>
         <p className="mt-4 text-[1.0625rem] leading-relaxed text-ink-2">
@@ -35,7 +35,7 @@ export default function TarifsPage() {
               style={{ animationDelay: `${i * 80}ms` }}
               className={
                 'card animate-fade-up flex flex-col p-7 ' +
-                (isPro ? 'border-dashed' : 'border-accent/25 shadow-md')
+                (isPro ? 'border-dashed' : 'border-accent/35')
               }
             >
               <div className="flex items-center justify-between gap-3">

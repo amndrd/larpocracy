@@ -7,8 +7,8 @@ import { IconRecherche } from './icons';
 import type { SearchHit } from '@/lib/content';
 
 const TONS: Record<SearchHit['kind'], string> = {
-  fiche: 'bg-accent-3 text-accent',
-  terme: 'bg-canvas-2 text-ink-2',
+  fiche: 'bg-accent-3 text-accent-ink',
+  terme: 'bg-surface-2 text-ink-2',
   nom: 'bg-gold-2 text-gold',
   domaine: 'bg-yes-2 text-yes',
 };
@@ -96,7 +96,7 @@ export default function SearchBox() {
         aria-label="Rechercher"
         autoComplete="off"
         spellCheck={false}
-        className="h-10 w-full rounded-full border border-line bg-canvas pl-10 pr-4 text-[0.875rem] text-ink transition-all duration-200 placeholder:text-ink-3 focus:border-accent/40 focus:bg-surface focus:shadow-[var(--shadow-ring)] focus:outline-none"
+        className="h-10 w-full rounded-full border border-line bg-surface pl-10 pr-4 text-[0.875rem] text-ink transition-all duration-200 placeholder:text-ink-3 focus:border-accent/50 focus:bg-surface-2 focus:shadow-[var(--shadow-ring)] focus:outline-none"
       />
 
       {open && active && (
@@ -111,7 +111,7 @@ export default function SearchBox() {
                 key={`${h.kind}-${h.label}-${h.href}`}
                 href={h.href}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-canvas"
+                className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-surface-2"
               >
                 <span
                   className={`shrink-0 rounded-full px-2 py-0.5 text-[0.625rem] font-semibold ${TONS[h.kind]}`}

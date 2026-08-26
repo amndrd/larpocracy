@@ -64,15 +64,15 @@ export default function StudyModes({
           aria-current={m.actif ? 'page' : undefined}
           className={
             'card card-lift group flex items-center gap-3.5 p-4 hover:card-lift-on ' +
-            (m.actif ? 'border-[var(--dom)]/35 bg-[var(--dom-tint)]' : '')
+            (m.actif ? 'border-[var(--dom)]/45 bg-[var(--dom-tint)]' : '')
           }
         >
           <span
             className={
               'grid size-11 shrink-0 place-items-center rounded-full transition-colors duration-300 ' +
               (m.actif
-                ? 'bg-[var(--dom)] text-white'
-                : 'bg-canvas-2 text-ink-2 group-hover:bg-[var(--dom)] group-hover:text-white')
+                ? 'bg-[var(--dom)] text-canvas'
+                : 'bg-surface-2 text-ink-2 group-hover:bg-[var(--dom)] group-hover:text-canvas')
             }
           >
             {m.icon}

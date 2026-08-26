@@ -62,7 +62,7 @@ export default async function FichePage({ params }: Props) {
             <Badge ton="domaine">{LEVELS[c.level]}</Badge>
             <Badge ton="neutre">{c.minutes ?? 5} min</Badge>
           </div>
-          <h1 className="display mt-4 text-[clamp(1.875rem,4.5vw,2.75rem)]">{c.title}</h1>
+          <h1 className="headline mt-4 text-[clamp(2rem,4.5vw,3rem)]">{c.title}</h1>
           <p className="mt-5 border-l-[3px] border-[var(--dom)] pl-5 text-[1.0625rem] italic leading-relaxed text-ink-2">
             {rich(c.summary)}
           </p>
@@ -120,7 +120,7 @@ export default async function FichePage({ params }: Props) {
                 >
                   <span>
                     <span className="text-[0.9375rem] font-semibold text-ink">{n.n}</span>
-                    <span className="mt-1 block w-fit rounded-full bg-accent-3 px-2.5 py-0.5 font-mono text-[0.75rem] text-accent">
+                    <span className="mt-1 block w-fit rounded-full bg-accent-3 px-2.5 py-0.5 font-mono text-[0.75rem] text-accent-ink">
                       {n.say}
                     </span>
                   </span>

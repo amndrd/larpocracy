@@ -116,3 +116,40 @@ drop trigger if exists profiles_touch_updated_at on public.profiles;
 create trigger profiles_touch_updated_at
   before update on public.profiles
   for each row execute function public.touch_updated_at();
+
+-- ============================================================
+-- Ajout du 26 août 2026 — progression jouée (XP, série, cartes)
+-- Rejouable : ne casse rien si le schéma initial est déjà en place.
+-- ============================================================
+
+-- ---------- 6. Cartes acquises ----------
+-- Le mode Cartes produit un résultat qu'on veut conserver, au même titre
+-- que le score de quiz. On ne garde que le meilleur.
+alter table public.card_progress add column if not exists cards_known smallint;
+alter table public.card_progress add column if not exists cards_total smallint;
+
+comment on column public.card_progress.cards_known is 'Cartes jugées « je savais » au meilleur passage.';
+
+-- ---------- 7. Jours d'activité ----------
+-- Une ligne par jour où l'utilisateur a fait quelque chose. C'est ce qui
+-- permet une série honnête : `card_progress.read_at` ne conserve que la
+-- dernière lecture d'une fiche et perdrait l'historique en cas de relecture.
+create table if not exists public.activity_days (
+  user_id  uuid not null references auth.users on delete cascade,
+  day      date not null,
+  primary key (user_id, day)
+);
+
+comment on table public.activity_days is 'Un jour d''activité par ligne : sert à calculer la série.';
+
+alter table public.activity_days enable row level security;
+
+drop policy if exists "activité : lecture de la sienne" on public.activity_days;
+create policy "activité : lecture de la sienne"
+  on public.activity_days for select
+  using ((select auth.uid()) = user_id);
+
+drop policy if exists "activité : écriture de la sienne" on public.activity_days;
+create policy "activité : écriture de la sienne"
+  on public.activity_days for insert
+  with check ((select auth.uid()) = user_id);

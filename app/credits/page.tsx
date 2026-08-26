@@ -18,7 +18,7 @@ export default function CreditsPage() {
     <Container className="py-12 sm:py-16">
       <header className="max-w-[56ch]">
         <p className="eyebrow">Crédits</p>
-        <h1 className="display mt-3 text-[clamp(2.25rem,5vw,3.25rem)]">Les visuels</h1>
+        <h1 className="headline mt-3 text-[clamp(2.5rem,5.5vw,3.75rem)]">Les visuels</h1>
         <p className="mt-4 text-[1.0625rem] leading-relaxed text-ink-2">
           Chaque image du site est sous licence libre, et sa provenance est vérifiable.
           C&apos;est la même exigence que pour le contenu : rien qu&apos;on ne puisse sourcer.
@@ -55,7 +55,7 @@ export default function CreditsPage() {
                 <p className="mt-2 text-[0.9375rem] font-medium leading-snug text-ink">{c.titre}</p>
                 {c.auteur && <p className="mt-1.5 text-[0.8125rem] text-ink-2">{c.auteur}</p>}
                 <p className="mt-3 flex flex-wrap items-center gap-2 text-[0.75rem] text-ink-3">
-                  <span className="rounded-full bg-canvas-2 px-2.5 py-1 font-medium">
+                  <span className="rounded-full bg-surface-2 px-2.5 py-1 font-medium">
                     {c.licence}
                   </span>
                   <a href={c.source} className="link hover:link-hover">

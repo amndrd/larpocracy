@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { clsx } from '@/lib/clsx';
 
-type Variante = 'primaire' | 'secondaire' | 'fantome' | 'sombre';
+type Variante = 'primaire' | 'secondaire' | 'fantome' | 'clair';
 type Taille = 'sm' | 'md' | 'lg';
 
 const BASE =
@@ -11,15 +11,15 @@ const BASE =
 /* L'arête basse pleine se comprime au clic : le bouton a une épaisseur. */
 const VARIANTES: Record<Variante, string> = {
   primaire:
-    'bg-accent text-white shadow-[0_3px_0_var(--color-accent-2)] hover:bg-accent-2 ' +
+    'bg-accent text-white shadow-[0_3px_0_var(--color-accent-2)] hover:bg-[#cf4257] ' +
     'active:translate-y-[3px] active:shadow-none',
   secondaire:
-    'bg-surface text-ink border border-line shadow-[0_3px_0_var(--color-line)] ' +
-    'hover:border-ink/25 hover:bg-surface-2 active:translate-y-[3px] active:shadow-none',
-  sombre:
-    'bg-ink text-white shadow-[0_3px_0_#000] hover:bg-ink/90 ' +
+    'bg-surface-2 text-ink border border-line shadow-[0_3px_0_var(--color-canvas-2)] ' +
+    'hover:border-ink/25 hover:bg-surface-3 active:translate-y-[3px] active:shadow-none',
+  clair:
+    'bg-ink text-canvas shadow-[0_3px_0_#8f8880] hover:bg-white ' +
     'active:translate-y-[3px] active:shadow-none',
-  fantome: 'text-ink-2 hover:bg-canvas-2 hover:text-ink',
+  fantome: 'text-ink-2 hover:bg-surface-2 hover:text-ink',
 };
 
 const TAILLES: Record<Taille, string> = {

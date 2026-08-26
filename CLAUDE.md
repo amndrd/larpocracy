@@ -60,11 +60,16 @@ Larpocracy est le manuel de terrain de cette surface d'accroche.
 ## 5. Stack technique
 
 - **Next.js 16** (App Router) + **TypeScript** + **Tailwind CSS v4**.
-- **Design « application »** : fond gris clair, cartes blanches arrondies, ombres
-  douces, animations d'entrée. Les jetons sont dans `app/globals.css` (`@theme`) :
-  surfaces `canvas`/`surface`/`line`, encres `ink`/`ink-2`/`ink-3`, accents
-  `accent`/`gold`/`yes`/`no`, rayons `--radius-*`, ombres `--shadow-*`.
-  Le serif Instrument reste réservé aux titres (`display`) — voir décision #017.
+- **Design « application sombre »**, inspiré de Toko (décision #020) : noir chaud,
+  cartes plus claires que le fond, pilules, bento, gros titres serrés.
+  Jetons dans `app/globals.css` (`@theme`) : surfaces `canvas`/`canvas-2`/`surface`/
+  `surface-2`/`surface-3`/`line`, encres `ink`/`ink-2`/`ink-3`, accents
+  `accent`/`accent-ink`/`gold`/`yes`/`no`, rayons `--radius-*`, ombres `--shadow-*`.
+  Titres en Instrument Serif (`display`, `headline`), interface en **Inter Tight**.
+- **Sur fond sombre, l'élévation vient de la surface, pas de l'ombre.** Une carte est
+  plus claire que le fond ; `--shadow-*` ne sert qu'aux éléments flottants.
+- **Gamification** (décision #021) : `lib/xp.ts` (barème, rangs, séries,
+  distinctions) et `lib/stats.ts` (`bilan()`, fonction pure). Aucun point offert.
 - **Chaque domaine a sa teinte** (`lib/theme.ts`), posée en variables CSS `--dom` et
   `--dom-tint` par `domainVars()`, jamais en classes Tailwind générées.
 - **Visuels** : 15 photos/œuvres sous licence libre dans `public/visuels/`, crédits
@@ -94,6 +99,8 @@ Larpocracy est le manuel de terrain de cette surface d'accroche.
   Changer la valeur ne suffit pas : il faut redéployer. Et un « Redeploy » qui
   réutilise le cache de build peut resservir l'ancienne valeur — vérifier la clé
   réellement livrée en cherchant sa valeur dans `/_next/static/chunks/*.js`.
+- **Les compteurs de l'en-tête passent par `/api/bilan`**, jamais par le rendu
+  serveur : lire la session dans le header basculerait tout le site en dynamique.
 - **`upload.wikimedia.org` ne sert que les largeurs de vignette déjà en cache** et
   répond **400** sur toutes les autres. Pour ajouter un visuel : télécharger l'URL
   exacte renvoyée par l'API, puis redimensionner localement.
@@ -118,15 +125,20 @@ app/
   auth/actions.ts         Server Actions d'authentification
   auth/confirm/route.ts   cible du lien de confirmation email
   api/search/route.ts     recherche (dynamique — voir les pièges)
+  api/bilan/route.ts      points et série pour l'en-tête (dynamique)
 components/               Header, Footer, SearchBox, AuthForm, …
   Button/Badge/Progress   primitives (bouton pressable, pastille, barre + anneau)
   icons.tsx               les pictogrammes, dessinés à la main
   DomainCard/FicheCard    les vignettes du catalogue
   StudyModes.tsx          le sélecteur Lire · Cartes · Test d'une fiche
+  GameStats.tsx           pilules de points, carte de rang, mur de distinctions
+  Constellation.tsx       le motif filaire de l'accueil
   Flashcards.tsx          le mode Cartes
   Quiz.tsx                le test d'une fiche
 lib/
   content.ts              chargement du contenu + index de recherche + `deckOf`
+  xp.ts                   barème, rangs, séries, distinctions (pur)
+  stats.ts                `bilan()` : tout ce que l'interface affiche du parcours
   theme.ts                la teinte de chaque domaine
   visuels.ts              les visuels importés + leurs crédits
   types.ts                types du contenu
@@ -142,6 +154,11 @@ public/visuels/           les 15 visuels (14 domaines + bannière)
 supabase/schema.sql       schéma + RLS, à exécuter dans le SQL Editor
 docs/                     contexte, atlas, feuille de route, guide, décisions
 ```
+
+**Après un `git pull`** : `supabase/schema.sql` a gagné une table `activity_days` et
+deux colonnes sur `card_progress`. Le rejouer dans le SQL Editor de Supabase (il est
+idempotent). Sans cela le site marche, mais la série reste à 0 et les cartes ne
+rapportent aucun point.
 
 **Pour ajouter un module de contenu** : créer `content/modules/<id>.json`,
 l'importer dans `lib/content.ts` et l'ajouter au tableau `moduleFiles`

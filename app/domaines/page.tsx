@@ -13,7 +13,7 @@ export default function DomainesPage() {
     <Container className="py-12 sm:py-16">
       <header className="max-w-[52ch]">
         <p className="eyebrow">Catalogue</p>
-        <h1 className="display mt-3 text-[clamp(2.25rem,5vw,3.25rem)]">
+        <h1 className="headline mt-3 text-[clamp(2.5rem,5.5vw,3.75rem)]">
           Les {stats.domains} domaines
         </h1>
         <p className="mt-4 text-[1.0625rem] leading-relaxed text-ink-2">

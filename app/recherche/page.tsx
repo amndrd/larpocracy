@@ -8,8 +8,8 @@ import type { SearchHit } from '@/lib/content';
 export const metadata: Metadata = { title: 'Recherche' };
 
 const TONS: Record<SearchHit['kind'], string> = {
-  fiche: 'bg-accent-3 text-accent',
-  terme: 'bg-canvas-2 text-ink-2',
+  fiche: 'bg-accent-3 text-accent-ink',
+  terme: 'bg-surface-2 text-ink-2',
   nom: 'bg-gold-2 text-gold',
   domaine: 'bg-yes-2 text-yes',
 };
@@ -23,7 +23,7 @@ export default async function RecherchePage({ searchParams }: Props) {
   return (
     <Container narrow className="py-12 sm:py-16">
       <p className="eyebrow">Recherche</p>
-      <h1 className="display mt-3 text-[clamp(2rem,4.5vw,3rem)]">
+      <h1 className="headline mt-3 text-[clamp(2.25rem,4.5vw,3.25rem)]">
         {q ? `« ${q} »` : 'Chercher'}
       </h1>
       <p className="mt-3 text-[0.9375rem] text-ink-2">
@@ -47,7 +47,7 @@ export default async function RecherchePage({ searchParams }: Props) {
                   {h.kind}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="display block text-[1.125rem] transition-colors group-hover:text-accent">
+                  <span className="display block text-[1.125rem] transition-colors group-hover:text-accent-ink">
                     {h.label}
                   </span>
                   <span className="mt-0.5 block truncate text-[0.8125rem] text-ink-3">{h.sub}</span>
@@ -61,7 +61,7 @@ export default async function RecherchePage({ searchParams }: Props) {
 
       {q && hits.length === 0 && (
         <div className="card animate-pop mt-8 px-8 py-14 text-center">
-          <p className="display text-[1.5rem]">Rien pour l&apos;instant.</p>
+          <p className="headline text-[1.625rem]">Rien pour l&apos;instant.</p>
           <p className="mx-auto mt-3 max-w-[44ch] text-[0.9375rem] text-ink-2">
             Le sujet est peut-être cartographié dans l&apos;atlas mais pas encore rédigé.
           </p>

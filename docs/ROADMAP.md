@@ -13,7 +13,8 @@
 | Documentation de contexte | ✅ |
 | Atlas des 673 sujets | ✅ |
 | Application Next.js sur localhost:3000 | ✅ |
-| Design « application » : cartes, photos, animation | ✅ refonte du 26 août |
+| Design « application sombre », inspiré de Toko | ✅ refonte du 26 août |
+| Points, rangs, séries, distinctions | ✅ schéma à rejouer dans Supabase |
 | Pages de contenu prérendues + recherche | ✅ |
 | Comptes Supabase (auth + RLS) | ✅ code prêt — clés à renseigner |
 | Progression liée au compte | ✅ code prêt — clés à renseigner |
@@ -97,7 +98,8 @@ Critère de sortie : 120 fiches, 14 domaines ouverts, aucun domaine vide.
 - [x] Mode Cartes : révision par retournement, tri « su » / « à revoir »
 - [ ] Mode révision par répétition espacée
 - [ ] Simulations à choix multiples avec conséquences
-- [ ] Quiz chronométré, score, classement personnel
+- [x] Score et progression jouée : points, sept rangs, série, distinctions
+- [ ] Quiz chronométré, classement personnel
 - [ ] Briefing sur mesure selon l'événement
 - [ ] Export PDF / cheat sheets imprimables
 - [ ] PWA installable, mode hors ligne

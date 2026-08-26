@@ -78,3 +78,29 @@ export const IconNon = ({ className }: P) => (
     <path d="m6.5 6.5 11 11M17.5 6.5l-11 11" />
   </svg>
 );
+
+export const IconEclair = ({ className }: P) => (
+  <svg {...base} className={className}>
+    <path d="M13.5 3 5.5 13.2h5.2L10.2 21l8.3-10.4h-5.3L13.5 3Z" />
+  </svg>
+);
+
+export const IconFlamme = ({ className }: P) => (
+  <svg {...base} className={className}>
+    <path d="M12 21c3.6 0 6-2.4 6-5.6 0-3.9-3.4-5.8-3.9-9.9-1.9 1-3 2.6-3.2 4.6-1-.6-1.6-1.6-1.8-2.7C7.3 8.9 6 11.4 6 14.2 6 18 8.4 21 12 21Z" />
+  </svg>
+);
+
+export const IconTrophee = ({ className }: P) => (
+  <svg {...base} className={className}>
+    <path d="M7.5 4h9v4.2a4.5 4.5 0 0 1-9 0V4Z" />
+    <path d="M7.5 5.5H5A2.5 2.5 0 0 0 5 10.5h.8M16.5 5.5H19a2.5 2.5 0 0 1 0 5h-.8M10 12.6V16m4-3.4V16M8 20h8M10 16h4" />
+  </svg>
+);
+
+export const IconCadenas = ({ className }: P) => (
+  <svg {...base} className={className}>
+    <rect x="5" y="10.5" width="14" height="9.5" rx="2.5" />
+    <path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7" />
+  </svg>
+);

@@ -47,14 +47,7 @@ export function ProgressRing({
     <div className="flex flex-col items-center gap-3">
       <div className="relative" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="-rotate-90">
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={r}
-            fill="none"
-            strokeWidth="7"
-            className="stroke-canvas-2"
-          />
+          <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth="7" className="stroke-canvas-2" />
           <circle
             cx={size / 2}
             cy={size / 2}

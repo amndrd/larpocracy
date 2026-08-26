@@ -51,7 +51,7 @@ export default async function DomainPage({ params }: Props) {
               priority
               sizes="100vw"
               placeholder="blur"
-              className="object-cover"
+              className="object-cover opacity-80"
             />
           )}
           <div
@@ -59,13 +59,13 @@ export default async function DomainPage({ params }: Props) {
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(100deg, rgba(10,11,15,.93) 0%, rgba(10,11,15,.80) 46%, rgba(10,11,15,.58) 100%), ' +
-                'linear-gradient(to top, rgba(10,11,15,.40), transparent 60%)',
+                'linear-gradient(100deg, rgba(13,11,10,.94) 0%, rgba(13,11,10,.82) 46%, rgba(13,11,10,.55) 100%), ' +
+                'linear-gradient(to top, var(--color-canvas), transparent 55%)',
             }}
           />
           <div className="relative px-6 py-12 sm:px-10 sm:py-14">
             <p className="eyebrow text-white/55">Domaine {String(d.n).padStart(2, '0')}</p>
-            <h1 className="display mt-3 text-[clamp(2rem,5vw,3.25rem)] text-white">{d.title}</h1>
+            <h1 className="headline mt-3 text-[clamp(2.25rem,5.5vw,3.5rem)] text-white">{d.title}</h1>
             <p className="mt-4 max-w-[56ch] text-[1rem] leading-relaxed text-white/75">{d.blurb}</p>
 
             <div className="mt-8 flex flex-wrap gap-8 border-t border-white/15 pt-6">
@@ -94,7 +94,7 @@ export default async function DomainPage({ params }: Props) {
           </>
         ) : (
           <div className="card animate-pop px-8 py-16 text-center">
-            <p className="display text-[1.625rem]">Ce domaine attend son tour.</p>
+            <p className="headline text-[1.75rem]">Ce domaine attend son tour.</p>
             <p className="mx-auto mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-ink-2">
               Ses {d.topics} sujets sont déjà découpés dans l&apos;atlas. Les domaines se
               remplissent par fréquence d&apos;usage réel, pas par ordre alphabétique.

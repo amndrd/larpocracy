@@ -154,3 +154,50 @@ banque d'images.
 Piège rencontré : `upload.wikimedia.org` ne sert que les largeurs de vignette déjà
 en cache et renvoie **400** sur les autres. Il faut télécharger la taille fournie par
 l'API et redimensionner localement.
+
+## 2026-08-26 — #020 Interface sombre, inspirée de Toko
+Référence explicite : le projet **Toko — Online Language Learning** (Halo Lab,
+Behance). Ce qu'on lui emprunte, et ce qu'on refuse.
+
+**Emprunté** : le fond sombre chaud (noir brun, jamais noir pur), la carte comme
+unité, les pilules partout, le bento à cellules inégales, les cartes numérotées
+`01 02 03`, la piste horizontale, les gros titres très serrés, les compteurs de
+progression visibles, et le motif filaire à nœuds reliés.
+
+**Refusé** : l'orange `#FF562B`, qui est une couleur d'application grand public et
+détruirait le positionnement ; les illustrations au trait, qui n'ont de sens chez
+Toko que parce qu'aucune photo n'illustre « aller faire les courses en espagnol » —
+nos sujets, eux, se photographient ; et la grotesque en titre, remplacée par
+Instrument Serif.
+
+Le sombre sert mieux Larpocracy que Toko : le noir chaud avec bordeaux et or est le
+registre du luxe et du pouvoir, et les visuels (Versailles, la galerie de musée, les
+rouages, la cave) y gagnent beaucoup par rapport au fond blanc.
+Conséquence assumée : la refonte claire du matin est remplacée, pas complétée.
+
+Détail technique : sur fond sombre, l'élévation ne vient plus de l'ombre mais de la
+**surface** — une carte est plus claire que le fond. `--shadow-*` ne sert plus qu'aux
+éléments flottants. Les teintes de domaine ont été reprises (plus claires, un peu
+désaturées) : les valeurs calées pour du blanc vibraient sur le noir.
+La police d'interface passe d'Inter à **Inter Tight** : le resserrement est ce qui
+donne à Toko sa densité, et il tient à côté du serif.
+
+## 2026-08-26 — #021 Gamification : points, rangs, séries, distinctions
+Le site affiche des points, un rang, une série de jours et six distinctions.
+**Aucun point n'est offert, aucune monnaie n'est inventée** : 10 points par fiche
+lue, 5 par bonne réponse, 2 par carte sue. C'est la seule forme acceptable ici — un
+compteur qui monte sans qu'on ait appris serait exactement le contraire de ce que le
+site enseigne.
+Sept rangs, d'`Invité` à `Maître de maison`.
+
+Deux ajouts au schéma, à **rejouer dans Supabase** (`supabase/schema.sql`) :
+- `card_progress.cards_known` / `cards_total` — le mode Cartes produisait un résultat
+  qui n'était pas conservé ;
+- table `activity_days` — une ligne par jour actif. Nécessaire parce que
+  `card_progress.read_at` ne garde que la **dernière** lecture d'une fiche : relire
+  un ancien module écraserait la date et fausserait la série.
+
+Tant que le SQL n'est pas rejoué, le site fonctionne : la série vaut 0 et les cartes
+ne comptent pas de points. Aucune erreur visible.
+Les compteurs de l'en-tête passent par `/api/bilan` plutôt que par le rendu serveur :
+lire la session dans le header basculerait tout le site en dynamique (voir #017).

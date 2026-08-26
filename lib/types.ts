@@ -31,3 +31,14 @@ export type Card = {
 };
 
 export type Module = { domain: string; cards: Card[] };
+
+/** Une ligne de progression, telle que stockée dans `card_progress`. */
+export type ProgressRow = {
+  domain_id: string;
+  card_id: string;
+  read_at: string;
+  quiz_correct: number | null;
+  quiz_total: number | null;
+  cards_known: number | null;
+  cards_total: number | null;
+};

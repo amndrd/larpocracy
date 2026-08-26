@@ -6,6 +6,7 @@ import Flashcards from '@/components/Flashcards';
 import StudyModes from '@/components/StudyModes';
 import { IconChevron } from '@/components/icons';
 import { allCards, deckOf, getCard, getDomain } from '@/lib/content';
+import { saveCardsScore } from '@/lib/progress';
 import { domainVars } from '@/lib/theme';
 
 type Props = { params: Promise<{ domaine: string; fiche: string }> };
@@ -48,7 +49,7 @@ export default async function CartesPage({ params }: Props) {
 
         <header className="mt-4">
           <p className="eyebrow">Mode cartes</p>
-          <h1 className="display mt-2 text-[clamp(1.75rem,4vw,2.5rem)]">{c.title}</h1>
+          <h1 className="headline mt-2 text-[clamp(1.875rem,4vw,2.75rem)]">{c.title}</h1>
         </header>
 
         <div className="mt-5">
@@ -63,7 +64,13 @@ export default async function CartesPage({ params }: Props) {
         </div>
 
         <div className="mt-8">
-          <Flashcards deck={deck} retour={`/f/${d.id}/${c.id}`} />
+          <Flashcards
+            deck={deck}
+            retour={`/f/${d.id}/${c.id}`}
+            domainId={d.id}
+            cardId={c.id}
+            onFinish={saveCardsScore}
+          />
         </div>
       </Container>
     </div>

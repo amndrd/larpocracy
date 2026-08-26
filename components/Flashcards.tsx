@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, ButtonLink } from './Button';
-import { IconChevron, IconMelanger, IconNon, IconOui, IconRetourner } from './icons';
+import { IconChevron, IconEclair, IconMelanger, IconNon, IconOui, IconRetourner } from './icons';
 import { ProgressBar } from './Progress';
 import { clsx } from '@/lib/clsx';
 import { rich } from '@/lib/mdlite';
+import { POINTS } from '@/lib/xp';
 import type { FlashCard } from '@/lib/content';
 
 type Verdict = 'su' | 'revoir';
@@ -24,12 +25,26 @@ function melange(source: number[]) {
  * On retourne au clic, à l'espace ou à l'entrée ; on juge « su » ou
  * « à revoir » pour ne rejouer ensuite que ce qui n'est pas acquis.
  */
-export default function Flashcards({ deck, retour }: { deck: FlashCard[]; retour: string }) {
+export default function Flashcards({
+  deck,
+  retour,
+  domainId,
+  cardId,
+  onFinish,
+}: {
+  deck: FlashCard[];
+  retour: string;
+  domainId: string;
+  cardId: string;
+  onFinish: (domainId: string, cardId: string, known: number, total: number) => Promise<void>;
+}) {
   const [ordre, setOrdre] = useState<number[]>(() => deck.map((_, i) => i));
   const [pos, setPos] = useState(0);
   const [face, setFace] = useState<'recto' | 'verso'>('recto');
   const [verdicts, setVerdicts] = useState<Record<number, Verdict>>({});
   const [fini, setFini] = useState(false);
+  const [gagnes, setGagnes] = useState(0);
+  const envoye = useRef(false);
 
   const total = ordre.length;
   const idx = ordre[pos];
@@ -41,19 +56,33 @@ export default function Flashcards({ deck, retour }: { deck: FlashCard[]; retour
     setFace('recto');
     setVerdicts({});
     setFini(false);
+    setGagnes(0);
+    envoye.current = false;
   }, []);
 
   const avance = useCallback(
     (v?: Verdict) => {
-      if (v !== undefined) setVerdicts((p) => ({ ...p, [idx]: v }));
+      // On calcule le résultat ici plutôt que dans un effet : setVerdicts
+      // n'est pas encore appliqué au moment où la dernière carte est jugée.
+      const final = v !== undefined ? { ...verdicts, [idx]: v } : verdicts;
+      if (v !== undefined) setVerdicts(final);
+
       if (pos + 1 >= total) {
+        const su = ordre.filter((i) => final[i] === 'su').length;
+        setGagnes(su * POINTS.carte);
         setFini(true);
+        if (!envoye.current) {
+          envoye.current = true;
+          void onFinish(domainId, cardId, su, total).catch(() => {
+            /* la progression n'est pas critique */
+          });
+        }
         return;
       }
       setFace('recto');
       setPos((p) => p + 1);
     },
-    [idx, pos, total],
+    [idx, pos, total, ordre, verdicts, onFinish, domainId, cardId],
   );
 
   const recule = useCallback(() => {
@@ -97,7 +126,14 @@ export default function Flashcards({ deck, retour }: { deck: FlashCard[]; retour
           {su}
           <span className="text-ink-3">/{total}</span>
         </p>
-        <p className="mt-3 text-[0.9375rem] text-ink-2">
+
+        {gagnes > 0 && (
+          <p className="animate-count mt-4 inline-flex items-center gap-1.5 rounded-full bg-accent-3 px-4 py-1.5 text-[0.875rem] font-semibold text-accent-ink">
+            <IconEclair className="size-4" />+{gagnes} points
+          </p>
+        )}
+
+        <p className="mt-4 text-[0.9375rem] text-ink-2">
           {aRevoir.length === 0
             ? 'Paquet net. Le vocabulaire est en place.'
             : `${aRevoir.length} carte${aRevoir.length > 1 ? 's' : ''} à reprendre — c'est là que se joue la différence.`}
@@ -105,9 +141,7 @@ export default function Flashcards({ deck, retour }: { deck: FlashCard[]; retour
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           {aRevoir.length > 0 && (
-            <Button onClick={() => rejouer(aRevoir)}>
-              Rejouer les {aRevoir.length} ratées
-            </Button>
+            <Button onClick={() => rejouer(aRevoir)}>Rejouer les {aRevoir.length} ratées</Button>
           )}
           <Button
             variante={aRevoir.length > 0 ? 'secondaire' : 'primaire'}
@@ -137,7 +171,7 @@ export default function Flashcards({ deck, retour }: { deck: FlashCard[]; retour
         <button
           type="button"
           onClick={() => rejouer(melange(deck.map((_, i) => i)))}
-          className="pressable inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2 hover:bg-canvas-2 hover:text-ink"
+          className="pressable inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2 hover:bg-surface-2 hover:text-ink"
         >
           <IconMelanger className="size-4" />
           Mélanger
@@ -174,7 +208,7 @@ export default function Flashcards({ deck, retour }: { deck: FlashCard[]; retour
               {rich(carte.verso)}
             </span>
             {carte.note && (
-              <span className="mt-5 rounded-full bg-accent-3 px-4 py-1.5 text-center font-mono text-[0.8125rem] text-accent">
+              <span className="mt-5 rounded-full bg-accent-3 px-4 py-1.5 text-center font-mono text-[0.8125rem] text-accent-ink">
                 {carte.note}
               </span>
             )}
@@ -189,7 +223,7 @@ export default function Flashcards({ deck, retour }: { deck: FlashCard[]; retour
           onClick={() => recule()}
           disabled={pos === 0}
           aria-label="Carte précédente"
-          className="pressable grid size-11 place-items-center rounded-full border border-line bg-surface text-ink-2 shadow-xs hover:border-ink/20 hover:text-ink disabled:opacity-35"
+          className="pressable grid size-11 place-items-center rounded-full border border-line bg-surface text-ink-2 hover:border-ink/25 hover:bg-surface-2 hover:text-ink disabled:opacity-35"
         >
           <IconChevron className="size-4 rotate-180" />
         </button>
@@ -200,8 +234,8 @@ export default function Flashcards({ deck, retour }: { deck: FlashCard[]; retour
           disabled={!retourne}
           className={clsx(
             'pressable inline-flex h-11 items-center gap-2 rounded-full px-5 text-[0.875rem] font-semibold',
-            'border border-no/25 bg-no-2 text-no shadow-[0_3px_0_var(--color-no-2)]',
-            'hover:bg-no hover:text-white active:translate-y-[3px] active:shadow-none',
+            'border border-no/35 bg-no-2 text-no shadow-[0_3px_0_var(--color-canvas-2)]',
+            'hover:bg-no hover:text-canvas active:translate-y-[3px] active:shadow-none',
             !retourne && 'pointer-events-none opacity-35',
           )}
         >
@@ -214,8 +248,8 @@ export default function Flashcards({ deck, retour }: { deck: FlashCard[]; retour
           disabled={!retourne}
           className={clsx(
             'pressable inline-flex h-11 items-center gap-2 rounded-full px-5 text-[0.875rem] font-semibold',
-            'border border-yes/25 bg-yes-2 text-yes shadow-[0_3px_0_var(--color-yes-2)]',
-            'hover:bg-yes hover:text-white active:translate-y-[3px] active:shadow-none',
+            'border border-yes/35 bg-yes-2 text-yes shadow-[0_3px_0_var(--color-canvas-2)]',
+            'hover:bg-yes hover:text-canvas active:translate-y-[3px] active:shadow-none',
             !retourne && 'pointer-events-none opacity-35',
           )}
         >
@@ -227,7 +261,7 @@ export default function Flashcards({ deck, retour }: { deck: FlashCard[]; retour
           type="button"
           onClick={() => avance()}
           aria-label="Carte suivante"
-          className="pressable grid size-11 place-items-center rounded-full border border-line bg-surface text-ink-2 shadow-xs hover:border-ink/20 hover:text-ink"
+          className="pressable grid size-11 place-items-center rounded-full border border-line bg-surface text-ink-2 hover:border-ink/25 hover:bg-surface-2 hover:text-ink"
         >
           <IconChevron className="size-4" />
         </button>
