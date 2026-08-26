@@ -76,6 +76,16 @@ Larpocracy est le manuel de terrain de cette surface d'accroche.
 - **Le header ne doit pas lire la session côté serveur** : cela basculerait
   toutes les pages en rendu dynamique. C'est le rôle de `AccountNav`, client.
 - **Ne jamais mettre la clé `service_role` dans le code** : elle contourne la RLS.
+- **Vercel refuse le type `Secret` pour une variable `NEXT_PUBLIC_`** : ce préfixe
+  l'envoie au navigateur, elle ne peut donc pas être secrète. Type **Config**.
+  Un secret déjà enregistré n'est pas convertible : il faut le supprimer et le recréer.
+- **Les variables `NEXT_PUBLIC_` sont figées dans le JS au moment du build.**
+  Changer la valeur ne suffit pas : il faut redéployer. Et un « Redeploy » qui
+  réutilise le cache de build peut resservir l'ancienne valeur — vérifier la clé
+  réellement livrée en cherchant sa valeur dans `/_next/static/chunks/*.js`.
+- **Ne jamais recopier une clé à la main depuis un terminal** : `l` et `1` s'y
+  confondent. Une clé anon mal recopiée a fait échouer toute l'auth en production
+  avec le seul message « Impossible d'aboutir ». Copier-coller, toujours.
 
 ## 6. Arborescence
 
