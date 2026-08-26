@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/browser';
 import { isSupabaseConfigured } from '@/lib/supabase/config';
@@ -13,13 +14,20 @@ import { isSupabaseConfigured } from '@/lib/supabase/config';
 export default function AccountNav() {
   const [email, setEmail] = useState<string | null>(null);
   const [ready, setReady] = useState(!isSupabaseConfigured);
+  const pathname = usePathname();
 
+  // Relu à chaque navigation, et pas seulement au montage : connexion et
+  // déconnexion passent par des Server Actions, donc le client navigateur
+  // n'émet aucun événement. Sans cette relecture, le lien resterait sur
+  // « Entrer » après une connexion jusqu'au prochain rechargement complet.
   useEffect(() => {
     if (!isSupabaseConfigured) return;
     const supabase = createClient();
+    let monte = true;
 
-    supabase.auth.getUser().then(({ data }) => {
-      setEmail(data.user?.email ?? null);
+    supabase.auth.getSession().then(({ data }) => {
+      if (!monte) return;
+      setEmail(data.session?.user.email ?? null);
       setReady(true);
     });
 
@@ -27,8 +35,11 @@ export default function AccountNav() {
       setEmail(session?.user?.email ?? null);
       setReady(true);
     });
-    return () => sub.subscription.unsubscribe();
-  }, []);
+    return () => {
+      monte = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [pathname]);
 
   if (!ready) {
     // Réserve la place pour éviter que la barre ne saute au chargement.
