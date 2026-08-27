@@ -1,6 +1,7 @@
 import Container from '@/components/Container';
 import Faq from '@/components/Faq';
 import Reveal from '@/components/Reveal';
+import Rail from '@/components/Rail';
 import Ruban from '@/components/Ruban';
 import { ButtonLink } from '@/components/Button';
 import { IconFleche, IconNon, IconOui } from '@/components/icons';
@@ -62,6 +63,51 @@ const PAS_CA = [
   '« C’est le meilleur, tout simplement. »',
 ];
 
+/**
+ * Les principes de rédaction. Le registre place ici ses portraits d'équipe ;
+ * nous n'en avons pas à montrer, et en inventer serait la faute que le site
+ * passe son temps à condamner. Ce sont donc les règles d'écriture du contenu
+ * qui tiennent la place — elles disent qui écrit, ce qui revient au même.
+ */
+const PRINCIPES = [
+  {
+    n: '01',
+    titre: 'Utilisable en dîner',
+    texte:
+      "Chaque fiche doit produire au moins une phrase prononçable en soirée. Si l'information n'est pas disable, elle ne sert à rien et elle ne rentre pas.",
+  },
+  {
+    n: '02',
+    titre: 'La prononciation compte autant que le fait',
+    texte:
+      "Un nom mal prononcé annule dix pages de savoir. Chaque nom propre étranger porte sa phonétique, et ces phonétiques deviennent un paquet de cartes à réviser.",
+  },
+  {
+    n: '03',
+    titre: 'Sobriété plutôt qu’étalage',
+    texte:
+      "Le site enseigne systématiquement que sous-jouer bat surjouer. Le name-dropping reste le marqueur numéro un de l'imposteur.",
+  },
+  {
+    n: '04',
+    titre: 'Zéro fraude',
+    texte:
+      "On enseigne la culture, les codes et l'aisance. Jamais l'usurpation d'identité, le faux diplôme ou la fausse référence. Cette ligne ne bouge pas.",
+  },
+  {
+    n: '05',
+    titre: 'Honnêteté factuelle',
+    texte:
+      "Pas de fait inventé. Un chiffre incertain est marqué comme tel, ou retiré. Un site qui apprendrait à bluffer avec de fausses informations serait un piège pour qui le lit.",
+  },
+  {
+    n: '06',
+    titre: 'Densité',
+    texte:
+      "Pas de remplissage, pas de blabla motivationnel. Du fait, du terme, de la formulation — et rien entre les deux.",
+  },
+];
+
 const FAQ = [
   {
     q: 'Est-ce que ça apprend à mentir ?',
@@ -100,7 +146,7 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={90}>
-            <h1 className="mega mt-8 max-w-[16ch] text-[clamp(3rem,9.5vw,8.5rem)]">
+            <h1 className="mega mt-8 max-w-[16ch] text-[clamp(3.25rem,10.5vw,9.5rem)]">
               L’art de tenir <span className="text-ink-4">la salle.</span>
             </h1>
           </Reveal>
@@ -149,6 +195,28 @@ export default function Home() {
         </div>
       </Container>
 
+      {/* ══════════ Le rail ══════════ */}
+      {/* Le registre casse ici la lecture verticale : on défile de côté. */}
+      <section className="border-t border-line py-20 sm:py-28">
+        <Container>
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <p className="eyebrow">En vitrine</p>
+                <h2 className="mega mt-6 max-w-[14ch] text-[clamp(2rem,5vw,3.5rem)]">
+                  Six domaines <span className="text-ink-4">pour commencer.</span>
+                </h2>
+              </div>
+              <p className="text-[0.8125rem] text-ink-4">Faites glisser →</p>
+            </div>
+          </Reveal>
+        </Container>
+
+        <Reveal delay={120} className="mt-12">
+          <Rail entrees={CATALOGUE.slice(0, 6)} ouverts={publies} />
+        </Reveal>
+      </section>
+
       {/* ══════════ La méthode, 01 à 04 ══════════ */}
       <Container className="border-t border-line py-20 sm:py-28">
         <div className="grid gap-10 lg:grid-cols-12">
@@ -188,7 +256,7 @@ export default function Home() {
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="eyebrow">Le programme</p>
+              <p className="eyebrow">Le programme complet</p>
               <h2 className="mega mt-6 max-w-[14ch] text-[clamp(2rem,5vw,3.5rem)]">
                 De la cave <span className="text-ink-4">au conseil.</span>
               </h2>
@@ -291,6 +359,36 @@ export default function Home() {
           </div>
         </Container>
       </section>
+
+      {/* ══════════ Les principes ══════════ */}
+      <Container className="border-t border-line py-20 sm:py-28">
+        <div className="grid gap-10 lg:grid-cols-12">
+          <Reveal className="lg:col-span-4">
+            <p className="eyebrow">La maison</p>
+            <h2 className="mega mt-6 max-w-[12ch] text-[clamp(2rem,5vw,3.5rem)]">
+              Six règles <span className="text-ink-4">non négociables.</span>
+            </h2>
+            <p className="mt-6 max-w-[38ch] text-[0.9375rem] leading-relaxed text-ink-3">
+              Elles commandent tout ce qui est écrit ici, et elles sont publiques comme le
+              reste — code, contenu et décisions.
+            </p>
+          </Reveal>
+
+          <div className="grid gap-px self-start border border-line bg-line sm:grid-cols-2 lg:col-span-8">
+            {PRINCIPES.map((p, i) => (
+              <Reveal key={p.n} delay={Math.min(i, 6) * 70} className="bg-canvas">
+                <article className="flex h-full flex-col p-7">
+                  <p className="numero text-[0.8125rem]">{p.n}</p>
+                  <h3 className="mt-5 text-[1.0625rem] font-medium tracking-[-0.025em] text-ink">
+                    {p.titre}
+                  </h3>
+                  <p className="mt-3 text-[0.875rem] leading-relaxed text-ink-3">{p.texte}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </Container>
 
       {/* ══════════ Pricing ══════════ */}
       <Container className="border-t border-line py-20 sm:py-28">
