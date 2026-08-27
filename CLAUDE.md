@@ -160,8 +160,8 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
 
 ```
 app/
-  layout.tsx              coquille, polices, header/footer
-  (site)/                 LA VITRINE — statique, barre flottante
+  layout.tsx              coquille et polices (le châssis est propre à chaque monde)
+  (site)/                 LA VITRINE — statique, claire, barre pleine largeur
     page.tsx              accueil
     about/ features/ pricing/ news/ contact/   présentation
     connexion/ inscription/            entrée
@@ -183,6 +183,7 @@ components/               Header (barre flottante), Footer, SearchBox, AuthForm,
   StudyModes.tsx          le sélecteur Lire · Cartes · Test d'une fiche
   GameStats.tsx           pilules de points, carte de rang, mur de distinctions
   Reveal.tsx              révélation au défilement
+  Ruban.tsx               le bandeau de mots qui défile en boucle (CSS seul)
   Logo.tsx                le monogramme
   HeroPreview.tsx         l'aperçu produit de la bannière, dessiné en HTML
   Faq.tsx                 repliage natif `<details>`
