@@ -16,6 +16,15 @@
   --color-line:       #ffffff1a; /* filet à 10 % : la bordure de la nuit */
   --color-line-soft:  #ffffff0d; /* filet à 5 %, interne */
 
+  /* Voiles et arêtes. Ce sont eux, et non des `white/x`, qui portent les
+     aplats discrets : ainsi la vitrine peut passer au jour d'un seul bloc
+     de redéfinitions, sans qu'on touche à un seul composant. */
+  --color-veil:       #ffffff0f; /* aplat léger : pastille, bouton second */
+  --color-veil-2:     #ffffff1f; /* le même, survolé */
+  --color-edge:       #ffffff0f; /* l'anneau intérieur d'un panneau */
+  --color-edge-2:     #ffffff24; /* le même, survolé */
+  --color-glass:      #171717d9; /* le fond translucide des panneaux */
+
   /* --- Encres --- */
   --color-ink:        #fff3f0;   /* blanc chaud, jamais #fff pur */
   --color-ink-2:      #ffffffcc; /* 80 % : texte courant */
@@ -64,6 +73,7 @@
   --animate-pop:      pop 0.34s var(--ease-spring) both;
   --animate-slide-in: slide-in 0.35s var(--ease-out-soft) both;
   --animate-shake:    shake 0.4s ease-in-out both;
+  --animate-defile:   defile 42s linear infinite;
   --animate-count:    count-in 0.6s var(--ease-spring) both;
 
   @keyframes fade-up {
@@ -82,6 +92,12 @@
     0%, 100% { transform: translateX(0); }
     25%      { transform: translateX(-6px); }
     75%      { transform: translateX(6px); }
+  }
+  /* Le bandeau est écrit deux fois : à mi-course, la copie est exactement
+     là où l'original commençait, et la boucle ne se voit pas. */
+  @keyframes defile {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
   @keyframes count-in {
     from { opacity: 0; transform: translateY(8px) scale(0.9); }
@@ -174,7 +190,7 @@ h1, h2, h3 { text-wrap: balance; }
   gap: 0.5rem;
   border: 1px solid var(--color-line);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--color-veil);
   padding: 0.375rem 0.875rem;
   font-size: 0.75rem;
   font-weight: 500;
@@ -183,15 +199,15 @@ h1, h2, h3 { text-wrap: balance; }
 
 /* Le panneau : translucide, cerné d'un filet clair intérieur. */
 @utility panel {
-  background: rgba(23, 23, 23, 0.85);
+  background: var(--color-glass);
   border-radius: var(--radius-md);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), var(--shadow-md);
+  box-shadow: inset 0 0 0 1px var(--color-edge), var(--shadow-md);
 }
 
 @utility card {
-  background: rgba(23, 23, 23, 0.85);
+  background: var(--color-glass);
   border-radius: var(--radius-md);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px var(--color-edge);
 }
 
 @utility card-lift {
@@ -201,8 +217,8 @@ h1, h2, h3 { text-wrap: balance; }
 }
 @utility card-lift-on {
   transform: translateY(-4px);
-  background: rgba(31, 31, 31, 0.9);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), var(--shadow-lg);
+  background: var(--color-surface-2);
+  box-shadow: inset 0 0 0 1px var(--color-edge-2), var(--shadow-lg);
 }
 
 @utility pressable {
@@ -274,6 +290,117 @@ h1, h2, h3 { text-wrap: balance; }
 .prose-larp p:last-child { margin-block-end: 0; }
 .prose-larp strong { color: var(--color-ink); font-weight: 600; }
 .prose-larp em { font-style: italic; color: var(--color-ink); }
+
+/* ============================================================
+   LA VITRINE — le jour
+   L'application reste la nuit ; la vitrine passe au jour. Tout tient dans ce
+   bloc parce que les composants ne nomment jamais une couleur en dur : ils
+   demandent `ink`, `veil`, `edge`, et ces jetons-là s'inversent ici.
+   ============================================================ */
+
+.vitrine {
+  color-scheme: light;
+
+  --color-canvas:    #ffffff;
+  --color-canvas-2:  #f4f2ef;   /* le papier des sections creusées */
+  --color-surface:   #ffffff;
+  --color-surface-2: #faf8f6;
+  --color-surface-3: #f0ede9;
+  --color-glass:     #fffffff2;
+
+  --color-line:      #0b0b0b1f;
+  --color-line-soft: #0b0b0b12;
+  --color-veil:      #0b0b0b0d;
+  --color-veil-2:    #0b0b0b1a;
+  --color-edge:      #0b0b0b14;
+  --color-edge-2:    #0b0b0b29;
+
+  --color-ink:       #0b0b0b;   /* noir d'encre, jamais gris */
+  --color-ink-2:     #0b0b0bcc;
+  --color-ink-3:     #0b0b0b8c;
+  --color-ink-4:     #0b0b0b47;
+
+  /* Le rose fané de la nuit, poussé jusqu'à la saturation : c'est la même
+     teinte de marque, mais il faut ce cran de plus pour tenir sur du blanc. */
+  --color-accent:     #c8352c;
+  --color-accent-2:   #a52a22;
+  --color-accent-3:   #fdf0ee;
+  --color-accent-ink: #a52a22;
+  --color-gold:       #8a6a2f;
+  --color-gold-2:     #f7f1e4;
+
+  --shadow-sm: 0 1px 2px rgba(11, 11, 11, 0.06);
+  --shadow-md: 0 2px 24px rgba(11, 11, 11, 0.07);
+  --shadow-lg: 0 12px 48px rgba(11, 11, 11, 0.10);
+  --shadow-xl: 0 24px 80px rgba(11, 11, 11, 0.14);
+
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+/* Sans cela, le rebond du défilement découvrirait le noir du body. */
+html:has(.vitrine) { background: #ffffff; }
+html:has(.vitrine) body { background: #ffffff; }
+
+/* --- Le titre géant --- */
+/* La mesure du registre : énorme, serré au point de se toucher, et une
+   interligne inférieure à 1 — les lignes forment un bloc, pas une liste. */
+@utility mega {
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+/* Le repère de section : un numéro, un filet, un mot. */
+@utility numero {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--color-ink-4);
+}
+
+/* --- Le bandeau défilant --- */
+/* Il ne défile qu'au repos du réglage système : `prefers-reduced-motion`
+   coupe déjà la durée plus haut, mais une boucle infinie doit être arrêtée,
+   pas accélérée — sinon elle vibre. */
+@utility ruban {
+  display: flex;
+  width: max-content;
+  animation: defile 42s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ruban { animation: none; }
+}
+
+/* --- La ligne d'index --- */
+/* Une liste d'agence : pas de vignette, un filet, et le rang qui avance
+   de quelques pixels au survol. C'est tout le mouvement, et il suffit. */
+@utility ligne {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  border-top: 1px solid var(--color-line);
+  padding: 1.5rem 0.25rem;
+  transition: padding 0.55s var(--ease-fora), color 0.55s var(--ease-fora);
+}
+@utility ligne-on {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+/* Le trait qui se tire sous un lien au survol, depuis la gauche. */
+@utility souligne {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 1px;
+  transition: background-size 0.5s var(--ease-fora);
+}
+@utility souligne-on {
+  background-size: 100% 1px;
+}
 
 /* --- Impression --- */
 @media print {

@@ -12,10 +12,10 @@ const BASE =
 const VARIANTES: Record<Variante, string> = {
   // Le bouton principal est clair sur fond noir : c'est le seul aplat plein
   // du système, ce qui le rend impossible à manquer.
-  primaire: 'bg-ink text-canvas hover:bg-white active:scale-[0.98]',
+  primaire: 'bg-ink text-canvas hover:opacity-88 active:scale-[0.98]',
   secondaire:
-    'bg-white/[0.06] text-ink ring-1 ring-white/12 ring-inset hover:bg-white/[0.12] active:scale-[0.98]',
-  clair: 'bg-ink text-canvas hover:bg-white active:scale-[0.98]',
+    'bg-veil text-ink ring-1 ring-line ring-inset hover:bg-veil-2 active:scale-[0.98]',
+  clair: 'bg-canvas text-ink hover:bg-surface-3 active:scale-[0.98]',
   fantome: 'text-ink-3 hover:text-ink',
 };
 

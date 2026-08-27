@@ -1,17 +1,26 @@
 import { clsx } from '@/lib/clsx';
 
-/** Le monogramme : trois barres qui montent — le niveau qu'on gagne. */
+/**
+ * Le mot-logo. Plus de monogramme : le nom seul, très serré, comme le font
+ * les studios — la marque est le mot, pas un pictogramme à côté.
+ *
+ * Le modèle compose son enseigne en PP Neue Montreal, une grotesque sous
+ * licence commerciale : on ne peut ni l'embarquer ni la redistribuer ici.
+ * Inter Tight, déjà chargée par le layout, en est la voisine la plus proche
+ * dans le libre ; c'est l'interlettrage négatif qui fait l'essentiel du
+ * caractère, et il est reproduit tel quel.
+ */
 export default function Logo({ className }: { className?: string }) {
   return (
-    <span className={clsx('flex shrink-0 items-center gap-2.5', className)}>
-      <span className="grid size-7 place-items-center rounded-lg bg-ink">
-        <svg viewBox="0 0 24 24" aria-hidden className="size-4 text-canvas">
-          <rect x="3.5" y="14" width="4.5" height="6.5" rx="1.4" fill="currentColor" />
-          <rect x="9.75" y="9.5" width="4.5" height="11" rx="1.4" fill="currentColor" opacity="0.72" />
-          <rect x="16" y="4" width="4.5" height="16.5" rx="1.4" fill="currentColor" opacity="0.45" />
-        </svg>
-      </span>
-      <span className="display text-[1.25rem] leading-none tracking-tight text-ink">LarpLvl</span>
+    <span
+      className={clsx(
+        'block shrink-0 text-[1.375rem] leading-none font-medium tracking-[-0.055em] text-ink select-none',
+        className,
+      )}
+    >
+      LarpLvl
+      {/* Le point d'accent : la seule couleur de l'enseigne. */}
+      <span className="text-accent">.</span>
     </span>
   );
 }

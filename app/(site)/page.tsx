@@ -1,37 +1,65 @@
 import Container from '@/components/Container';
-import DomainGrid from '@/components/DomainGrid';
 import Faq from '@/components/Faq';
-import HeroPreview from '@/components/HeroPreview';
 import Reveal from '@/components/Reveal';
+import Ruban from '@/components/Ruban';
 import { ButtonLink } from '@/components/Button';
-import { IconCartes, IconEclair, IconFleche, IconLire, IconTest, IconTrophee } from '@/components/icons';
+import { IconFleche, IconNon, IconOui } from '@/components/icons';
+import { CATALOGUE } from '@/lib/catalogue';
 import { domains, stats } from '@/lib/content';
-import { news } from '@/lib/news';
 import { PLANS } from '@/lib/plans';
 import { RANGS } from '@/lib/xp';
 
-const MODES = [
+/** Les quatre temps de la méthode. Le registre les numérote : on les numérote. */
+const METHODE = [
   {
-    icon: <IconLire className="size-5" />,
+    n: '01',
     titre: 'Lire',
+    resume: 'La fiche',
     texte:
-      "Le fait, le terme, le nom — et sa prononciation. Sept minutes, densité maximale, zéro remplissage.",
-    points: '+10 pts',
+      "Sept minutes, densité maximale. Le fait, le terme, le nom — et sa prononciation, parce qu'un nom mal dit annule dix pages de savoir.",
+    gain: '+10 points',
   },
   {
-    icon: <IconCartes className="size-5" />,
+    n: '02',
     titre: 'Cartes',
+    resume: 'La révision',
     texte:
-      "Recto le terme, verso la définition. On juge « je savais » ou « à revoir », et on ne rejoue que les ratées.",
-    points: '+2 pts',
+      "Recto le terme, verso la définition. On juge « je savais » ou « à revoir », et on ne rejoue que les ratées. Le paquet se fabrique tout seul depuis la fiche.",
+    gain: '+2 points',
   },
   {
-    icon: <IconTest className="size-5" />,
+    n: '03',
     titre: 'Test',
+    resume: 'La vérification',
     texte:
-      'Des questions à choix, corrigées et expliquées — même quand la réponse est juste.',
-    points: '+5 pts',
+      "Des questions à choix, corrigées et expliquées — y compris quand la réponse est juste. Savoir pourquoi on a eu raison vaut la moitié de l'exercice.",
+    gain: '+5 points',
   },
+  {
+    n: '04',
+    titre: 'Rang',
+    resume: 'La progression',
+    texte:
+      "Sept rangs, d'Invité à Maître de maison. Pas un point offert : le compteur ne monte qu'en lisant, en révisant et en répondant juste.",
+    gain: `${RANGS.length} rangs`,
+  },
+];
+
+/**
+ * Le format signature, en lieu et place des témoignages du registre.
+ * Un témoignage se fabrique ; celui-ci s'enseigne — et il ne coûte pas
+ * une seule affirmation inventée.
+ */
+const DIS_CA = [
+  '« Je ne connais pas — racontez-moi. »',
+  '« J’ai un faible pour les blancs de blancs. »',
+  '« Je suis arrivé dans le secteur l’an dernier. »',
+];
+
+const PAS_CA = [
+  '« Comme je le disais l’autre soir à… »',
+  '« Évidemment, tout le monde sait ça. »',
+  '« C’est le meilleur, tout simplement. »',
 ];
 
 const FAQ = [
@@ -53,220 +81,257 @@ const FAQ = [
   },
   {
     q: 'Faut-il payer ?',
-    r: "Non. Tout ce qui est publié est en accès libre, et aucune fiche déjà publiée ne passera un jour derrière un paiement.",
+    r: "Une partie des fiches est ouverte à tous. Le reste demandera la formule Pro, dont le montant n'est pas encore arrêté — et ne sera pas annoncé avant de l'être.",
   },
 ];
 
 export default function Home() {
-  const aDuContenu = stats.domains > 0;
+  const publies = new Set(domains.map((d) => d.id));
 
   return (
     <>
-      {/* ---------- Bannière ---------- */}
-      <section className="relative">
-        {/* Le ciel de crépuscule, puis son fondu vers le noir. */}
-        <div aria-hidden className="crepuscule absolute inset-x-0 top-0 h-[125vh] max-h-[1100px]" />
-        <div
-          aria-hidden
-          className="fondu-bas absolute inset-x-0 top-0 h-[125vh] max-h-[1100px]"
-        />
-
-        <Container className="relative pt-36 text-center sm:pt-44">
+      {/* ══════════ Le héros ══════════ */}
+      {/* Un titre, une phrase, deux boutons. Rien d'autre : pas de bandeau de
+          logos, pas de preuve empruntée. La page tient sur sa typographie. */}
+      <section className="border-b border-line">
+        <Container className="pt-28 pb-16 sm:pt-40 sm:pb-24">
           <Reveal>
-            <span className="chip">Culture générale appliquée</span>
+            <p className="eyebrow">Culture générale appliquée · 2026</p>
           </Reveal>
 
-          <Reveal delay={80}>
-            <h1 className="headline mx-auto mt-8 max-w-[15ch] text-[clamp(2.75rem,7vw,4.75rem)]">
-              Une porte ne s&apos;ouvre jamais sur un CV.{' '}
-              <span className="headline-dim">Elle s&apos;ouvre sur une conversation.</span>
+          <Reveal delay={90}>
+            <h1 className="mega mt-8 max-w-[16ch] text-[clamp(3rem,9.5vw,8.5rem)]">
+              L’art de tenir <span className="text-ink-4">la salle.</span>
             </h1>
           </Reveal>
 
-          <Reveal delay={160}>
-            <p className="mx-auto mt-7 max-w-[50ch] text-[1.0625rem] leading-relaxed text-ink-3">
-              LarpLvl enseigne les codes, le vocabulaire et les références des milieux du
-              business, du luxe et du pouvoir. Pour avoir quelque chose à dire — de juste — à
-              n&apos;importe qui, dans n&apos;importe quelle pièce.
-            </p>
-          </Reveal>
-
-          <Reveal delay={240}>
-            <div className="mt-9 flex flex-wrap justify-center gap-3">
-              <ButtonLink href="/inscription" taille="lg">
-                Get started
-              </ButtonLink>
-              <ButtonLink href="/features" taille="lg" variante="secondaire">
-                Features
-              </ButtonLink>
-            </div>
-          </Reveal>
-
-          <Reveal delay={340} className="mt-16 sm:mt-20">
-            <HeroPreview />
-          </Reveal>
-        </Container>
-      </section>
-
-      {/* ---------- La déclaration ---------- */}
-      <Container className="py-28 sm:py-36">
-        <div className="max-w-[62rem] space-y-8">
-          {/* Le premier bloc arrive en pleine lumière, le second en retrait :
-              c'est le rythme du modèle, une idée puis son commentaire. */}
-          <Reveal>
-            <p className="headline text-[clamp(1.375rem,3.2vw,2.25rem)] text-ink">
-              Un réseau se construit sur la conversation. Quelqu&apos;un qui sait parler
-              d&apos;un Barolo, d&apos;un LBO, d&apos;un Royal Oak et du protocole japonais
-              inspire confiance.
-            </p>
-          </Reveal>
-          <Reveal delay={160}>
-            <p className="headline text-[clamp(1.375rem,3.2vw,2.25rem)] text-ink-4">
-              Ce n&apos;est pas de la frime : c&apos;est de la surface d&apos;accroche. Plus
-              vous avez de sujets, plus vous avez de portes.
-            </p>
-          </Reveal>
-        </div>
-      </Container>
-
-      {/* ---------- Les trois modes ---------- */}
-      <Container className="py-16">
-        <Reveal>
-          <span className="chip">Core features</span>
-          <h2 className="headline mt-6 max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)]">
-            Une fiche se lit, se révise,{' '}
-            <span className="headline-dim">se vérifie.</span>
-          </h2>
-        </Reveal>
-
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {MODES.map((m, i) => (
-            <Reveal key={m.titre} delay={i * 110}>
-              <div className="card card-lift flex h-full flex-col p-7 hover:card-lift-on">
-                <span className="grid size-11 place-items-center rounded-full bg-white/[0.06] text-ink">
-                  {m.icon}
-                </span>
-                <h3 className="display mt-6 text-[1.375rem]">{m.titre}</h3>
-                <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-ink-3">{m.texte}</p>
-                <p className="chip mt-6 w-fit">
-                  <IconEclair className="size-3.5" />
-                  {m.points}
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </Container>
-
-      {/* ---------- Progression ---------- */}
-      <Container className="py-16">
-        <Reveal>
-          <span className="chip">
-            <IconTrophee className="size-3.5" />
-            Progression
-          </span>
-          <h2 className="headline mt-6 max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)]">
-            D&apos;invité <span className="headline-dim">à maître de maison.</span>
-          </h2>
-          <p className="mt-5 max-w-[54ch] text-[1rem] leading-relaxed text-ink-3">
-            Sept rangs, et pas un point offert : ils ne montent qu&apos;en lisant, en révisant
-            et en répondant juste.
-          </p>
-        </Reveal>
-
-        <Reveal delay={100}>
-          <ol className="rail mt-9 flex gap-2.5 overflow-x-auto pb-2">
-            {RANGS.map((r, i) => (
-              <li key={r.nom} className="card flex shrink-0 items-center gap-3 px-5 py-4">
-                <span className="display text-[1.25rem] leading-none text-ink-4">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <span>
-                  <span className="block whitespace-nowrap text-[0.9375rem] font-medium text-ink">
-                    {r.nom}
-                  </span>
-                  <span className="block text-[0.75rem] tabular-nums text-ink-3">
-                    {r.seuil} pts
-                  </span>
-                </span>
-              </li>
-            ))}
-          </ol>
-        </Reveal>
-      </Container>
-
-      {/* ---------- Le catalogue ---------- */}
-      <Container className="py-16">
-        <Reveal>
-          <span className="chip">Contenu</span>
-          <h2 className="headline mt-6 max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)]">
-            De la cave <span className="headline-dim">au conseil d&apos;administration.</span>
-          </h2>
-        </Reveal>
-
-        <div className="mt-10">
-          {aDuContenu ? (
-            <>
-              <DomainGrid list={domains.slice(0, 6)} />
-              <Reveal delay={120}>
-                <div className="mt-8 flex justify-center">
-                  <ButtonLink href="/app" variante="secondaire">
-                    Voir les {stats.domains} domaines
-                    <IconFleche className="size-4" />
-                  </ButtonLink>
-                </div>
-              </Reveal>
-            </>
-          ) : (
-            <Reveal delay={80}>
-              <div className="card px-8 py-20 text-center">
-                <p className="display text-[1.75rem]">Le contenu arrive.</p>
-                <p className="mx-auto mt-4 max-w-[50ch] text-[0.9375rem] leading-relaxed text-ink-3">
-                  Les domaines et les fiches se remplissent un par un. Créez un compte : la
-                  progression sera là dès la première fiche publiée.
-                </p>
-                <ButtonLink href="/inscription" variante="secondaire" className="mt-8">
+          <div className="mt-12 grid gap-10 border-t border-line pt-10 lg:grid-cols-12">
+            <Reveal delay={160} className="lg:col-span-6 lg:col-start-7">
+              <p className="max-w-[46ch] text-[1.125rem] leading-relaxed text-ink-2">
+                Une porte ne s’ouvre jamais sur un CV. Elle s’ouvre sur une conversation.
+                LarpLvl enseigne les codes, le vocabulaire et les références des milieux du
+                business, du luxe et du pouvoir — pour avoir quelque chose à dire, et que ce
+                soit juste.
+              </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <ButtonLink href="/inscription" taille="lg">
                   Get started
+                  <IconFleche className="size-4" />
+                </ButtonLink>
+                <ButtonLink href="/features" taille="lg" variante="secondaire">
+                  Voir la méthode
                 </ButtonLink>
               </div>
             </Reveal>
-          )}
+          </div>
+        </Container>
+      </section>
+
+      {/* ══════════ Le bandeau ══════════ */}
+      <Ruban mots={CATALOGUE.map((d) => d.titre)} />
+
+      {/* ══════════ La déclaration ══════════ */}
+      <Container className="border-t border-line py-24 sm:py-36">
+        <div className="max-w-[52rem] space-y-6">
+          {/* Une idée en pleine lumière, son commentaire en retrait. */}
+          <Reveal>
+            <p className="mega text-[clamp(1.75rem,4.4vw,3.25rem)]">
+              Un réseau se construit sur la conversation.
+            </p>
+          </Reveal>
+          <Reveal delay={140}>
+            <p className="mega text-[clamp(1.75rem,4.4vw,3.25rem)] text-ink-4">
+              Quelqu’un qui sait parler d’un Barolo, d’un LBO, d’un Royal Oak et du protocole
+              japonais donne envie de travailler avec lui. Ce n’est pas de la frime : c’est de
+              la surface d’accroche.
+            </p>
+          </Reveal>
         </div>
       </Container>
 
-      {/* ---------- Pricing ---------- */}
-      <Container className="py-16">
+      {/* ══════════ La méthode, 01 à 04 ══════════ */}
+      <Container className="border-t border-line py-20 sm:py-28">
+        <div className="grid gap-10 lg:grid-cols-12">
+          <Reveal className="lg:col-span-4">
+            <p className="eyebrow">La méthode</p>
+            <h2 className="mega mt-6 max-w-[12ch] text-[clamp(2rem,5vw,3.5rem)]">
+              Une fiche se lit, se révise, <span className="text-ink-4">se vérifie.</span>
+            </h2>
+          </Reveal>
+
+          <div className="lg:col-span-8">
+            {METHODE.map((m, i) => (
+              <Reveal key={m.n} delay={i * 90}>
+                <article className="group grid gap-x-8 gap-y-3 border-t border-line py-9 sm:grid-cols-[auto_1fr] sm:py-11">
+                  <p className="numero text-[0.875rem] sm:pt-1">{m.n}</p>
+                  <div>
+                    <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                      <h3 className="mega text-[clamp(1.75rem,3.4vw,2.5rem)]">{m.titre}</h3>
+                      <span className="text-[0.875rem] text-ink-4">— {m.resume}</span>
+                      <span className="ml-auto text-[0.8125rem] tabular-nums text-ink-3">
+                        {m.gain}
+                      </span>
+                    </div>
+                    <p className="mt-4 max-w-[58ch] text-[1rem] leading-relaxed text-ink-3">
+                      {m.texte}
+                    </p>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </Container>
+
+      {/* ══════════ Le catalogue, en index ══════════ */}
+      <Container className="border-t border-line py-20 sm:py-28">
         <Reveal>
-          <span className="chip">Pricing</span>
-          <h2 className="headline mt-6 max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)]">
-            Pour l&apos;instant, <span className="headline-dim">tout est ouvert.</span>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="eyebrow">Le programme</p>
+              <h2 className="mega mt-6 max-w-[14ch] text-[clamp(2rem,5vw,3.5rem)]">
+                De la cave <span className="text-ink-4">au conseil.</span>
+              </h2>
+            </div>
+            <p className="max-w-[34ch] text-[0.9375rem] leading-relaxed text-ink-3">
+              Quatorze domaines cartographiés. Ils se remplissent un par un, et le journal de
+              bord dit lesquels — sans rien annoncer qui ne soit publié.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="mt-14">
+          {CATALOGUE.map((d, i) => {
+            const ouvert = publies.has(d.id);
+            return (
+              <Reveal key={d.id} delay={Math.min(i, 8) * 45}>
+                <div className="ligne group hover:ligne-on hover:bg-canvas-2">
+                  <span className="numero w-8 shrink-0 text-[0.8125rem]">
+                    {String(d.n).padStart(2, '0')}
+                  </span>
+                  <span className="mega flex-1 text-[clamp(1.25rem,2.6vw,2rem)] text-ink">
+                    {d.titre}
+                  </span>
+                  <span className="hidden max-w-[36ch] flex-1 text-[0.875rem] text-ink-3 lg:block">
+                    {d.couvre}
+                  </span>
+                  <span
+                    className={
+                      'shrink-0 text-[0.75rem] font-medium tracking-[0.06em] uppercase ' +
+                      (ouvert ? 'text-accent' : 'text-ink-4')
+                    }
+                  >
+                    {ouvert ? 'Ouvert' : 'À venir'}
+                  </span>
+                </div>
+              </Reveal>
+            );
+          })}
+          <div className="border-t border-line" />
+        </div>
+
+        {stats.cards > 0 && (
+          <Reveal delay={120}>
+            <div className="mt-10">
+              <ButtonLink href="/app" variante="secondaire">
+                Entrer dans le contenu
+                <IconFleche className="size-4" />
+              </ButtonLink>
+            </div>
+          </Reveal>
+        )}
+      </Container>
+
+      {/* ══════════ Dis ça / Pas ça ══════════ */}
+      <section className="border-t border-line bg-canvas-2">
+        <Container className="py-20 sm:py-28">
+          <Reveal>
+            <p className="eyebrow">Le format signature</p>
+            <h2 className="mega mt-6 max-w-[18ch] text-[clamp(2rem,5vw,3.5rem)]">
+              Sous-jouer bat surjouer. <span className="text-ink-4">Toujours.</span>
+            </h2>
+            <p className="mt-6 max-w-[54ch] text-[1rem] leading-relaxed text-ink-3">
+              Chaque fiche oppose la formulation qui passe et celle qui trahit. Le
+              name-dropping reste le marqueur numéro un de l’imposteur.
+            </p>
+          </Reveal>
+
+          <div className="mt-12 grid gap-4 md:grid-cols-2">
+            <Reveal delay={100}>
+              <div className="h-full border-t-2 border-yes bg-canvas p-8">
+                <p className="flex items-center gap-2 text-[0.75rem] font-semibold tracking-[0.08em] text-yes uppercase">
+                  <IconOui className="size-4" />
+                  Dis ça
+                </p>
+                <ul className="mt-7 space-y-5">
+                  {DIS_CA.map((t) => (
+                    <li key={t} className="text-[1.0625rem] tracking-[-0.02em] text-ink">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+
+            <Reveal delay={180}>
+              <div className="h-full border-t-2 border-no bg-canvas p-8">
+                <p className="flex items-center gap-2 text-[0.75rem] font-semibold tracking-[0.08em] text-no uppercase">
+                  <IconNon className="size-4" />
+                  Pas ça
+                </p>
+                <ul className="mt-7 space-y-5">
+                  {PAS_CA.map((t) => (
+                    <li key={t} className="text-[1.0625rem] tracking-[-0.02em] text-ink-4">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      {/* ══════════ Pricing ══════════ */}
+      <Container className="border-t border-line py-20 sm:py-28">
+        <Reveal>
+          <p className="eyebrow">Pricing</p>
+          <h2 className="mega mt-6 max-w-[16ch] text-[clamp(2rem,5vw,3.5rem)]">
+            Jugez sur pièce <span className="text-ink-4">avant de payer.</span>
           </h2>
         </Reveal>
 
-        <div className="mt-10 grid max-w-4xl gap-4 md:grid-cols-2">
+        <div className="mt-12 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-2">
           {(['free', 'pro'] as const).map((cle, i) => {
             const p = PLANS[cle];
             const pro = cle === 'pro';
             return (
-              <Reveal key={p.id} delay={i * 110}>
-                <div
-                  className={
-                    'flex h-full flex-col rounded-md p-7 ' +
-                    (pro
-                      ? 'bg-white/[0.03] ring-1 ring-white/[0.08] ring-inset'
-                      : 'card ring-white/[0.14]')
-                  }
-                >
+              <Reveal key={p.id} delay={i * 110} className="bg-canvas">
+                <div className="flex h-full flex-col p-8 sm:p-10">
                   <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="display text-[1.5rem]">{p.name}</h3>
-                    <span className="text-[0.75rem] text-ink-3">{p.period || 'disponible'}</span>
+                    <h3 className="mega text-[1.75rem]">{p.name}</h3>
+                    <span className="text-[0.75rem] tracking-[0.06em] text-ink-4 uppercase">
+                      {p.period}
+                    </span>
                   </div>
-                  <p className="display mt-4 text-[2.5rem] leading-none">{p.price}</p>
-                  <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-3">{p.pitch}</p>
-                  <div className="mt-7">
+                  <p className="mega mt-8 text-[clamp(2.5rem,6vw,4rem)]">{p.price}</p>
+                  <p className="mt-6 max-w-[40ch] text-[0.9375rem] leading-relaxed text-ink-3">
+                    {p.pitch}
+                  </p>
+                  <ul className="mt-8 flex-1 space-y-3 border-t border-line pt-8">
+                    {p.features.map((f) => (
+                      <li key={f} className="flex gap-3 text-[0.9375rem] text-ink-2">
+                        <span aria-hidden className="text-ink-4">
+                          —
+                        </span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-10">
                     {pro ? (
-                      <span className="block rounded-full px-5 py-3 text-center text-[0.8125rem] font-medium text-ink-4 ring-1 ring-white/10 ring-inset">
-                        Pas encore disponible
+                      <span className="block border border-line px-5 py-3.5 text-center text-[0.8125rem] font-medium text-ink-4">
+                        Montant pas encore arrêté
                       </span>
                     ) : (
                       <ButtonLink href="/inscription" taille="lg" className="w-full">
@@ -281,18 +346,16 @@ export default function Home() {
         </div>
       </Container>
 
-      {/* ---------- FAQ ---------- */}
-      <Container className="py-16">
+      {/* ══════════ FAQ ══════════ */}
+      <Container className="border-t border-line py-20 sm:py-28">
         <div className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <Reveal>
-              <span className="chip">FAQ</span>
-              <h2 className="headline mt-6 max-w-[16ch] text-[clamp(1.875rem,4vw,3rem)]">
-                Les questions <span className="headline-dim">qui reviennent.</span>
-              </h2>
-            </Reveal>
-          </div>
-          <div className="lg:col-span-7">
+          <Reveal className="lg:col-span-4">
+            <p className="eyebrow">FAQ</p>
+            <h2 className="mega mt-6 max-w-[12ch] text-[clamp(2rem,5vw,3.5rem)]">
+              Les questions <span className="text-ink-4">qui reviennent.</span>
+            </h2>
+          </Reveal>
+          <div className="lg:col-span-8">
             <Reveal delay={100}>
               <Faq items={FAQ} />
             </Reveal>
@@ -300,29 +363,31 @@ export default function Home() {
         </div>
       </Container>
 
-      {/* ---------- News ---------- */}
-      <Container className="py-16 pb-24">
-        <Reveal>
-          <span className="chip">News</span>
-          <h2 className="headline mt-6 max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)]">
-            Ce qui change, <span className="headline-dim">et pourquoi.</span>
-          </h2>
-        </Reveal>
-
-        <Reveal delay={100}>
-          <div className="card mt-10 flex flex-wrap items-center justify-between gap-6 px-8 py-10">
-            <p className="max-w-[46ch] text-[0.9375rem] leading-relaxed text-ink-3">
-              {news.length === 0
-                ? "Le journal de bord démarrera avec la première fiche publiée. Le site se construit à découvert : code, contenu et décisions sont publics."
-                : `${news.length} entrée${news.length > 1 ? 's' : ''} au journal de bord.`}
-            </p>
-            <ButtonLink href="/news" variante="secondaire">
-              Voir les nouvelles
-              <IconFleche className="size-4" />
-            </ButtonLink>
-          </div>
-        </Reveal>
-      </Container>
+      {/* ══════════ L'appel final ══════════ */}
+      <section className="border-t border-line bg-ink text-canvas">
+        <Container className="py-24 text-center sm:py-32">
+          <Reveal>
+            <h2 className="mega mx-auto max-w-[18ch] text-[clamp(2.25rem,6.5vw,5rem)]">
+              Apprends pour de vrai. C’est moins cher que de faire semblant.
+            </h2>
+          </Reveal>
+          <Reveal delay={140}>
+            <div className="mt-12 flex flex-wrap justify-center gap-3">
+              <ButtonLink href="/inscription" taille="lg" variante="clair">
+                Get started
+                <IconFleche className="size-4" />
+              </ButtonLink>
+              <ButtonLink
+                href="/contact"
+                taille="lg"
+                className="bg-transparent text-canvas ring-1 ring-canvas/30 ring-inset hover:bg-canvas/10"
+              >
+                Contact us
+              </ButtonLink>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
     </>
   );
 }
