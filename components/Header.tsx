@@ -39,13 +39,11 @@ export default function Header() {
   return (
     <header
       className={clsx(
-        'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-[600ms] ease-[var(--ease-fora)]',
-        pose || menu
-          ? 'border-b border-line bg-canvas/85 backdrop-blur-xl backdrop-saturate-150'
-          : 'border-b border-transparent',
+        'fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter] duration-[600ms] ease-[var(--ease-fora)]',
+        pose || menu ? 'bg-canvas/80 backdrop-blur-xl backdrop-saturate-150' : '',
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-[92rem] items-center gap-8 px-5 sm:h-20 sm:px-7 lg:px-10">
+      <div className="flex h-20 w-full items-center gap-8 px-5 sm:h-24 sm:px-7 lg:px-8">
         <Link href="/" aria-label="LarpLvl, accueil" className="-m-1 shrink-0 p-1">
           <Logo />
         </Link>
@@ -57,7 +55,7 @@ export default function Header() {
               href={l.href}
               aria-current={pathname === l.href ? 'page' : undefined}
               className={clsx(
-                'rounded-full px-3 py-2 text-[0.875rem] font-medium tracking-[-0.01em] transition-colors duration-[400ms] ease-[var(--ease-fora)]',
+                'capitales rounded-full px-3 py-2 transition-colors duration-[400ms] ease-[var(--ease-fora)]',
                 pathname === l.href ? 'text-ink' : 'text-ink-3 hover:text-ink',
               )}
             >

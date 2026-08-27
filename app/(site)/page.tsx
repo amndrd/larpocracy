@@ -137,39 +137,42 @@ export default function Home() {
   return (
     <>
       {/* ══════════ Le héros ══════════ */}
-      {/* Un titre, une phrase, deux boutons. Rien d'autre : pas de bandeau de
-          logos, pas de preuve empruntée. La page tient sur sa typographie. */}
-      <section className="border-b border-line">
-        <Container className="pt-28 pb-16 sm:pt-40 sm:pb-24">
+      {/* Tout est centré et le titre pèse de tout son poids : c'est la
+          composition du registre. Pas de bandeau de logos sous le titre —
+          rien n'y remplacerait une preuve qu'on n'a pas. */}
+      <section className="flex min-h-[calc(100svh-6rem)] flex-col justify-center">
+        <Container className="py-16 text-center">
           <Reveal>
-            <p className="eyebrow">Culture générale appliquée · 2026</p>
-          </Reveal>
-
-          <Reveal delay={90}>
-            <h1 className="mega mt-8 max-w-[16ch] text-[clamp(3.25rem,10.5vw,9.5rem)]">
-              L’art de tenir <span className="text-ink-4">la salle.</span>
+            <h1 className="mega mx-auto max-w-[14ch] text-[clamp(3.25rem,11vw,9rem)]">
+              L’art de tenir la salle
+              <span className="text-accent">.</span>
             </h1>
           </Reveal>
 
-          <div className="mt-12 grid gap-10 border-t border-line pt-10 lg:grid-cols-12">
-            <Reveal delay={160} className="lg:col-span-6 lg:col-start-7">
-              <p className="max-w-[46ch] text-[1.125rem] leading-relaxed text-ink-2">
-                Une porte ne s’ouvre jamais sur un CV. Elle s’ouvre sur une conversation.
-                LarpLvl enseigne les codes, le vocabulaire et les références des milieux du
-                business, du luxe et du pouvoir — pour avoir quelque chose à dire, et que ce
-                soit juste.
-              </p>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <ButtonLink href="/inscription" taille="lg">
-                  Get started
-                  <IconFleche className="size-4" />
-                </ButtonLink>
-                <ButtonLink href="/features" taille="lg" variante="secondaire">
-                  Voir la méthode
-                </ButtonLink>
-              </div>
-            </Reveal>
-          </div>
+          <Reveal delay={140}>
+            <p className="mx-auto mt-12 max-w-[34ch] text-[clamp(1.125rem,2.2vw,1.5rem)] leading-snug text-ink-2">
+              Les codes, le vocabulaire et les références des milieux du business, du luxe et
+              du pouvoir — pour avoir quelque chose à dire, et que ce soit juste.
+            </p>
+          </Reveal>
+
+          <Reveal delay={240}>
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+              <ButtonLink href="/inscription" taille="lg">
+                Get started
+                <IconFleche className="size-4" />
+              </ButtonLink>
+              <ButtonLink href="/features" taille="lg" variante="secondaire">
+                Voir la méthode
+              </ButtonLink>
+            </div>
+          </Reveal>
+
+          <Reveal delay={340}>
+            <p className="mt-14 text-[0.8125rem] text-ink-3">
+              Quatorze domaines · lecture, cartes et test sur chaque fiche
+            </p>
+          </Reveal>
         </Container>
       </section>
 

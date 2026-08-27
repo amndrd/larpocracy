@@ -5,7 +5,7 @@ type Variante = 'primaire' | 'secondaire' | 'fantome' | 'clair';
 type Taille = 'sm' | 'md' | 'lg';
 
 const BASE =
-  'pressable inline-flex select-none items-center justify-center gap-2 rounded-full font-semibold ' +
+  'pressable capitales inline-flex select-none items-center justify-center gap-2 rounded-full ' +
   'disabled:pointer-events-none disabled:opacity-45';
 
 /* L'arête basse pleine se comprime au clic : le bouton a une épaisseur. */
@@ -20,9 +20,9 @@ const VARIANTES: Record<Variante, string> = {
 };
 
 const TAILLES: Record<Taille, string> = {
-  sm: 'h-9 px-4 text-[0.8125rem]',
-  md: 'h-11 px-5 text-[0.875rem]',
-  lg: 'h-13 px-7 text-[0.9375rem]',
+  sm: 'h-10 px-5 text-[0.6875rem]',
+  md: 'h-12 px-6 text-[0.75rem]',
+  lg: 'h-14 px-8 text-[0.8125rem]',
 };
 
 export function buttonClasses(

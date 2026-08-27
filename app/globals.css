@@ -45,6 +45,7 @@
 
   /* --- Typographie --- */
   --font-sans: var(--font-inter-tight), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: var(--font-figtree), var(--font-inter-tight), -apple-system, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* --- Rayons --- */
@@ -301,12 +302,14 @@ h1, h2, h3 { text-wrap: balance; }
 .vitrine {
   color-scheme: light;
 
-  --color-canvas:    #ffffff;
-  --color-canvas-2:  #f4f2ef;   /* le papier des sections creusées */
-  --color-surface:   #ffffff;
-  --color-surface-2: #faf8f6;
-  --color-surface-3: #f0ede9;
-  --color-glass:     #fffffff2;
+  /* Crème, jamais blanc pur : le modèle du registre pose un papier chaud,
+     et c'est ce qui fait que le noir des titres n'agresse pas. */
+  --color-canvas:    #f7f4ee;
+  --color-canvas-2:  #efeae1;   /* le papier des sections creusées */
+  --color-surface:   #fffdf9;
+  --color-surface-2: #fbf8f2;
+  --color-surface-3: #eee9e0;
+  --color-glass:     #f7f4eef2;
 
   --color-line:      #0b0b0b1f;
   --color-line-soft: #0b0b0b12;
@@ -339,17 +342,37 @@ h1, h2, h3 { text-wrap: balance; }
 }
 
 /* Sans cela, le rebond du défilement découvrirait le noir du body. */
-html:has(.vitrine) { background: #ffffff; }
-html:has(.vitrine) body { background: #ffffff; }
+html:has(.vitrine) { background: #f7f4ee; }
+html:has(.vitrine) body { background: #f7f4ee; }
 
 /* --- Le titre géant --- */
 /* La mesure du registre : énorme, serré au point de se toucher, et une
    interligne inférieure à 1 — les lignes forment un bloc, pas une liste. */
 @utility mega {
-  font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 0.92;
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 0.88;
   text-wrap: balance;
+}
+
+/* Le même corps en graisse moyenne, pour les titres de second rang qui ne
+   doivent pas peser autant que celui de la bannière. */
+@utility mega-2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+
+/* Les petites capitales grasses du registre : bouton, mention, repère. */
+@utility capitales {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 /* Le repère de section : un numéro, un filet, un mot. */
