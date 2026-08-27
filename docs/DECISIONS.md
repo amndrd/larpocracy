@@ -321,3 +321,66 @@ reste une ligne à changer le jour où le montant est arrêté.
 
 **Mode démo.** Sans clés Supabase, l'application s'ouvre entièrement, n'enregistre
 rien et l'annonce dans la barre latérale. Sans cela le site serait mort en local.
+
+## 2026-08-27 — #026 La vitrine passe au jour, dans le registre des studios de design
+
+**Le point de départ.** Une demande de reprendre le design d'un site de studio de
+création admiré. On ne recopie pas le code d'autrui : ce qui est repris ici est le
+**registre** — une grammaire visuelle, qui n'appartient à personne. L'implémentation
+est écrite de zéro. Ce que le modèle affiche de sa propre marque (son enseigne, ses
+références clientes, ses textes) n'est pas transposé.
+
+**Ce que le registre demande, et qui est fait :**
+
+| Geste | Chez nous |
+|---|---|
+| Fond blanc, très grandes respirations | `.vitrine`, sections à `py-28` |
+| Titres énormes, serrés, interligne < 1 | `@utility mega` (`-0.045em`, `0.92`) |
+| Sections numérotées 01–04 | La méthode, les raisons d'écrire |
+| Filets nus plutôt que cartes | `border-line` partout, plus de panneaux |
+| Un bandeau de mots en boucle | `components/Ruban.tsx` |
+| Un index qui se décale au survol | `@utility ligne` / `ligne-on` |
+| L'enseigne géante en pied de page | `Footer`, `clamp(3.5rem, 18vw, 17rem)` |
+
+**Le jour et la nuit coexistent.** La vitrine est claire, l'application reste sombre.
+C'est #025 poussé à son terme : le contraste des deux châssis devient un contraste de
+lumière, et l'on *voit* qu'on entre quelque part en se connectant.
+
+Techniquement, tout tient dans un seul bloc CSS parce que les composants ne nomment
+plus aucune couleur en dur. Les aplats discrets passaient par des `bg-white/[0.06]`
+littéraux — ils passent désormais par trois jetons, `--color-veil`, `--color-edge` et
+`--color-glass`, que `.vitrine` redéfinit pour son seul sous-arbre. Tailwind v4 émet
+bien `var(--color-ink)` et non la valeur littérale : la redéfinition portée par une
+classe suffit donc à tout inverser, sans variante `dark:` nulle part.
+
+Le rebond du défilement découvrirait le noir du `body` : `html:has(.vitrine)` le
+repeint en blanc.
+
+**Ce qui remplace les témoignages.** Le registre réserve une section aux paroles de
+clients. Nous n'en avons pas, et un témoignage inventé contredirait le principe n° 6.
+C'est le format signature **« Dis ça / Pas ça »** qui occupe la place — il enseigne
+au lieu de flatter, et ne coûte aucune affirmation invérifiable. Même raison pour le
+bandeau de logos du héros : rien n'y remplace une preuve qu'on n'a pas.
+
+**La barre de navigation.** Elle cesse d'être une pilule flottante (#024) : pleine
+largeur, transparente sur le héros, elle ne prend son papier et son filet qu'une fois
+qu'on a défilé de douze pixels. Onglets : Contenu · About · Features · Pricing ·
+News · Contact us, puis **Login** et **Get started**. La recherche quitte la vitrine —
+elle vit dans `AppShell`, où le contenu se trouve.
+
+**L'enseigne.** Le monogramme disparaît : le nom seul, très serré, suivi d'un point
+d'accent. Le modèle compose la sienne en PP Neue Montreal, sous licence commerciale :
+ni embarquable ni redistribuable ici. Inter Tight, déjà chargée, en est la voisine la
+plus proche dans le libre, et c'est l'interlettrage qui fait l'essentiel du caractère.
+Si l'on veut s'en approcher davantage un jour, Switzer (Fontshare, libre d'usage
+commercial) est le meilleur candidat, via `next/font/local`.
+
+**`/contact`.** Nouvelle page, pour le nouvel onglet. Son adresse e-mail vaut `null`
+tant qu'elle n'est pas arrêtée, et le bloc ne s'affiche alors pas : mieux vaut une
+page sans e-mail qu'un lien mort — ou qu'une adresse personnelle publiée sans qu'on
+l'ait décidé. Une ligne à changer le jour venu.
+
+**`lib/catalogue.ts`.** Les quatorze domaines annoncés. Ce n'est pas du contenu :
+`content/domains.json` reste la source de vérité de ce qui est *publié*, et la page
+recoupe les deux pour ne marquer « Ouvert » que ce qui existe. Le programme ne peut
+donc jamais laisser croire qu'une fiche est là quand elle ne l'est pas.

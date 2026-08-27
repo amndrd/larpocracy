@@ -60,28 +60,34 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
 ## 5. Stack technique
 
 - **Next.js 16** (App Router) + **TypeScript** + **Tailwind CSS v4**.
-- **Design « nuit », repris de fora.so** (décision #024) : noir pur `#000`, blanc
-  chaud `#fff3f0`, filets à 10 % de blanc, panneaux translucides `rgba(23,23,23,.85)`
-  cernés d'un `ring-inset` clair, **barre flottante**, et un dégradé de crépuscule
-  en bannière (`@utility crepuscule`).
-  Jetons dans `app/globals.css` (`@theme`) : surfaces `canvas`/`canvas-2`/`surface`,
-  encres `ink`/`ink-2`/`ink-3`/`ink-4`, `--radius-*`, `--shadow-*`, et la courbe
-  `--ease-fora` (`cubic-bezier(0.44, 0, 0.56, 1)`) utilisée partout.
-- **Typographie : Inter Tight uniquement.** Instrument Serif a été retiré avec la
-  refonte #024. Les titres sont grands, de graisse 400 et **très serrés**
-  (`headline` : `-0.04em`) ; leur seconde moitié s'éteint (`headline-dim`).
+- **Deux lumières** (décision #026) : la **vitrine est claire**, l'**application
+  reste sombre**. Un seul jeu de jetons, dans `app/globals.css` (`@theme`) : surfaces
+  `canvas`/`canvas-2`/`surface`, encres `ink`/`ink-2`/`ink-3`/`ink-4`, voiles
+  `veil`/`edge`/`glass`, `--radius-*`, `--shadow-*`, et la courbe `--ease-fora`
+  (`cubic-bezier(0.44, 0, 0.56, 1)`). La classe `.vitrine`, posée par
+  `app/(site)/layout.tsx`, **redéfinit ces jetons pour son seul sous-arbre** : c'est
+  tout ce qui sépare le jour de la nuit. Aucune variante `dark:` nulle part.
+- **Registre de la vitrine : celui des studios de design** (#026). Titres énormes et
+  très serrés (`@utility mega`, `-0.045em`, interligne `0.92`), sections numérotées
+  01–04, filets nus plutôt que cartes, bandeau de mots en boucle (`Ruban`), index qui
+  se décale au survol (`ligne`/`ligne-on`), enseigne géante en pied de page.
+- **Typographie : Inter Tight uniquement.** Les titres sont grands, de graisse 400–500
+  et **très serrés** ; leur seconde moitié s'éteint (`text-ink-4`, ou `headline-dim`
+  dans l'application).
 - **Mouvement : une seule figure**, la révélation au défilement (`components/Reveal.tsx`,
   IntersectionObserver). L'état initial est dans la feuille de style (`[data-reveal]`)
   pour éviter tout clignotement avant l'hydratation, et un `<noscript>` du layout le
   neutralise si JavaScript est absent.
 - **Gamification** (décision #021) : `lib/xp.ts` (barème, rangs, séries,
   distinctions) et `lib/stats.ts` (`bilan()`, fonction pure). Aucun point offert.
-- **Navigation en anglais** : Contenu · About · Features · Pricing · News, puis Login
-  et Get started. Les routes suivent (`/about`, `/features`, `/pricing`, `/news`) ;
-  `/manifeste` et `/tarifs` redirigent en 308 depuis `next.config.ts`.
+- **Navigation en anglais** : Contenu · About · Features · Pricing · News · Contact us,
+  puis Login et Get started. Les routes suivent (`/about`, `/features`, `/pricing`,
+  `/news`, `/contact`) ; `/manifeste` et `/tarifs` redirigent en 308 depuis
+  `next.config.ts`. La barre est **pleine largeur** et transparente sur le héros : elle
+  ne prend son fond et son filet qu'une fois qu'on a défilé.
 - **Vitrine et application sont deux mondes** (décision #025), à la manière de Figma :
-  - `app/(site)/**` — la vitrine, **prérendue en statique**, châssis `Header` flottant
-    + `Footer` ;
+  - `app/(site)/**` — la vitrine, **prérendue en statique**, claire, châssis `Header`
+    pleine largeur + `Footer` ;
   - `app/app/**` — l'application, **rendue à la demande** (`dynamic = 'force-dynamic'`),
     châssis `AppShell` à barre latérale, session obligatoire.
   Le contraste entre les deux châssis est voulu : c'est ce qui fait sentir qu'on entre.
@@ -126,9 +132,14 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   pilote cette propriété par ses propres variables et écrase la déclaration. Pour un
   effet de verre dépoli, utiliser les classes `backdrop-blur-*` et
   `backdrop-saturate-*` sur l'élément.
-- **La barre de navigation est flottante** (`position: fixed`), donc hors du flux :
-  `<main>` porte un `pt-20 sm:pt-24` pour dégager sa hauteur. Le supprimer ferait
-  passer les titres sous la barre.
+- **La barre de navigation est en `position: fixed`**, donc hors du flux : `<main>`
+  porte un `pt-16 sm:pt-20` pour dégager sa hauteur. Le supprimer ferait passer les
+  titres sous la barre.
+- **Ne jamais écrire une couleur en dur dans un composant partagé** (`bg-white/[0.06]`,
+  `ring-white/10`) : elle survivrait au passage au jour et deviendrait invisible sur
+  le blanc. Passer par `veil`, `veil-2`, `edge`, `line`, `ink-*`.
+- **Le `body` reste noir sous la vitrine** : c'est `html:has(.vitrine)` qui le repeint,
+  sans quoi le rebond du défilement découvrirait du noir en haut et en bas de page.
 - **Le contenu verrouillé ne doit jamais partir dans le HTML.** C'est la raison pour
   laquelle `app/app/**` est dynamique : une page prérendue livrerait le texte payant
   à qui inspecte la source, quel que soit le masquage visuel. La page de fiche coupe
@@ -152,7 +163,7 @@ app/
   layout.tsx              coquille, polices, header/footer
   (site)/                 LA VITRINE — statique, barre flottante
     page.tsx              accueil
-    about/ features/ pricing/ news/    présentation
+    about/ features/ pricing/ news/ contact/   présentation
     connexion/ inscription/            entrée
   app/                    L'APPLICATION — dynamique, barre latérale, session requise
     layout.tsx            AppShell + chargement du bilan
@@ -186,6 +197,7 @@ lib/
   theme.ts                la teinte de chaque domaine
   images.ts               résolution des images déclarées dans le JSON
   news.ts                 le journal de bord (`content/news.json`)
+  catalogue.ts            les 14 domaines annoncés (≠ publiés — voir #026)
   access.ts               qui peut lire quoi (`isFree`, `canOpen`)
   session.ts              qui consulte, et avec quelle formule
   plans.ts                les formules — `PRIX_PRO` est à fixer
