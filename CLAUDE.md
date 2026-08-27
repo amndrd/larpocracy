@@ -184,8 +184,10 @@ components/               Header (barre flottante), Footer, SearchBox, AuthForm,
   GameStats.tsx           pilules de points, carte de rang, mur de distinctions
   Reveal.tsx              révélation au défilement
   Ruban.tsx               le bandeau de mots qui défile en boucle (CSS seul)
-  Logo.tsx                le monogramme
-  HeroPreview.tsx         l'aperçu produit de la bannière, dessiné en HTML
+  Logo.tsx                le mot-logo (plus de monogramme depuis #026)
+  HeroPreview.tsx         l'aperçu produit — sans emploi depuis #026, le héros
+                          du nouveau registre ne porte que de la typographie
+  DomainGrid.tsx          la grille de domaines — sans emploi depuis #026
   Faq.tsx                 repliage natif `<details>`
   app/AppShell.tsx        le châssis de l'application
   app/Verrou.tsx          l'écran de déblocage d'une fiche fermée
