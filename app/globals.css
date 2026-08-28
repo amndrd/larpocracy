@@ -396,3 +396,53 @@ body {
     background var(--duration-lg) var(--ease),
     color var(--duration-lg) var(--ease);
 }
+
+/* ============================================================================
+   LE MOT-LOGO
+   ----------------------------------------------------------------------------
+   Deux lignes empilées et centrées, en Youth 900. La marque d'origine était
+   dessinée en courbes ; celle-ci est du texte, ce qui la garde nette à toute
+   taille et lisible par les moteurs de recherche.
+   ========================================================================== */
+
+@layer webflow {
+  .ba_logo {
+    width: 4.8em;
+    color: var(--base);
+    pointer-events: all;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .ba_logo_word {
+    font-family: var(--font-youth), Arial, sans-serif;
+    font-weight: 900;
+    font-size: 1.75em;
+    /* Interligne resserré : les deux lignes forment un bloc, pas un texte.
+       Elle ne descend pas plus bas, sans quoi la jambe du « p » viendrait
+       toucher le « L » de la ligne suivante. */
+    line-height: 0.94;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 767px) {
+    .ba_logo {
+      flex-flow: row;
+      justify-content: center;
+      align-items: flex-start;
+      width: auto;
+      max-width: 150px;
+      margin-right: auto;
+    }
+  }
+}
+
+/* Sur grand écran, le mot-logo remonte dans le coin haut gauche du cadre. */
+@media screen and (min-width: 768px) {
+  .header .header_mobile {
+    inset: 0% auto auto 0%;
+  }
+}

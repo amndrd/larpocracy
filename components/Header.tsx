@@ -1,3 +1,5 @@
+import Logo from './Logo';
+
 /**
  * L'en-tête.
  *
@@ -10,7 +12,9 @@ export default function Header() {
     <header className="header">
       <div className="header_inner">
         {/* En haut à gauche sur grand écran, en tête de barre sur mobile. */}
-        <div className="header_mobile" />
+        <div className="header_mobile">
+          <Logo />
+        </div>
 
         {/* En haut à droite : l'appel à l'action. */}
         <div className="header_btns" />
