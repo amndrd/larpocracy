@@ -817,3 +817,47 @@ body {
     transform: translateY(-3px) rotate(-45deg);
   }
 }
+
+/* ============================================================================
+   LE BOUTON D'APPEL À L'ACTION
+   ----------------------------------------------------------------------------
+   Une pastille d'encre en haut à droite. Au survol, son contenu glisse d'une
+   hauteur entière vers le haut : le texte semble rouler, alors qu'il n'y en a
+   qu'un seul — le second est son ombre portée, posée 2,65 em plus bas.
+   ========================================================================== */
+
+@layer webflow {
+  .btn {
+    border-radius: var(--border-radius);
+    background-color: var(--base);
+    color: var(--bg);
+    text-transform: uppercase;
+    pointer-events: all;
+    font-size: 0.8em;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    overflow: hidden;
+  }
+
+  .btn-inner {
+    padding: 0.9em 0.8em 0.8em;
+  }
+
+  .btn-text.text-youth {
+    white-space: nowrap;
+  }
+}
+
+/* L'ombre portée sert de doublure : c'est elle qu'on voit après le glissement. */
+.btn .btn-text {
+  text-shadow: 0px 2.65em var(--white);
+}
+
+.btn .btn-inner {
+  transition: transform var(--duration-md) var(--ease);
+}
+
+.btn:hover .btn-inner {
+  transform: translateY(-100%);
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Cta from './Cta';
 import Hamburger from './Hamburger';
 import Logo from './Logo';
 import MenuToggle from './MenuToggle';
@@ -53,7 +54,9 @@ export default function Header() {
         </div>
 
         {/* En haut à droite : l'appel à l'action. */}
-        <div className="header_btns" />
+        <div className="header_btns">
+          <Cta />
+        </div>
       </div>
 
       {/* Le voile dépoli, derrière la barre ouverte. */}
