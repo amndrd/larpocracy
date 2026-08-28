@@ -1,4 +1,11 @@
-/** La page. Vide, en attendant son contenu. */
+import Header from '@/components/Header';
+
+/** La page. Vide sous l'en-tête, en attendant son contenu. */
 export default function Page() {
-  return <div className="page" />;
+  return (
+    <>
+      <Header />
+      <div className="page" />
+    </>
+  );
 }

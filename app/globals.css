@@ -180,3 +180,219 @@
   inherits: false;
   initial-value: 0;
 }
+
+/* ============================================================================
+   LE CHÂSSIS DE L'EN-TÊTE
+   ----------------------------------------------------------------------------
+   L'en-tête ne surmonte pas la page : il la recouvre entièrement, fixe et
+   transparent aux clics. Ses quatre coins portent chacun un élément — le
+   mot-logo en haut à gauche, le bouton d'appel en haut à droite, la barre de
+   navigation à mi-hauteur à gauche, le bouton Menu en bas à gauche. Seuls ces
+   éléments-là reprennent les clics (`pointer-events: all`).
+   ========================================================================== */
+
+@layer webflow {
+  html {
+    -webkit-text-size-adjust: 100%;
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--base);
+    font-family: var(--font-pp), Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    min-height: 100%;
+    margin: 0;
+  }
+
+  header,
+  nav {
+    display: block;
+  }
+
+  a {
+    color: inherit;
+    background-color: #0000;
+  }
+
+  a:active,
+  a:hover {
+    outline: 0;
+  }
+
+  svg:not(:root) {
+    overflow: hidden;
+  }
+
+  button,
+  [type='button'] {
+    color: inherit;
+    font: inherit;
+    text-transform: none;
+    cursor: pointer;
+    -webkit-appearance: button;
+    border: 0;
+    margin: 0;
+    overflow: visible;
+  }
+
+  button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg: #fbf9ef;
+    --base: #171412;
+    --orange: #f72; /* l'accent : le point de survol, le liseré du sceau */
+    --purple: #3d2fa9;
+    --border-radius: 0.75em;
+    --white: white;
+    --grey: #8e827c;
+  }
+
+  .w-inline-block {
+    max-width: 100%;
+    display: inline-block;
+  }
+
+  .header {
+    z-index: 10;
+    pointer-events: none;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+    height: 100%;
+    padding: 1.5em;
+    display: flex;
+    position: fixed;
+  }
+
+  .header_inner {
+    flex: 1;
+    position: relative;
+  }
+
+  .header_mobile {
+    grid-column-gap: 0.8em;
+    grid-row-gap: 0.8em;
+    text-align: center;
+    flex-flow: column;
+    display: flex;
+    position: absolute;
+    inset: auto auto 0% 0%;
+  }
+
+  .header_btns {
+    position: absolute;
+    inset: 0% 0% auto auto;
+  }
+
+  .page {
+    min-height: 100vh;
+    overflow: clip;
+  }
+
+  /* La grasse des étiquettes : nommée par sa variable, resserrée. */
+  .text-youth {
+    letter-spacing: -0.03em;
+    font-family: var(--font-youth), Arial, sans-serif;
+  }
+
+  .text-small {
+    text-overflow: ellipsis;
+    font-size: 0.875em;
+    line-height: 1.2;
+    overflow: hidden;
+  }
+
+  .text-grey {
+    color: var(--grey);
+  }
+
+  .icon {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  @media screen and (max-width: 767px) {
+    .header {
+      height: auto;
+      padding: 20px;
+    }
+    .header_inner {
+      z-index: 1;
+    }
+    .header_mobile {
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      flex-flow: row;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+      inset: 0 0 0% 0%;
+    }
+    .header_btns {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .header_mobile {
+      justify-content: flex-end;
+      align-items: center;
+      display: flex;
+    }
+  }
+}
+
+/* --- Les règles propres au site, hors couche ------------------------------ */
+
+:root {
+  --ba-ink: var(--color-base);
+
+  /* La courbe et les quatre durées : tout le mouvement du site en sort. */
+  --ease: cubic-bezier(0.36, 0.33, 0, 1);
+  --duration-xs: 0.24s;
+  --duration-sm: 0.32s;
+  --duration-md: 0.42s;
+  --duration-lg: 0.64s;
+}
+
+/* Le corps de texte grandit avec la fenêtre : toutes les tailles du dessin
+   sont en `em`, c'est donc cette seule règle qui met la page à l'échelle. */
+:root {
+  --size-unit: 16;
+  --size-container-ideal: 1440;
+  --size-container-min: 768px;
+  --size-container-max: 1920px;
+  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
+  --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    font-size: var(--size-font);
+  }
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-base);
+  transition:
+    background var(--duration-lg) var(--ease),
+    color var(--duration-lg) var(--ease);
+}
