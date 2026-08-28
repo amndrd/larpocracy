@@ -1,2 +1,182 @@
-/* Feuille de style du site. Vide : le nouveau registre s'écrit à partir
-   d'ici, en CSS nu. */
+/* ============================================================================
+   LARPLVL — feuille de style du site
+   ----------------------------------------------------------------------------
+   Le dessin est repris tel quel d'une maquette statique. Sa cascade est réglée
+   au sélecteur près : l'ordre des couches ci-dessous la reproduit et ne doit
+   pas changer sans vérifier le rendu.
+
+     properties · theme · base   les jetons et la remise à zéro
+     webflow                     le châssis de l'en-tête
+     components · utilities      les classes utilitaires du balisage
+     (hors couche)               les règles propres au site — priorité maximale
+   ========================================================================== */
+
+@layer properties, theme, base, webflow, components, utilities;
+
+/* --- Repli pour les navigateurs sans @property ---------------------------- */
+@layer properties {
+  @supports (((-webkit-hyphens: none)) and (not (margin-trim: inline))) or
+    ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
+    *,
+    :before,
+    :after,
+    ::backdrop {
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+    }
+  }
+}
+
+/* --- Les jetons ----------------------------------------------------------- */
+@layer theme {
+  :root,
+  :host {
+    --font-sans:
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+      'Noto Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+      'Segoe UI Symbol', 'Noto Color Emoji';
+    --spacing: 0.25rem;
+    --default-font-family: var(--font-sans);
+
+    /* Les deux seules couleurs de la page, plus le gris des pictogrammes. */
+    --color-base: #171412; /* l'encre : un noir chaud, jamais #000 */
+    --color-bg: #fbf9ef; /* le papier : un crème, jamais #fff */
+    --color-grey: #8e827c;
+
+    /* Nommée par sa variable : la famille réelle est engendrée au build. */
+    --font-body: var(--font-pp), Arial, sans-serif;
+  }
+}
+
+/* --- La remise à zéro ----------------------------------------------------- */
+@layer base {
+  *,
+  :after,
+  :before,
+  ::backdrop {
+    box-sizing: border-box;
+    border: 0 solid;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  :host {
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    line-height: 1.5;
+    font-family: var(--default-font-family);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a {
+    color: inherit;
+    -webkit-text-decoration: inherit;
+    text-decoration: inherit;
+  }
+
+  :-moz-focusring:where(:not(iframe)) {
+    outline: auto;
+  }
+
+  svg {
+    vertical-align: middle;
+    display: block;
+  }
+
+  button {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    opacity: 1;
+    background-color: #0000;
+    border-radius: 0;
+    appearance: button;
+  }
+}
+
+/* --- Les classes utilitaires du balisage ---------------------------------- */
+@layer utilities {
+  .pointer-events-none {
+    pointer-events: none;
+  }
+  .fixed {
+    position: fixed;
+  }
+  .inset-0 {
+    inset: 0;
+  }
+  .top-0 {
+    top: 0;
+  }
+  .left-0 {
+    left: 0;
+  }
+  .z-50 {
+    z-index: 50;
+  }
+  .z-60 {
+    z-index: 60;
+  }
+  .hidden {
+    display: none;
+  }
+  .h-3 {
+    height: calc(var(--spacing) * 3);
+  }
+  .w-3 {
+    width: calc(var(--spacing) * 3);
+  }
+  .-translate-x-1\/2 {
+    --tw-translate-x: calc(calc(1 / 2 * 100%) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .-translate-y-1\/2 {
+    --tw-translate-y: calc(calc(1 / 2 * 100%) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .rounded-full {
+    border-radius: 3.40282e38px;
+  }
+  .bg-base {
+    background-color: var(--color-base);
+  }
+  .bg-bg {
+    background-color: var(--color-bg);
+  }
+  .font-body {
+    font-family: var(--font-body);
+  }
+  .text-base {
+    color: var(--color-base);
+  }
+  .text-grey {
+    color: var(--color-grey);
+  }
+  .antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .mix-blend-difference {
+    mix-blend-mode: difference;
+  }
+  @media (min-width: 48rem) {
+    .md\:block {
+      display: block;
+    }
+  }
+}
+
+/* --- Les deux variables de translation, déclarées proprement -------------- */
+@property --tw-translate-x {
+  syntax: '*';
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-y {
+  syntax: '*';
+  inherits: false;
+  initial-value: 0;
+}
