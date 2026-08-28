@@ -384,3 +384,54 @@ l'ait décidé. Une ligne à changer le jour venu.
 `content/domains.json` reste la source de vérité de ce qui est *publié*, et la page
 recoupe les deux pour ne marquer « Ouvert » que ce qui existe. Le programme ne peut
 donc jamais laisser croire qu'une fiche est là quand elle ne l'est pas.
+
+## 2026-08-28 — #027 Table rase du design, et reprise d'une maquette d'en-tête
+
+**Ce qui est retiré.** Tout. Les huit pages de la vitrine, les neuf routes de
+l'application, les vingt-huit composants, les dix-huit modules de `lib/`, le contenu,
+le schéma Supabase, le proxy de session, et le système de jetons « deux lumières »
+arrêté trois jours plus tôt (#026). Le site est réduit à trois fichiers : une
+coquille, une page vide, une feuille de style.
+
+Ce n'est pas un abandon des décisions de fond — les quatorze domaines, les principes
+de contenu, les 673 sujets, l'éthique restent. C'est le **design** qui repart de zéro,
+et lui seul.
+
+**Ce qui le remplace.** L'en-tête d'une maquette statique fournie, reprise au sélecteur
+près : un cadre fixe pleine hauteur, transparent aux clics, dont les quatre coins
+portent le mot-logo, une barre de six pastilles à mi-hauteur, le bouton Menu, et un
+bouton d'appel à l'action. Papier crème `#fbf9ef`, encre `#171412`, PP Neue Montreal
+pour le texte et Youth pour les étiquettes.
+
+**Pourquoi en CSS nu.** La maquette tient en cinq feuilles dont la cascade est réglée
+au sélecteur près. Tailwind est retiré : le faire régénérer ces règles n'apporterait
+qu'un risque de divergence, pour rien. L'ordre des couches — `properties`, `theme`,
+`base`, `webflow`, `components`, `utilities`, puis les règles hors couche — est fixé
+à la première ligne de `app/globals.css` et **ne doit pas changer sans vérifier le
+rendu**.
+
+**Ce qui a été rétabli.** La maquette avait perdu son JavaScript. Trois choses n'y
+fonctionnaient donc plus, et sont réécrites ici : le menu mobile (la barre se retire
+hors du cadre, le hamburger la rappelle, un voile dépoli passe derrière), le
+croisement des deux traits du hamburger, et le point qui suit le curseur — figé, dans
+la maquette, à la position de la sauvegarde d'origine.
+
+**Ce qui n'a pas été repris.** Deux éléments de la maquette sont masqués à **toutes**
+les largeurs par le cumul de deux règles : le sceau rond (`.brand`) et l'indicateur de
+langue (`.lang`). Ils ne sont pas dans le balisage — les recopier n'aurait rien
+affiché.
+
+**Le mot-logo.** Le nom change, donc la marque ne peut pas être identique : les
+courbes d'origine sont remplacées par du texte en Youth 900, empilé sur deux lignes,
+à l'emplacement et à l'échelle de la marque reprise. Du texte plutôt que des courbes :
+net à toute taille, et lisible par les moteurs de recherche.
+
+**Vérification.** Les deux rendus ont été comparés côte à côte sur douze largeurs de
+360 à 1920 px — position, taille, couleur, rayon, corps, affichage et opacité de
+treize éléments : **156 mesures sur 156 identiques**. Le diff pixel des pages
+complètes ne montre de différence que dans le mot-logo (0,11 % à 1440 px).
+
+**Ce qui reste ouvert.** Les six entrées de la barre et le bouton d'appel pointent
+vers des adresses qui n'existent pas encore. Le libellé du bouton — « book a call
+now » — est celui de la maquette : il n'a pas été traduit ni adapté, faute d'une
+décision sur ce que le bouton doit déclencher.
