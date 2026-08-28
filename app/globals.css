@@ -600,3 +600,76 @@ body {
 .nav_group {
   display: contents;
 }
+
+/* --- Le survol de la barre ------------------------------------------------
+   La pastille survolée s'élargit, son pictogramme passe du gris à l'encre, et
+   son étiquette se dévoile en glissant. Les deux pastilles voisines s'élargissent
+   à moitié : c'est ce débordement en cascade qui donne au rail sa souplesse.  */
+
+.nav {
+  transition: transform var(--duration-md) var(--ease);
+}
+
+.nav_link {
+  transition: width var(--duration-md) var(--ease);
+}
+
+.nav_link .nav_link_icon {
+  transition: color var(--duration-sm) var(--ease);
+}
+
+.nav_link .nav_link_tag,
+.nav_link .nav_link_dot {
+  transition:
+    transform var(--duration-sm) var(--ease),
+    opacity var(--duration-xs) var(--ease);
+}
+
+.nav_link .nav_link_tag_title,
+.nav_link .nav_link_btn_inner {
+  transition: transform var(--duration-sm) var(--ease);
+}
+
+@media screen and (min-width: 768px) {
+  .nav_link:hover {
+    width: 5em;
+  }
+  .nav_link:hover .nav_link_icon {
+    color: var(--base);
+  }
+  .nav_link:hover .nav_link_tag {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+  /* La suivante, puis la précédente : le rail se déforme des deux côtés. */
+  .nav_link:hover + .nav_link {
+    width: 4.5em;
+  }
+  .nav_link:has(+ :hover) {
+    width: 4.5em;
+  }
+}
+
+/* Écran large mais bas : le rail se resserre pour tenir dans la hauteur. */
+@media screen and (min-width: 768px) and (max-height: 680px) {
+  .nav {
+    grid-row-gap: 0.25em;
+    row-gap: 0.25em;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .nav_link .nav_link_tag {
+    color: var(--grey);
+  }
+  .nav_link:hover .nav_link_btn_inner {
+    transform: translate(0);
+  }
+  .nav_link:hover .nav_link_icon {
+    color: var(--bg);
+  }
+  .nav_link:hover .nav_link_dot {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
