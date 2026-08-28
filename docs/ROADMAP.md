@@ -2,10 +2,11 @@
 
 ---
 
-## ÉTAT AU 25 AOÛT 2026
+## ÉTAT AU 28 AOÛT 2026
 
 **Phase en cours : Phase 2 — le noyau utile.**
-**Socle technique : refondu.** Next.js 16 + Supabase + Vercel.
+**Le site est reparti de zéro : contenu le 26 août (#022), design le 28 (#027).**
+Il ne reste qu'une page blanche surmontée d'un en-tête.
 
 | Élément | État |
 |---|---|
@@ -14,27 +15,23 @@
 | Documentation de contexte | ✅ |
 | Atlas des 673 sujets | ✅ |
 | Application Next.js sur localhost:3000 | ✅ |
-| Design « nuit » repris de fora.so, barre flottante | ✅ refonte du 26 août (#024) |
-| Points, rangs, séries, distinctions | ✅ schéma à rejouer dans Supabase |
-| Pages de contenu prérendues + recherche | ✅ |
-| Comptes Supabase (auth + RLS) | ✅ code prêt — clés à renseigner |
-| Progression liée au compte | ✅ code prêt — clés à renseigner |
-| Pages About · Features · Pricing · News | ✅ |
-| Vitrine et application séparées (façon Figma) | ✅ #025 |
-| Contenu freemium (`free: true` par fiche) | ✅ verrou vérifié |
-| Page formules (free / pro) | ✅ facturation non branchée · `PRIX_PRO` à fixer |
+| En-tête : mot-logo, barre, bouton Menu, bouton d'appel | ✅ #027 — maquette reprise au sélecteur près |
+| Menu mobile, point suiveur | ✅ #027 — réécrits, la maquette avait perdu son JavaScript |
+| Corps de la page | ⬜ vide — c'est le chantier |
+| Pages `/contenu` `/about` `/features` `/pricing` `/news` `/contact` | ⬜ la barre y mène, elles n'existent pas |
+| Libellé du bouton d'appel | ⏳ « book a call now », celui de la maquette — à arrêter |
+| Comptes, progression, points, formules, recherche | ⬜ **retirés** le 28 août — à refaire le moment venu |
+| Modules de contenu remplis | ⬜ **0** — remis à zéro le 26 août (#022) |
 | Déploiement Vercel | ⏳ en attente de connexion au compte |
-| Mode Cartes (révision par retournement) | ✅ |
-| Images | ⏳ à déposer dans `public/images/` |
-| Modules de contenu remplis | **0 — contenu remis à zéro le 26 août (#022)** |
 
-**Pour activer les comptes** : créer un projet Supabase, exécuter
-`supabase/schema.sql` dans le SQL Editor, puis renseigner `NEXT_PUBLIC_SUPABASE_URL`
-et `NEXT_PUBLIC_SUPABASE_ANON_KEY` dans `.env.local` (voir `.env.example`) et dans les
-variables d'environnement Vercel.
+**Prochaine action** : décider ce que porte le corps de la page, sous l'en-tête.
 
-**Prochaine action** : reconstruire le contenu domaine par domaine —
-voir « Pour ajouter un domaine » dans `CLAUDE.md`.
+**Ce qui a été retiré le 28 août** et devra être refait quand le site reprendra sa
+forme : l'authentification et la base Supabase (`lib/supabase/`, `supabase/schema.sql`,
+`proxy.ts`), la gamification (`lib/xp.ts`, `lib/stats.ts`), le chargement du contenu et
+la recherche (`lib/content.ts`, `app/api/search`), le verrou freemium (`lib/access.ts`),
+et les deux châssis vitrine / application. Tout est dans l'historique git, au commit
+`e15e494` et avant.
 
 **Ancienne note de contenu** : les modules P0 du Domaine 6 (Business) et du
 Domaine 11 (Conversation & Réseau) — les deux qui servent le plus vite en situation
