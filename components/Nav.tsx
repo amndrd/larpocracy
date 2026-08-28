@@ -28,21 +28,25 @@ const ENTREES = [
  * L'étiquette est toujours dans le balisage — elle est seulement transparente
  * au repos, jamais retirée : c'est ce qui la rend lisible aux lecteurs
  * d'écran et aux moteurs de recherche.
+ *
+ * Les enveloppes sont des `div`, comme dans la maquette : leurs largeurs en
+ * pourcentage supposent des blocs. Elles tenaient ici par accident, parce que
+ * la mise en page les blocifiait ; mieux vaut ne pas en dépendre.
  */
 export default function Nav() {
   return (
     <nav className="nav">
       {ENTREES.map(({ href, label, Icone }) => (
         <Link key={href} className="nav_link w-inline-block" href={href}>
-          <span className="nav_link_btn_inner">
-            <span className="nav_link_icon">
+          <div className="nav_link_btn_inner">
+            <div className="nav_link_icon">
               <Icone />
-            </span>
-            <span className="nav_link_tag">
-              <span className="nav_link_tag_title text-youth">{label}</span>
-            </span>
-            <span className="nav_link_dot" />
-          </span>
+            </div>
+            <div className="nav_link_tag">
+              <div className="nav_link_tag_title text-youth">{label}</div>
+            </div>
+            <div className="nav_link_dot" />
+          </div>
         </Link>
       ))}
     </nav>

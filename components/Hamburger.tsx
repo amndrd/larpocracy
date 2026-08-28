@@ -17,10 +17,10 @@ export default function Hamburger({
       aria-label={ouvert ? 'Fermer le menu' : 'Ouvrir le menu'}
       onClick={bascule}
     >
-      <span className="menu_toggle_icon">
-        <span className="menu_toggle_line" />
-        <span className="menu_toggle_line" />
-      </span>
+      <div className="menu_toggle_icon">
+        <div className="menu_toggle_line" />
+        <div className="menu_toggle_line" />
+      </div>
     </button>
   );
 }
