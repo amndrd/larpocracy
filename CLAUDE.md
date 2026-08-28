@@ -59,211 +59,96 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
 
 ## 5. Stack technique
 
-- **Next.js 16** (App Router) + **TypeScript** + **Tailwind CSS v4**.
-- **Deux lumières** (décision #026) : la **vitrine est claire**, l'**application
-  reste sombre**. Un seul jeu de jetons, dans `app/globals.css` (`@theme`) : surfaces
-  `canvas`/`canvas-2`/`surface`, encres `ink`/`ink-2`/`ink-3`/`ink-4`, voiles
-  `veil`/`edge`/`glass`, `--radius-*`, `--shadow-*`, et la courbe `--ease-fora`
-  (`cubic-bezier(0.44, 0, 0.56, 1)`). La classe `.vitrine`, posée par
-  `app/(site)/layout.tsx`, **redéfinit ces jetons pour son seul sous-arbre** : c'est
-  tout ce qui sépare le jour de la nuit. Aucune variante `dark:` nulle part.
-- **Registre de la vitrine : celui des studios de design** (#026). Titres énormes et
-  très serrés (`@utility mega`, `-0.045em`, interligne `0.92`), sections numérotées
-  01–04, filets nus plutôt que cartes, bandeau de mots en boucle (`Ruban`), index qui
-  se décale au survol (`ligne`/`ligne-on`), enseigne géante en pied de page.
-- **Typographie : Inter Tight uniquement.** Les titres sont grands, de graisse 400–500
-  et **très serrés** ; leur seconde moitié s'éteint (`text-ink-4`, ou `headline-dim`
-  dans l'application).
-- **Mouvement : une seule figure**, la révélation au défilement (`components/Reveal.tsx`,
-  IntersectionObserver). L'état initial est dans la feuille de style (`[data-reveal]`)
-  pour éviter tout clignotement avant l'hydratation, et un `<noscript>` du layout le
-  neutralise si JavaScript est absent.
-- **Gamification** (décision #021) : `lib/xp.ts` (barème, rangs, séries,
-  distinctions) et `lib/stats.ts` (`bilan()`, fonction pure). Aucun point offert.
-- **Navigation en anglais** : Contenu · About · Features · Pricing · News · Contact us,
-  puis Login et Get started. Les routes suivent (`/about`, `/features`, `/pricing`,
-  `/news`, `/contact`) ; `/manifeste` et `/tarifs` redirigent en 308 depuis
-  `next.config.ts`. La barre est **pleine largeur** et transparente sur le héros : elle
-  ne prend son fond et son filet qu'une fois qu'on a défilé.
-- **Vitrine et application sont deux mondes** (décision #025), à la manière de Figma :
-  - `app/(site)/**` — la vitrine, **prérendue en statique**, claire, châssis `Header`
-    pleine largeur + `Footer` ;
-  - `app/app/**` — l'application, **rendue à la demande** (`dynamic = 'force-dynamic'`),
-    châssis `AppShell` à barre latérale, session obligatoire.
-  Le contraste entre les deux châssis est voulu : c'est ce qui fait sentir qu'on entre.
-- **Freemium** : une fiche porte `"free": true` et s'ouvre à tous, ou demande la
-  formule Pro. `lib/access.ts` (`isFree`, `canOpen`) et `lib/session.ts` (`getSession`,
-  qui rend `plan`). Le montant de Pro est dans `PRIX_PRO` (`lib/plans.ts`) et reste
-  à fixer — aucun prix inventé ne traîne dans une page.
-- **Chaque domaine a sa teinte** (`lib/theme.ts`), posée en variables CSS `--dom` et
-  `--dom-tint` par `domainVars()`, jamais en classes Tailwind générées.
-- **Images** : déposées à la main dans `public/images/`, puis **déclarées** dans le
-  JSON (`"image": "mon-fichier.jpg"`). Jamais devinées par convention de nom — une
-  image absente afficherait un trou. Sans image déclarée, le site pose un aplat
-  teinté à la place. Voir `lib/images.ts` et `public/images/LISEZMOI.md`.
-- **Supabase** : authentification (email + mot de passe) et Postgres.
+> **Le design a été remis à zéro le 28 août 2026 (décision #027).** Tout ce que
+> décrivaient les décisions #020 à #026 — jetons « deux lumières », registre des
+> studios de design, Tailwind, révélation au défilement — a été retiré. Ce qui suit
+> décrit ce qui existe *aujourd'hui*, et rien d'autre.
+
+- **Next.js 16** (App Router) + **TypeScript**. Rien d'autre en dépendance :
+  ni Tailwind, ni Supabase, ni bibliothèque d'animation.
+- **Le CSS est nu**, dans un seul fichier : `app/globals.css`. Il reprend au
+  sélecteur près une maquette statique (`~/Desktop/website`), dont la cascade est
+  réglée par un ordre de couches **fixé à la première ligne du fichier** :
+
+  ```
+  @layer properties, theme, base, webflow, components, utilities;
+  ```
+
+  puis les règles propres au site, **hors couche**, qui l'emportent sur tout.
+  Ne pas changer cet ordre sans vérifier le rendu.
+- **Deux couleurs, un gris.** Papier `#fbf9ef`, encre `#171412`, gris `#8e827c`
+  pour les pictogrammes au repos ; `--orange: #f72` pour l'unique accent.
+- **Deux polices, embarquées** (`app/fonts.ts`, `next/font/local`) :
+  **PP Neue Montreal** 400 pour le texte, **Youth** 700/900 pour les étiquettes,
+  les boutons et le mot-logo. La feuille de style les nomme par leur variable
+  (`--font-pp`, `--font-youth`), jamais par leur nom de famille : celui-ci est
+  engendré au build.
+- **Tout le dessin est en `em`.** Une seule règle met la page à l'échelle de la
+  fenêtre — `body { font-size: var(--size-font) }` au-delà de 768 px, où
+  `--size-font` interpole entre 768 et 1920 px. Changer une taille en `px` casse
+  cette mise à l'échelle.
+- **Un seul état dans tout le site** : le menu mobile, ouvert ou fermé. Il n'est
+  pas passé en propriété — il est posé en classe `--showMenu` sur le corps de page,
+  parce que le CSS commande de là la barre, le voile et le hamburger, qui ne sont
+  pas frères dans le balisage.
+- **Un seul mouvement continu** : le point qui suit le curseur
+  (`components/PointCurseur.tsx`), qui rattrape le pointeur d'un sixième de la
+  distance par image.
+- **La page est prérendue en statique.** Rien n'est dynamique, il n'y a plus
+  de session ni de base de données.
 - Hébergement **Vercel**. Développement sur `localhost:3000` (`npm run dev`).
-- Contenu en **JSON** dans `content/`, importé statiquement par `lib/content.ts`.
-- Pages de contenu **prérendues** (`generateStaticParams`) : bon pour le référencement.
 
 ### Pièges déjà rencontrés — ne pas les refaire
 
-- **Next 16 a renommé `middleware` en `proxy`.** Fichier `proxy.ts`, fonction
-  exportée `proxy`. L'ancienne convention émet un avertissement de dépréciation.
+- **Next 16 a renommé `middleware` en `proxy`.** Il n'y a plus de proxy dans le
+  projet, mais si l'on en réintroduit un : fichier `proxy.ts`, fonction `proxy`.
 - **`export const dynamic = 'force-static'` vide les paramètres de requête.**
-  Une route qui lit `searchParams` ne doit jamais l'utiliser : `/api/search`
-  répondait systématiquement `{"hits":[]}` à cause de ça.
+  Une route qui lit `searchParams` ne doit jamais l'utiliser.
 - **`params` et `searchParams` sont des `Promise`** : toujours les `await`.
 - **`next dev` réécrit un bloc à la fin de ce fichier.** Ne pas le supprimer,
   il se recrée ; le committer avec le reste.
-- **Le header ne doit pas lire la session côté serveur** : cela basculerait
-  toutes les pages en rendu dynamique. C'est le rôle de `AccountNav`, client.
-- **Ne jamais mettre la clé `service_role` dans le code** : elle contourne la RLS.
-- **Vercel refuse le type `Secret` pour une variable `NEXT_PUBLIC_`** : ce préfixe
-  l'envoie au navigateur, elle ne peut donc pas être secrète. Type **Config**.
-  Un secret déjà enregistré n'est pas convertible : il faut le supprimer et le recréer.
-- **Les variables `NEXT_PUBLIC_` sont figées dans le JS au moment du build.**
-  Changer la valeur ne suffit pas : il faut redéployer. Et un « Redeploy » qui
-  réutilise le cache de build peut resservir l'ancienne valeur — vérifier la clé
-  réellement livrée en cherchant sa valeur dans `/_next/static/chunks/*.js`.
-- **Les compteurs de l'en-tête passent par `/api/bilan`**, jamais par le rendu
-  serveur : lire la session dans le header basculerait tout le site en dynamique.
-- **`backdrop-filter` déclaré dans un `@utility` reste sans effet.** Tailwind v4
-  pilote cette propriété par ses propres variables et écrase la déclaration. Pour un
-  effet de verre dépoli, utiliser les classes `backdrop-blur-*` et
-  `backdrop-saturate-*` sur l'élément.
-- **La barre de navigation est en `position: fixed`**, donc hors du flux : `<main>`
-  porte un `pt-16 sm:pt-20` pour dégager sa hauteur. Le supprimer ferait passer les
-  titres sous la barre.
-- **Ne jamais écrire une couleur en dur dans un composant partagé** (`bg-white/[0.06]`,
-  `ring-white/10`) : elle survivrait au passage au jour et deviendrait invisible sur
-  le blanc. Passer par `veil`, `veil-2`, `edge`, `line`, `ink-*`.
-- **Le `body` reste noir sous la vitrine** : c'est `html:has(.vitrine)` qui le repeint,
-  sans quoi le rebond du défilement découvrirait du noir en haut et en bas de page.
-- **Le contenu verrouillé ne doit jamais partir dans le HTML.** C'est la raison pour
-  laquelle `app/app/**` est dynamique : une page prérendue livrerait le texte payant
-  à qui inspecte la source, quel que soit le masquage visuel. La page de fiche coupe
-  **avant** de rendre sections, lexique et test, elle ne les cache pas.
-- **La recherche filtre selon la formule** : `search(q, limit, plan)` écarte les
-  termes et prononciations issus d'une fiche verrouillée. Les titres de fiches, eux,
-  restent trouvables — un titre ne livre rien.
-- **Les redirections d'entrée sont dans `proxy.ts`**, pas dans les pages : un
-  `redirect()` depuis l'accueil ferait basculer toute la vitrine en dynamique.
-- **`upload.wikimedia.org` ne sert que les largeurs de vignette déjà en cache** et
-  répond **400** sur toutes les autres. Pour ajouter un visuel : télécharger l'URL
-  exacte renvoyée par l'API, puis redimensionner localement.
+- **Vider `.next` après une suppression de routes.** `npx tsc --noEmit` échoue
+  sinon sur des types de routes disparues, que Next avait engendrés au build
+  précédent.
+- **`.btn-inner` et les enveloppes des pastilles doivent être des `div`.**
+  La pastille du bouton est en `inline-block` : un `span` n'y prendrait pas la
+  garde en hauteur, et les largeurs en pourcentage ne s'appliqueraient pas.
 - **Ne jamais recopier une clé à la main depuis un terminal** : `l` et `1` s'y
-  confondent. Une clé anon mal recopiée a fait échouer toute l'auth en production
-  avec le seul message « Impossible d'aboutir ». Copier-coller, toujours.
+  confondent. Copier-coller, toujours.
 
 ## 6. Arborescence
 
 ```
 app/
-  layout.tsx              coquille et polices (le châssis est propre à chaque monde)
-  (site)/                 LA VITRINE — statique, claire, barre pleine largeur
-    page.tsx              accueil
-    about/ features/ pricing/ news/ contact/   présentation
-    connexion/ inscription/            entrée
-  app/                    L'APPLICATION — dynamique, barre latérale, session requise
-    layout.tsx            AppShell + chargement du bilan
-    page.tsx              tableau de bord
-    d/[domaine]/          un domaine
-    f/[domaine]/[fiche]/  une fiche (verrou compris)
-    f/[domaine]/[fiche]/cartes/   le paquet
-    compte/  recherche/
-  auth/actions.ts         Server Actions d'authentification
-  auth/confirm/route.ts   cible du lien de confirmation email
-  api/search/route.ts     recherche (dynamique — voir les pièges)
-  api/bilan/route.ts      points et série pour l'en-tête (dynamique)
-components/               Header (barre flottante), Footer, SearchBox, AuthForm, …
-  Button/Badge/Progress   primitives (bouton pressable, pastille, barre + anneau)
-  icons.tsx               les pictogrammes, dessinés à la main
-  DomainCard/FicheCard    les vignettes du catalogue
-  StudyModes.tsx          le sélecteur Lire · Cartes · Test d'une fiche
-  GameStats.tsx           pilules de points, carte de rang, mur de distinctions
-  Reveal.tsx              révélation au défilement
-  Ruban.tsx               le bandeau de mots qui défile en boucle (CSS seul)
-  Logo.tsx                le mot-logo (plus de monogramme depuis #026)
-  HeroPreview.tsx         l'aperçu produit — sans emploi depuis #026, le héros
-                          du nouveau registre ne porte que de la typographie
-  DomainGrid.tsx          la grille de domaines — sans emploi depuis #026
-  Faq.tsx                 repliage natif `<details>`
-  app/AppShell.tsx        le châssis de l'application
-  app/Verrou.tsx          l'écran de déblocage d'une fiche fermée
-  Flashcards.tsx          le mode Cartes
-  Quiz.tsx                le test d'une fiche
-lib/
-  content.ts              chargement du contenu + index de recherche + `deckOf`
-  xp.ts                   barème, rangs, séries, distinctions (pur)
-  stats.ts                `bilan()` : tout ce que l'interface affiche du parcours
-  theme.ts                la teinte de chaque domaine
-  images.ts               résolution des images déclarées dans le JSON
-  news.ts                 le journal de bord (`content/news.json`)
-  catalogue.ts            les 14 domaines annoncés (≠ publiés — voir #026)
-  access.ts               qui peut lire quoi (`isFree`, `canOpen`)
-  session.ts              qui consulte, et avec quelle formule
-  plans.ts                les formules — `PRIX_PRO` est à fixer
-  types.ts                types du contenu
-  progress.ts             lecture/écriture de la progression
-  plans.ts                formules free | pro
-  supabase/               clients serveur, navigateur, config
-proxy.ts                  rafraîchissement de session (ex-middleware)
-content/
-  domains.json            les domaines — **vide au 26 août 2026**
-  news.json               le journal de bord — vide lui aussi
-  modules/<id>.json       le contenu, un fichier par domaine
-public/images/            vos images, déposées à la main
-supabase/schema.sql       schéma + RLS, à exécuter dans le SQL Editor
-docs/                     contexte, atlas, feuille de route, guide, décisions
+  layout.tsx        la coquille : les polices, les classes du corps de page
+  page.tsx          la page — vide sous l'en-tête
+  globals.css       toute la feuille de style, en sections commentées
+  fonts.ts          PP Neue Montreal et Youth, via next/font/local
+  fonts/            les trois .woff2
+components/
+  Header.tsx        le cadre fixe, et le seul état du site (menu ouvert / fermé)
+  Logo.tsx          le mot-logo LarpLvl, empilé sur deux lignes
+  Nav.tsx           les six pastilles de la barre
+  icons.tsx         leurs pictogrammes, repris tels quels de la maquette
+  MenuToggle.tsx    le bouton Menu — grand écran
+  Hamburger.tsx     le bouton hamburger — sous 768 px
+  Cta.tsx           le bouton d'appel à l'action
+  PointCurseur.tsx  le point qui suit le curseur
+docs/               contexte, atlas, feuille de route, guide, décisions
 ```
 
-**Après un `git pull`** : `supabase/schema.sql` a gagné une table `activity_days` et
-deux colonnes sur `card_progress`. Le rejouer dans le SQL Editor de Supabase (il est
-idempotent). Sans cela le site marche, mais la série reste à 0 et les cartes ne
-rapportent aucun point.
+**Il n'y a plus de contenu.** `content/`, `lib/`, `supabase/` et `public/` ont été
+supprimés avec le reste. Le schéma d'une fiche (§ 8) et les quatorze domaines (§ 7)
+restent la référence pour quand le contenu reviendra.
 
-**Sans clés Supabase**, l'application bascule en mode démo : tout est ouvert, rien
-n'est enregistré, et un encart le dit dans la barre latérale. Sans cela le site
-serait inaccessible en local — voir `lib/session.ts`.
+**Les six entrées de la barre et le bouton d'appel pointent vers des adresses qui
+n'existent pas encore** : `/contenu`, `/about`, `/features`, `/pricing`, `/news`,
+`/contact`. C'est volontaire — les pages viendront.
 
-**Pour ouvrir une fiche à tous** : `"free": true` dans son objet JSON. Sans ce
-drapeau, elle demande la formule Pro. Aucune règle implicite tirée du niveau ou du
-rang : c'est un choix explicite, fiche par fiche.
+**Pour retrouver la maquette d'origine** : `~/Desktop/website` (HTML + CSS, sans
+JavaScript). Son `README.md` dit ce qui en avait été retiré, et ce qui n'y
+fonctionnait plus faute de JavaScript.
 
-**Pour ajouter une nouvelle** : un objet dans `content/news.json`
-(`id`, `date` au format AAAA-MM-JJ, `title`, `body`, et `tag`/`image` facultatifs).
-Rien d'autre à toucher — la page `/news` trie par date décroissante.
-
-**Le site est vide de contenu au 26 août 2026** (décision #022) : `domains.json`
-vaut `[]` et `content/modules/` ne contient aucune fiche. Toutes les pages gèrent
-ce cas et affichent un état vide plutôt que de casser.
-
-**Pour ajouter un domaine** — dans `content/domains.json` :
-
-```json
-[
-  {
-    "id": "cave-table", "n": 1, "title": "Cave & Table",
-    "tagline": "Vin, champagne, spiritueux, gastronomie",
-    "blurb": "Deux ou trois phrases sur ce que le domaine couvre.",
-    "topics": 77, "module": true,
-    "keywords": ["vin", "champagne"],
-    "image": "cave-table.jpg"
-  }
-]
-```
-
-`image` est facultatif : le fichier doit être dans `public/images/`. Sans lui, la
-vignette affiche un aplat à la teinte du domaine (`lib/theme.ts`).
-
-**Pour ajouter un module de contenu** :
-1. créer `content/modules/<id-du-domaine>.json` (schéma dans `docs/CONTENT-GUIDE.md`) ;
-2. l'importer dans `lib/content.ts` ;
-3. l'ajouter au tableau `moduleFiles`.
-
-L'import est statique volontairement : c'est ce qui garantit que le contenu est
-embarqué dans le build sur Vercel.
 
 ## 7. Les 14 domaines
 
@@ -321,8 +206,12 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
 
 ## 10. État actuel
 
-Voir la section « État » en tête de `docs/ROADMAP.md` — c'est la source de vérité
-sur ce qui est fait et ce qui vient ensuite.
+**Au 28 août 2026 : le site est une page blanche surmontée d'un en-tête.**
+Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 août (#022).
+Ce qui existe : le cadre, le mot-logo, la barre de six pastilles, le bouton Menu,
+le bouton d'appel, le point qui suit le curseur. Rien d'autre.
+
+Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
