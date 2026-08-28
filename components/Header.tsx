@@ -1,4 +1,5 @@
 import Logo from './Logo';
+import Nav from './Nav';
 
 /**
  * L'en-tête.
@@ -14,6 +15,11 @@ export default function Header() {
         {/* En haut à gauche sur grand écran, en tête de barre sur mobile. */}
         <div className="header_mobile">
           <Logo />
+        </div>
+
+        {/* À mi-hauteur à gauche : la navigation. */}
+        <div className="nav_group">
+          <Nav />
         </div>
 
         {/* En haut à droite : l'appel à l'action. */}
