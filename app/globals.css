@@ -673,3 +673,61 @@ body {
     transform: translate(0);
   }
 }
+
+/* ============================================================================
+   LE BOUTON MENU
+   ----------------------------------------------------------------------------
+   En bas à gauche du cadre, sous la barre : le mot « Menu » et trois points.
+   Les points pivotent d'un quart de tour quand le menu s'ouvre — c'est le seul
+   signe d'état du bouton, et il suffit.
+   ========================================================================== */
+
+.nav_menu_toggle {
+  z-index: 9;
+  pointer-events: all;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  min-width: 4em;
+  color: var(--ba-ink);
+  cursor: pointer;
+  transition: opacity var(--duration-sm) var(--ease);
+  background: 0 0;
+  border: 0;
+  flex-flow: column;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.25em;
+  font-size: 1.0625em;
+  font-weight: 900;
+  display: flex;
+  position: absolute;
+  inset: auto auto 0 0.5em;
+}
+
+.nav_menu_toggle:hover {
+  opacity: 0.6;
+}
+
+.nav_menu_toggle_dots {
+  transition: transform var(--duration-md) var(--ease);
+  gap: 0.176em;
+  display: flex;
+}
+
+.nav_menu_toggle_dots span {
+  background: currentColor;
+  border-radius: 50%;
+  width: 0.176em;
+  height: 0.176em;
+}
+
+.nav_menu_toggle[aria-expanded='true'] .nav_menu_toggle_dots {
+  transform: rotate(90deg);
+}
+
+/* Sur mobile, c'est le bouton hamburger de la barre du haut qui prend le relais. */
+@media screen and (max-width: 767px) {
+  .nav_menu_toggle {
+    display: none;
+  }
+}

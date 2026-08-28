@@ -1,4 +1,5 @@
 import Logo from './Logo';
+import MenuToggle from './MenuToggle';
 import Nav from './Nav';
 
 /**
@@ -20,6 +21,7 @@ export default function Header() {
         {/* À mi-hauteur à gauche : la navigation. */}
         <div className="nav_group">
           <Nav />
+          <MenuToggle />
         </div>
 
         {/* En haut à droite : l'appel à l'action. */}
