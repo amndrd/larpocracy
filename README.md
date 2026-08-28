@@ -36,34 +36,29 @@ Pas parce que c'est mal vu, mais parce que c'est un mauvais calcul :
 
 ### Technique
 
-**Next.js 16** (App Router) · **TypeScript** · **Tailwind CSS v4** · **Supabase**
-(auth + Postgres) · déployé sur **Vercel**.
+**Next.js 16** (App Router) · **TypeScript** · CSS nu · déployé sur **Vercel**.
+Pas de Tailwind, pas de base de données, aucune autre dépendance.
 
 ```bash
 npm install
-cp .env.example .env.local   # puis renseigner les clés Supabase
-npm run dev                  # http://localhost:3000
+npm run dev   # http://localhost:3000
 ```
 
-Le site fonctionne **sans** clés Supabase : l'authentification se désactive
-d'elle-même et tout le contenu reste accessible.
-
-Pour activer les comptes : créer un projet Supabase, exécuter
-[`supabase/schema.sql`](supabase/schema.sql) dans le SQL Editor, renseigner
-`.env.local`.
-
 ```
-app/                  pages et routes (App Router)
-components/           Header, SearchBox, Quiz, AuthForm, …
-lib/content.ts        chargement du contenu + index de recherche
-lib/supabase/         clients serveur et navigateur
-proxy.ts              rafraîchissement de session
-content/modules/      le contenu, un fichier JSON par domaine
-supabase/schema.sql   schéma et Row Level Security
-docs/                 contexte, atlas, feuille de route, décisions
+app/
+  layout.tsx        la coquille : les polices, les classes du corps de page
+  page.tsx          la page — vide sous l'en-tête
+  globals.css       toute la feuille de style
+  fonts.ts fonts/   PP Neue Montreal et Youth, embarquées
+components/         l'en-tête : mot-logo, barre, boutons, point suiveur
+docs/               contexte, atlas, feuille de route, décisions
 ```
 
-Le contenu est de la donnée, pas du code : une fiche est un objet JSON.
+> **Le site est reparti de zéro.** Le contenu a été remis à zéro le 26 août 2026
+> (décision #022), le design le 28 (décision #027). Ce qu'on trouve aujourd'hui dans
+> le dépôt, c'est une page blanche surmontée d'un en-tête — et toute la documentation
+> qui dit ce que le site doit devenir. Les comptes, la recherche, la progression et
+> les formules sont dans l'historique git, au commit `e15e494` et avant.
 
 ### Documentation
 
