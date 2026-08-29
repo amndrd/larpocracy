@@ -11,12 +11,16 @@ import {
 /**
  * Les six entrées de la barre. L'ordre est celui de la navigation du site :
  * le contenu d'abord, la prise de contact en dernier.
+ *
+ * Content et Pricing sont croisés : chacun porte le pictogramme que la
+ * maquette donnait à l'autre. Les noms `IconeContenu` et `IconePricing`
+ * disent d'où vient le tracé, plus à quoi il sert.
  */
 const ENTREES = [
-  { href: '/contenu', label: 'Contenu', Icone: IconeContenu },
+  { href: '/contenu', label: 'Content', Icone: IconePricing },
   { href: '/about', label: 'About', Icone: IconeAbout },
   { href: '/features', label: 'Features', Icone: IconeFeatures },
-  { href: '/pricing', label: 'Pricing', Icone: IconePricing },
+  { href: '/pricing', label: 'Pricing', Icone: IconeContenu },
   { href: '/news', label: 'News', Icone: IconeNews },
   { href: '/contact', label: 'Contact us', Icone: IconeContact },
 ] as const;
