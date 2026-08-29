@@ -681,6 +681,155 @@ body {
 }
 
 /* ============================================================================
+   LE VOLET DE LA BARRE
+   ----------------------------------------------------------------------------
+   Au survol d'About ou de Features, un panneau se déploie à droite du rail :
+   le nom de l'onglet en tête, puis six cases sur deux colonnes.
+
+   Même matière que les pastilles — un voile noir et le même flou de 30 px —
+   mais trois fois plus dense, sinon il se fondrait dans celles qu'il jouxte.
+
+   Sa hauteur n'est pas donnée : elle tombe de la proportion des cases, qui
+   est celle du modèle. Elle se plafonne à la hauteur du cadre, et le volet
+   défile de lui-même sur un écran trop bas.
+   ========================================================================== */
+
+.nav_volet {
+  z-index: 8;
+  position: absolute;
+  top: 0;
+  left: 6.25em;
+  width: 28em;
+  max-height: 100%;
+  padding: 0.75em;
+  border-radius: var(--border-radius);
+  background-color: #00000026;
+  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(30px);
+  overflow: hidden auto;
+  scrollbar-width: none;
+
+  /* Fermé : effacé, décalé d'un demi-pas vers le rail, et hors de l'arbre
+     d'accessibilité — `visibility` rend aussi ses liens infocusables. Elle
+     n'attend la fin du fondu que pour disparaître, jamais pour revenir. */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-0.5em);
+  transition:
+    opacity var(--duration-sm) var(--ease),
+    transform var(--duration-md) var(--ease),
+    visibility 0s linear var(--duration-md);
+}
+
+.nav_volet.--ouvert {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transform: none;
+  transition-delay: 0s;
+}
+
+/* La pastille qui ouvre un volet ne montre plus son étiquette : elle se
+   poserait par-dessus, et le volet porte déjà le nom de l'onglet. Sous
+   768 px l'étiquette est sous le pictogramme, et le volet n'existe pas. */
+@media screen and (min-width: 768px) {
+  .nav_link.--volet .nav_link_tag {
+    display: none;
+  }
+}
+
+.nav_volet_titre {
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--base);
+  font-size: 0.65em;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  margin: 0;
+  padding: 1.35em 0 1.7em;
+}
+
+.nav_volet_grille {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4em;
+}
+
+/* La case : un aplat d'encre éclairé d'un côté. Le lustre est déplacé d'une
+   case à l'autre par `--lustre-x` / `--lustre-y`, ce qui suffit à les
+   distinguer sans sortir des deux couleurs et du gris. */
+.nav_volet_case {
+  --lustre-x: 26%;
+  --lustre-y: 16%;
+
+  aspect-ratio: 29 / 24;
+  position: relative;
+  border-radius: 0.5em;
+  background-color: var(--base);
+  background-image: radial-gradient(
+    100% 100% at var(--lustre-x) var(--lustre-y),
+    color-mix(in srgb, var(--grey) 88%, var(--white)) 0%,
+    color-mix(in srgb, var(--grey) 46%, var(--base)) 36%,
+    var(--base) 76%
+  );
+  color: var(--white);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.nav_volet_case:nth-child(2) { --lustre-x: 80%; --lustre-y: 14%; }
+.nav_volet_case:nth-child(3) { --lustre-x: 14%; --lustre-y: 60%; }
+.nav_volet_case:nth-child(4) { --lustre-x: 70%; --lustre-y: 66%; }
+.nav_volet_case:nth-child(5) { --lustre-x: 52%; --lustre-y: 18%; }
+.nav_volet_case:nth-child(6) { --lustre-x: 90%; --lustre-y: 48%; }
+
+/* Le pied s'assombrit sous le titre. C'est ce que font les photographies du
+   modèle, en plus sombre vers le bas : sans lui, un titre blanc tomberait
+   parfois en plein lustre. */
+.nav_volet_case::before {
+  content: '';
+  position: absolute;
+  inset: 42% 0 0;
+  background-image: linear-gradient(#0000, #000000b3);
+}
+
+/* Le voile qui s'éclaircit au survol. Il est posé en `::after` plutôt qu'en
+   `filter` : un filtre sur la case emporterait aussi son titre. */
+.nav_volet_case::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: #fff0;
+  transition: background-color var(--duration-sm) var(--ease);
+}
+
+.nav_volet_case:hover::after {
+  background-color: #ffffff1f;
+}
+
+.nav_volet_case_titre {
+  position: absolute;
+  z-index: 1;
+  inset: auto auto 0 0;
+  max-width: 100%;
+  padding: 1em;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+/* Sous 768 px la barre passe en rangée au bas de l'écran : il n'y a plus de
+   flanc où déployer le volet, et le survol n'y veut rien dire. */
+@media screen and (max-width: 767px) {
+  .nav_volet {
+    display: none;
+  }
+}
+
+/* ============================================================================
    LE BOUTON MENU
    ----------------------------------------------------------------------------
    En bas à gauche du cadre, sous la barre : un mot et trois points. À

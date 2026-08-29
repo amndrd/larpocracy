@@ -87,10 +87,12 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   fenêtre — `body { font-size: var(--size-font) }` au-delà de 768 px, où
   `--size-font` interpole entre 768 et 1920 px. Changer une taille en `px` casse
   cette mise à l'échelle.
-- **Un seul état dans tout le site** : le menu mobile, ouvert ou fermé. Il n'est
+- **Deux états dans tout le site.** Le menu mobile, ouvert ou fermé : il n'est
   pas passé en propriété — il est posé en classe `--showMenu` sur le corps de page,
   parce que le CSS commande de là la barre, le voile et le hamburger, qui ne sont
-  pas frères dans le balisage.
+  pas frères dans le balisage. Et le volet de la barre, ouvert au survol d'About
+  ou de Features : celui-là reste dans `Nav.tsx`, le CSS n'a rien à savoir en
+  dehors du volet lui-même.
 - **Un seul mouvement continu** : le point qui suit le curseur
   (`components/PointCurseur.tsx`), qui rattrape le pointeur d'un sixième de la
   distance par image.
@@ -128,7 +130,9 @@ app/
 components/
   Header.tsx        le cadre fixe, et le seul état du site (menu ouvert / fermé)
   Logo.tsx          le mot-logo LarpLvl, sur une seule ligne
-  Nav.tsx           les six pastilles de la barre
+  Nav.tsx           les six pastilles de la barre, et l'état du volet
+  VoletNav.tsx      le volet déployé au survol d'About et de Features
+  volets.ts         ce qu'il contient : six cases par onglet
   icons.tsx         leurs pictogrammes, repris tels quels de la maquette
   MenuToggle.tsx    le bouton Menu / Close — grand écran
   Hamburger.tsx     le bouton hamburger — sous 768 px
@@ -209,9 +213,9 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
 
 **Au 28 août 2026 : le site est une page blanche surmontée d'un en-tête.**
 Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 août (#022).
-Ce qui existe : le cadre, le mot-logo, la barre de six pastilles, le bouton Menu,
-les deux boutons du coin (Login et Get started), le point qui suit le curseur.
-Rien d'autre.
+Ce qui existe : le cadre, le mot-logo, la barre de six pastilles et son volet,
+le bouton Menu, les deux boutons du coin (Login et Get started), le point qui
+suit le curseur. Rien d'autre.
 
 Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 
