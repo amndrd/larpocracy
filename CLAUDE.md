@@ -130,7 +130,7 @@ components/
   Logo.tsx          le mot-logo LarpLvl, sur une seule ligne
   Nav.tsx           les six pastilles de la barre
   icons.tsx         leurs pictogrammes, repris tels quels de la maquette
-  MenuToggle.tsx    le bouton Menu — grand écran
+  MenuToggle.tsx    le bouton Menu / Close — grand écran
   Hamburger.tsx     le bouton hamburger — sous 768 px
   Login.tsx         le lien Login — texte nu, à gauche de l'appel
   Cta.tsx           le bouton d'appel à l'action — « get started »

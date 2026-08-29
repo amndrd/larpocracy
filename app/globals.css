@@ -683,9 +683,11 @@ body {
 /* ============================================================================
    LE BOUTON MENU
    ----------------------------------------------------------------------------
-   En bas à gauche du cadre, sous la barre : le mot « Menu » et trois points.
-   Les points pivotent d'un quart de tour quand le menu s'ouvre — c'est le seul
-   signe d'état du bouton, et il suffit.
+   En bas à gauche du cadre, sous la barre : un mot et trois points. À
+   l'ouverture, le mot passe à « Close » — c'est le composant qui le change —
+   et les points pivotent d'un quart de tour, d'après `aria-expanded`.
+   Le `min-width` retient la place du mot le plus court ; comme le bouton est
+   ancré à gauche, le plus long s'étend vers la droite sans rien déplacer.
    ========================================================================== */
 
 .nav_menu_toggle {
