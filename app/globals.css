@@ -687,23 +687,35 @@ body {
    le nom de l'onglet en tête, puis six cases sur deux colonnes.
 
    Même matière que les pastilles — un voile noir et le même flou de 30 px —
-   mais trois fois plus dense, sinon il se fondrait dans celles qu'il jouxte.
+   mais deux fois plus dense, sinon il se fondrait dans celles qu'il jouxte.
 
    Sa hauteur n'est pas donnée : elle tombe de la proportion des cases, qui
    est celle du modèle. Elle se plafonne à la hauteur du cadre, et le volet
    défile de lui-même sur un écran trop bas.
+
+   Toutes les mesures viennent du modèle, relevées à 1920 px de large — la
+   fenêtre où `--size-font` vaut 21,33 px. C'est ce facteur, et lui seul, qui
+   convertit les pixels du relevé en `em` ; les pixels annotés ci-dessous ne
+   valent donc qu'à cette largeur, le dessin suivant la fenêtre partout
+   ailleurs. Le voile lui-même se déduit de la couleur relevée à la pipette :
+   #AFAEA6 sur le papier #FBF9EF, soit 30,3 % de noir, soit 4D d'alpha.
    ========================================================================== */
 
 .nav_volet {
+  --volet-marge: 0.84em; /* 18 px : case au bord du volet */
+  --volet-vide-x: 0.42em; /*  9 px : entre les deux colonnes */
+  --volet-vide-y: 0.47em; /* 10 px : entre deux rangées */
+
   z-index: 8;
   position: absolute;
   top: 0;
   left: 6.25em;
-  width: 28em;
+  width: 29.39em; /* 627 px */
   max-height: 100%;
-  padding: 0.75em;
-  border-radius: var(--border-radius);
-  background-color: #00000026;
+  padding: var(--volet-marge);
+  border-radius: 1.08em; /* 23 px — le volet porte un rayon plus ample que
+                            les pastilles, qui gardent --border-radius. */
+  background-color: #0000004d;
   -webkit-backdrop-filter: blur(30px);
   backdrop-filter: blur(30px);
   overflow: hidden auto;
@@ -739,22 +751,26 @@ body {
   }
 }
 
+/* Le bandeau de titre fait 67 px de haut, et le mot se pose à 45 px du haut
+   du volet. Les deux paddings sont ici dans l'em du titre, pas dans celui du
+   volet : 1,56 x 0,81 = 1,27 em du volet, soit les 27 px qui restent une fois
+   ôtée sa marge de 18. */
 .nav_volet_titre {
   text-align: center;
   text-transform: uppercase;
   color: var(--base);
-  font-size: 0.65em;
+  font-size: 0.81em;
   font-weight: 900;
   line-height: 1;
   letter-spacing: 0.04em;
   margin: 0;
-  padding: 1.35em 0 1.7em;
+  padding: 1.47em 0 1.31em;
 }
 
 .nav_volet_grille {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.4em;
+  gap: var(--volet-vide-y) var(--volet-vide-x);
 }
 
 /* La case : un aplat d'encre éclairé d'un côté. Le lustre est déplacé d'une
@@ -764,9 +780,9 @@ body {
   --lustre-x: 26%;
   --lustre-y: 16%;
 
-  aspect-ratio: 29 / 24;
+  aspect-ratio: 145 / 121; /* 290 x 242 px */
   position: relative;
-  border-radius: 0.5em;
+  border-radius: 0.56em; /* 12 px */
   background-color: var(--base);
   background-image: radial-gradient(
     100% 100% at var(--lustre-x) var(--lustre-y),
@@ -809,14 +825,18 @@ body {
   background-color: #ffffff1f;
 }
 
+/* Le titre de la case. Sa hauteur de capitale vaut 16 px sur le modèle, d'où
+   le corps : celui d'avant en donnait 11. Les retraits visés sont 24 px à
+   gauche et 27 px sous les lettres — le padding du bas est plus court que
+   cela, l'approche du bas de ligne ajoutant le reste. */
 .nav_volet_case_titre {
   position: absolute;
   z-index: 1;
   inset: auto auto 0 0;
   max-width: 100%;
-  padding: 1em;
+  padding: 0 1.03em 1.1em;
   text-transform: uppercase;
-  font-size: 0.75em;
+  font-size: 1.09em;
   font-weight: 900;
   line-height: 1.05;
 }
