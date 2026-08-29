@@ -132,7 +132,7 @@ components/
   icons.tsx         leurs pictogrammes, repris tels quels de la maquette
   MenuToggle.tsx    le bouton Menu — grand écran
   Hamburger.tsx     le bouton hamburger — sous 768 px
-  Login.tsx         le bouton Login — fantôme, à gauche de l'appel
+  Login.tsx         le lien Login — texte nu, à gauche de l'appel
   Cta.tsx           le bouton d'appel à l'action — « get started »
   PointCurseur.tsx  le point qui suit le curseur
 docs/               contexte, atlas, feuille de route, guide, décisions
