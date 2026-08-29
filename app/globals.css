@@ -861,3 +861,28 @@ body {
 .btn:hover .btn-inner {
   transform: translateY(-100%);
 }
+
+/* Deux boutons désormais : le fantôme, puis l'aplat qui ferme la ligne.
+   La règle est bornée à partir de 768 px, sinon elle rallumerait le bloc
+   que la maquette éteint sous cette largeur — une règle hors couche
+   l'emporte sur la couche, media query ou pas. */
+@media screen and (min-width: 768px) {
+  .header_btns {
+    align-items: center;
+    gap: 0.4em;
+    display: flex;
+  }
+}
+
+/* Le fantôme : pas d'aplat, un liseré d'encre posé en ombre intérieure —
+   une bordure ajouterait deux pixels de garde et décalerait les deux
+   boutons l'un par rapport à l'autre. Sa doublure est d'encre, elle aussi. */
+.btn.--fantome {
+  box-shadow: inset 0 0 0 1px var(--base);
+  background-color: #0000;
+  color: var(--base);
+}
+
+.btn.--fantome .btn-text {
+  text-shadow: 0px 2.65em var(--base);
+}

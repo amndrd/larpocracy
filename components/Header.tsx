@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Cta from './Cta';
 import Hamburger from './Hamburger';
+import Login from './Login';
 import Logo from './Logo';
 import MenuToggle from './MenuToggle';
 import Nav from './Nav';
@@ -53,8 +54,9 @@ export default function Header() {
           <MenuToggle ouvert={ouvert} bascule={bascule} />
         </div>
 
-        {/* En haut à droite : l'appel à l'action. */}
+        {/* En haut à droite : la connexion, puis l'appel à l'action. */}
         <div className="header_btns">
+          <Login />
           <Cta />
         </div>
       </div>

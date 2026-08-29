@@ -132,7 +132,8 @@ components/
   icons.tsx         leurs pictogrammes, repris tels quels de la maquette
   MenuToggle.tsx    le bouton Menu — grand écran
   Hamburger.tsx     le bouton hamburger — sous 768 px
-  Cta.tsx           le bouton d'appel à l'action
+  Login.tsx         le bouton Login — fantôme, à gauche de l'appel
+  Cta.tsx           le bouton d'appel à l'action — « get started »
   PointCurseur.tsx  le point qui suit le curseur
 docs/               contexte, atlas, feuille de route, guide, décisions
 ```
@@ -141,9 +142,9 @@ docs/               contexte, atlas, feuille de route, guide, décisions
 supprimés avec le reste. Le schéma d'une fiche (§ 8) et les quatorze domaines (§ 7)
 restent la référence pour quand le contenu reviendra.
 
-**Les six entrées de la barre et le bouton d'appel pointent vers des adresses qui
-n'existent pas encore** : `/contenu`, `/about`, `/features`, `/pricing`, `/news`,
-`/contact`. C'est volontaire — les pages viendront.
+**Les six entrées de la barre et les deux boutons du coin pointent vers des adresses
+qui n'existent pas encore** : `/contenu`, `/about`, `/features`, `/pricing`, `/news`,
+`/contact`, `/connexion`, `/inscription`. C'est volontaire — les pages viendront.
 
 **Pour retrouver la maquette d'origine** : `~/Desktop/website` (HTML + CSS, sans
 JavaScript). Son `README.md` dit ce qui en avait été retiré, et ce qui n'y
@@ -209,7 +210,8 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
 **Au 28 août 2026 : le site est une page blanche surmontée d'un en-tête.**
 Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 août (#022).
 Ce qui existe : le cadre, le mot-logo, la barre de six pastilles, le bouton Menu,
-le bouton d'appel, le point qui suit le curseur. Rien d'autre.
+les deux boutons du coin (Login et Get started), le point qui suit le curseur.
+Rien d'autre.
 
 Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 

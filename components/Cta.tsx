@@ -13,9 +13,9 @@ import Link from 'next/link';
  */
 export default function Cta() {
   return (
-    <Link className="btn w-inline-block" href="/contact">
+    <Link className="btn w-inline-block" href="/inscription">
       <div className="btn-inner">
-        <div className="btn-text text-youth">book a call now</div>
+        <div className="btn-text text-youth">get started</div>
       </div>
     </Link>
   );

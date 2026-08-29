@@ -15,11 +15,12 @@ Il ne reste qu'une page blanche surmontée d'un en-tête.
 | Documentation de contexte | ✅ |
 | Atlas des 673 sujets | ✅ |
 | Application Next.js sur localhost:3000 | ✅ |
-| En-tête : mot-logo, barre, bouton Menu, bouton d'appel | ✅ #027 — maquette reprise au sélecteur près |
+| En-tête : mot-logo, barre, bouton Menu, boutons Login et Get started | ✅ #027 — maquette reprise au sélecteur près |
 | Menu mobile, point suiveur | ✅ #027 — réécrits, la maquette avait perdu son JavaScript |
 | Corps de la page | ⬜ vide — c'est le chantier |
 | Pages `/contenu` `/about` `/features` `/pricing` `/news` `/contact` | ⬜ la barre y mène, elles n'existent pas |
-| Libellé du bouton d'appel | ⏳ « book a call now », celui de la maquette — à arrêter |
+| Pages `/connexion` `/inscription` | ⬜ les deux boutons du coin y mènent, elles n'existent pas |
+| Libellé du bouton d'appel | ✅ « get started » — celui de la maquette est écarté |
 | Comptes, progression, points, formules, recherche | ⬜ **retirés** le 28 août — à refaire le moment venu |
 | Modules de contenu remplis | ⬜ **0** — remis à zéro le 26 août (#022) |
 | Déploiement Vercel | ⏳ en attente de connexion au compte |
