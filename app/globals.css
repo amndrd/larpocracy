@@ -420,9 +420,6 @@ body {
     font-family: var(--font-youth), Arial, sans-serif;
     font-weight: 900;
     font-size: 1.75em;
-    /* Interligne resserré : les deux lignes forment un bloc, pas un texte.
-       Elle ne descend pas plus bas, sans quoi la jambe du « p » viendrait
-       toucher le « L » de la ligne suivante. */
     line-height: 0.94;
     letter-spacing: -0.03em;
     white-space: nowrap;
@@ -438,6 +435,15 @@ body {
       margin-right: auto;
     }
   }
+}
+
+/* Le mot-logo tient sur une seule ligne. La maquette l'empilait en deux
+   mots dans un bloc de 4,8 em de large ; il se lit d'un tenant, et sa
+   largeur suit le mot. L'interligne resserré de `.ba_logo_word` ne joue
+   plus — il n'y a plus de seconde ligne à rapprocher. */
+.ba_logo {
+  flex-flow: row;
+  width: auto;
 }
 
 /* Sur grand écran, le mot-logo remonte dans le coin haut gauche du cadre. */

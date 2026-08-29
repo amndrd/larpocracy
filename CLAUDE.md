@@ -127,7 +127,7 @@ app/
   fonts/            les trois .woff2
 components/
   Header.tsx        le cadre fixe, et le seul état du site (menu ouvert / fermé)
-  Logo.tsx          le mot-logo LarpLvl, empilé sur deux lignes
+  Logo.tsx          le mot-logo LarpLvl, sur une seule ligne
   Nav.tsx           les six pastilles de la barre
   icons.tsx         leurs pictogrammes, repris tels quels de la maquette
   MenuToggle.tsx    le bouton Menu — grand écran

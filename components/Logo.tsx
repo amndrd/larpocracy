@@ -1,14 +1,14 @@
 import Link from 'next/link';
 
 /**
- * Le mot-logo. Empilé sur deux lignes en haut à gauche du cadre ; sur mobile,
- * il repasse en une seule ligne, en tête de la barre.
+ * Le mot-logo, d'un seul tenant. La maquette l'empilait sur deux lignes ;
+ * il tient désormais sur une, en haut à gauche du cadre comme en tête de la
+ * barre mobile — plus rien ne distingue les deux cas.
  */
 export default function Logo() {
   return (
     <Link aria-label="LarpLvl, accueil" className="ba_logo" href="/">
-      <span className="ba_logo_word ba_logo_word_top">Larp</span>
-      <span className="ba_logo_word">Lvl</span>
+      <span className="ba_logo_word">LarpLvl</span>
     </Link>
   );
 }
