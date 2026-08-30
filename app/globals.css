@@ -778,12 +778,16 @@ body {
 
 /* Le bandeau de titre fait 67 px de haut, et le mot se pose à 45 px du haut
    du volet. Les deux paddings sont ici dans l'em du titre, pas dans celui du
-   volet : 1,56 x 0,81 = 1,27 em du volet, soit les 27 px qui restent une fois
-   ôtée sa marge de 18. */
+   volet : 1,47 x 0,81 = 1,19 em du volet, soit 25 px, qui s'ajoutent à la
+   marge de 18 et à la montée des capitales pour faire les 45.
+
+   Le blanc est celui du modèle. Il ne porte que 1,5 pour 1 de contraste sur
+   le voile, très loin des 4,5 exigés ailleurs : c'est un choix assumé, tenu
+   par un mot d'une ligne que le volet répète déjà par son pictogramme. */
 .nav_volet_titre {
   text-align: center;
   text-transform: uppercase;
-  color: var(--base);
+  color: var(--white);
   font-size: 0.81em;
   font-weight: 900;
   line-height: 1;
