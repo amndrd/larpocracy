@@ -724,6 +724,7 @@ body {
 
   --volet-marge: 0.84em; /* 18 px : case au bord du volet */
   --volet-vide: 0.42em; /*  9 px : entre deux cases, dans les deux sens */
+  --volet-pas: 0.06s; /* le pas de la cascade, d'une rangée à la suivante */
 
   z-index: 8;
   position: absolute;
@@ -765,6 +766,58 @@ body {
   pointer-events: all;
   transform: none;
   transition-delay: 0s;
+}
+
+/* --- L'entrée du contenu --------------------------------------------------
+   Le volet paraît d'abord, son contenu se pose ensuite, rangée par rangée du
+   haut vers le bas. Chaque élément tombe d'un demi-em sur sa place : de quoi
+   lire une chute courte, pas un glissement.
+
+   Les délais ne sont posés qu'à l'ouverture. À la fermeture tout repart
+   ensemble : une cascade à l'envers ferait traîner le volet derrière la
+   souris, qui est déjà partie ailleurs. */
+
+.nav_volet_titre,
+.nav_volet_case {
+  opacity: 0;
+  transform: translateY(-0.5em);
+  transition:
+    opacity var(--duration-sm) var(--ease),
+    transform var(--duration-md) var(--ease);
+}
+
+.nav_volet.--ouvert .nav_volet_titre,
+.nav_volet.--ouvert .nav_volet_case {
+  opacity: 1;
+  transform: none;
+}
+
+.nav_volet.--ouvert .nav_volet_titre {
+  transition-delay: var(--volet-pas);
+}
+
+.nav_volet.--ouvert .nav_volet_case:nth-child(-n + 2) {
+  transition-delay: calc(2 * var(--volet-pas));
+}
+
+.nav_volet.--ouvert .nav_volet_case:nth-child(n + 3):nth-child(-n + 4) {
+  transition-delay: calc(3 * var(--volet-pas));
+}
+
+.nav_volet.--ouvert .nav_volet_case:nth-child(n + 5) {
+  transition-delay: calc(4 * var(--volet-pas));
+}
+
+/* Qui demande moins de mouvement garde le fondu, mais ni chute ni cascade. */
+@media (prefers-reduced-motion: reduce) {
+  .nav_volet_titre,
+  .nav_volet_case {
+    transform: none;
+  }
+  .nav_volet.--ouvert .nav_volet_titre,
+  .nav_volet.--ouvert .nav_volet_case {
+    transition-delay: 0s;
+  }
 }
 
 /* La pastille qui ouvre un volet ne montre plus son étiquette : elle se
