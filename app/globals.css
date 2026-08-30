@@ -818,6 +818,14 @@ body {
   .nav_volet.--ouvert .nav_volet_case {
     transition-delay: 0s;
   }
+  /* Le survol garde ses fondus, mais ni dézoom ni entrée en diagonale. */
+  .nav_volet_case_fond,
+  .nav_volet_case:hover .nav_volet_case_fond {
+    transform: none;
+  }
+  .nav_volet_case:hover .nav_volet_case_fleche {
+    animation: none;
+  }
 }
 
 /* La pastille qui ouvre un volet ne montre plus son étiquette : elle se
@@ -870,15 +878,32 @@ body {
   position: relative;
   border-radius: 0.56em; /* 12 px */
   background-color: var(--base);
+  color: var(--white);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+/* Le fond porte le lustre à lui seul, sur son propre calque : c'est ce
+   calque qui recule au survol, sans emmener le titre ni la flèche.
+
+   Au repos il déborde de 8 % ; au survol il revient à sa taille. Le dessin
+   se dézoome donc au lieu de grossir, et le calque couvre la case dans les
+   deux cas — ce qui restera vrai le jour où une photographie y viendra. */
+.nav_volet_case_fond {
+  position: absolute;
+  inset: 0;
   background-image: radial-gradient(
     100% 100% at var(--lustre-x) var(--lustre-y),
     color-mix(in srgb, var(--grey) 88%, var(--white)) 0%,
     color-mix(in srgb, var(--grey) 46%, var(--base)) 36%,
     var(--base) 76%
   );
-  color: var(--white);
-  text-decoration: none;
-  overflow: hidden;
+  transform: scale(1.08);
+  transition: transform var(--duration-lg) var(--ease);
+}
+
+.nav_volet_case:hover .nav_volet_case_fond {
+  transform: scale(1);
 }
 
 .nav_volet_case:nth-child(2) { --lustre-x: 80%; --lustre-y: 14%; }
@@ -925,6 +950,43 @@ body {
   font-size: 1.09em;
   font-weight: 900;
   line-height: 1.05;
+}
+
+/* La flèche du survol, à la suite du titre.
+
+   Elle entre en diagonale, du bas gauche vers le haut droit, et ne sort
+   qu'en fondu. D'où le partage des rôles : le déplacement est une animation,
+   qui ne joue qu'à l'aller ; l'opacité est une transition, qui joue dans les
+   deux sens. Une transition sur le déplacement ramènerait la flèche à son
+   point de départ en s'effaçant, ce qui n'est pas ce qu'on veut voir. */
+.nav_volet_case_fleche {
+  display: inline-block;
+  width: 0.82em;
+  height: 0.82em;
+  margin-left: 0.28em;
+  vertical-align: -0.04em;
+  opacity: 0;
+  transition: opacity var(--duration-sm) var(--ease);
+}
+
+.nav_volet_case_fleche svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.nav_volet_case:hover .nav_volet_case_fleche {
+  opacity: 1;
+  animation: fleche-entree var(--duration-md) var(--ease);
+}
+
+@keyframes fleche-entree {
+  from {
+    transform: translate(-0.5em, 0.5em);
+  }
+  to {
+    transform: translate(0, 0);
+  }
 }
 
 /* Sous 768 px la barre passe en rangée au bas de l'écran : il n'y a plus de

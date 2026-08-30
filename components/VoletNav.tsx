@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { IconeFlecheDiagonale } from './icons';
 import type { CaseVolet } from './volets';
 
 /**
@@ -38,7 +39,18 @@ export default function VoletNav({
       <div className="nav_volet_grille">
         {cases.map(({ titre: t, ancre }) => (
           <Link key={ancre} className="nav_volet_case" href={`${href}#${ancre}`}>
-            <span className="nav_volet_case_titre text-youth">{t}</span>
+            {/* Le fond porte seul le lustre : c'est lui qui recule au survol,
+                et c'est là que viendra l'image quand il y en aura une. */}
+            <span className="nav_volet_case_fond" aria-hidden="true" />
+
+            {/* La flèche est dans le titre, non à côté : elle suit ainsi le
+                dernier mot, quelle que soit la longueur de l'étiquette. */}
+            <span className="nav_volet_case_titre text-youth">
+              {t}
+              <span className="nav_volet_case_fleche" aria-hidden="true">
+                <IconeFlecheDiagonale />
+              </span>
+            </span>
           </Link>
         ))}
       </div>
