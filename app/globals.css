@@ -703,15 +703,19 @@ body {
 
 .nav_volet {
   --volet-marge: 0.84em; /* 18 px : case au bord du volet */
-  --volet-vide-x: 0.42em; /*  9 px : entre les deux colonnes */
-  --volet-vide-y: 0.47em; /* 10 px : entre deux rangées */
+  --volet-vide: 0.42em; /*  9 px : entre deux cases, dans les deux sens */
 
   z-index: 8;
   position: absolute;
-  top: 0;
+  /* Le volet se pose à 0,5625 em — 12 px — du haut de la fenêtre, au-dessus
+     de la marge de 1,5 em du cadre, d'où le décalage négatif : il est placé
+     dans `.header_inner`, qui commence à cette marge. Le modèle fait de même,
+     et il le faut : sous la marge pleine, un volet de 848 px ne tient plus
+     dans une fenêtre de 871, et sa rangée du bas se trouve tranchée. */
+  top: -0.9375em;
   left: 6.25em;
   width: 29.39em; /* 627 px */
-  max-height: 100%;
+  max-height: calc(100vh - 1.125em); /* les 12 px du haut, et autant en bas */
   padding: var(--volet-marge);
   border-radius: 1.08em; /* 23 px — le volet porte un rayon plus ample que
                             les pastilles, qui gardent --border-radius. */
@@ -770,7 +774,7 @@ body {
 .nav_volet_grille {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--volet-vide-y) var(--volet-vide-x);
+  gap: var(--volet-vide);
 }
 
 /* La case : un aplat d'encre éclairé d'un côté. Le lustre est déplacé d'une
