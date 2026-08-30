@@ -87,6 +87,10 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   fenêtre — `body { font-size: var(--size-font) }` au-delà de 768 px, où
   `--size-font` interpole entre 768 et 1920 px. Changer une taille en `px` casse
   cette mise à l'échelle.
+  **Une seule exception : le volet de la barre**, qui est à l'échelle de la
+  *hauteur* de la fenêtre et porte donc son propre `font-size`. À l'intérieur,
+  `em` désigne le volet ; pour le situer par rapport au rail, qui suit la
+  largeur, ses `top` et `left` sont écrits `calc(x * var(--size-font))`.
 - **Deux états dans tout le site.** Le menu mobile, ouvert ou fermé : il n'est
   pas passé en propriété — il est posé en classe `--showMenu` sur le corps de page,
   parce que le CSS commande de là la barre, le voile et le hamburger, qui ne sont

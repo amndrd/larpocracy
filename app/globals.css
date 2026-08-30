@@ -693,37 +693,58 @@ body {
    est celle du modèle. Elle se plafonne à la hauteur du cadre, et le volet
    défile de lui-même sur un écran trop bas.
 
-   Toutes les mesures viennent du modèle, relevées à 1920 px de large — la
-   fenêtre où `--size-font` vaut 21,33 px. C'est ce facteur, et lui seul, qui
-   convertit les pixels du relevé en `em` ; les pixels annotés ci-dessous ne
-   valent donc qu'à cette largeur, le dessin suivant la fenêtre partout
-   ailleurs. Le voile lui-même se déduit de la couleur relevée à la pipette :
-   #AFAEA6 sur le papier #FBF9EF, soit 30,3 % de noir, soit 4D d'alpha.
+   Le volet est la seule chose du site qui ne soit pas à l'échelle de la
+   largeur : il l'est de la HAUTEUR de la fenêtre, dont il occupe 97 %. Deux
+   captures du modèle le montrent — 627 x 846 dans une fenêtre de 1920 x 870,
+   555 x 758 dans une de 1512 x 777. La largeur du volet n'a pris que 13 %
+   quand celle de la fenêtre en prenait 27 ; sa hauteur, elle, colle aux deux
+   fenêtres à 20 px près. Il porte donc son propre `em`, tiré de la hauteur
+   disponible : les mesures intérieures restent celles du relevé, et tout le
+   dessin du volet grandit d'un bloc.
+
+   Ces mesures ont été relevées à 1920 px de large — la fenêtre où
+   `--size-font` vaut 21,33 px, et où l'em du volet vaut le même. Les pixels
+   annotés ci-dessous ne valent donc que là. Le voile, lui, se déduit de la
+   couleur prise à la pipette : #AFAEA6 sur le papier #FBF9EF, soit 30,3 %
+   de noir, soit 4D d'alpha.
    ========================================================================== */
 
 .nav_volet {
+  /* L'em du volet : sa hauteur ramenée à 39,72, qui est cette hauteur dans
+     l'em du corps de page au moment du relevé. La hauteur commande donc, et
+     le `min` n'est qu'un garde-fou : dans une fenêtre haute et étroite, c'est
+     la largeur restante qui reprend la main, et le volet rétrécit d'un bloc
+     au lieu de sortir du cadre. Les 1,125 et 9,25 sont comptés dans l'em du
+     corps de page, d'où `--size-font` plutôt que `em` : ici, `em` désignerait
+     ce qu'on est en train de définir. */
+  font-size: min(
+    calc((100vh - 1.125 * var(--size-font)) / 39.72),
+    calc((100vw - 9.25 * var(--size-font)) / 29.39)
+  );
+
   --volet-marge: 0.84em; /* 18 px : case au bord du volet */
   --volet-vide: 0.42em; /*  9 px : entre deux cases, dans les deux sens */
 
   z-index: 8;
   position: absolute;
-  /* Le volet se pose à 0,5625 em — 12 px — du haut de la fenêtre, au-dessus
-     de la marge de 1,5 em du cadre, d'où le décalage négatif : il est placé
-     dans `.header_inner`, qui commence à cette marge. Le modèle fait de même,
-     et il le faut : sous la marge pleine, un volet de 848 px ne tient plus
-     dans une fenêtre de 871, et sa rangée du bas se trouve tranchée. */
-  top: -0.9375em;
-  left: 6.25em;
+  /* Le volet se pose à 0,5625 em du haut de la fenêtre — 12 px au relevé —,
+     au-dessus de la marge de 1,5 em du cadre, d'où le décalage négatif : il
+     est placé dans `.header_inner`, qui commence à cette marge. Le modèle
+     fait de même. Ces deux décalages suivent le corps de page, non le volet :
+     ils le situent par rapport au rail, qui est à l'échelle de la largeur. */
+  top: calc(-0.9375 * var(--size-font));
+  left: calc(6.4 * var(--size-font));
   width: 29.39em; /* 627 px */
-  max-height: calc(100vh - 1.125em); /* les 12 px du haut, et autant en bas */
+  height: 39.72em; /* 847 px, soit la hauteur laissée par la fenêtre */
   padding: var(--volet-marge);
   border-radius: 1.08em; /* 23 px — le volet porte un rayon plus ample que
                             les pastilles, qui gardent --border-radius. */
   background-color: #0000004d;
   -webkit-backdrop-filter: blur(30px);
   backdrop-filter: blur(30px);
-  overflow: hidden auto;
-  scrollbar-width: none;
+  flex-flow: column;
+  display: flex;
+  overflow: hidden;
 
   /* Fermé : effacé, décalé d'un demi-pas vers le rail, et hors de l'arbre
      d'accessibilité — `visibility` rend aussi ses liens infocusables. Elle
@@ -771,9 +792,14 @@ body {
   padding: 1.47em 0 1.31em;
 }
 
+/* Les rangées se partagent ce que le bandeau laisse. C'est la hauteur du
+   volet qui donne ainsi celle des cases, et non l'inverse : leur proportion
+   en ressort à 1,200, quand le relevé donne 290/242 = 1,198. */
 .nav_volet_grille {
+  flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
   gap: var(--volet-vide);
 }
 
@@ -784,7 +810,6 @@ body {
   --lustre-x: 26%;
   --lustre-y: 16%;
 
-  aspect-ratio: 145 / 121; /* 290 x 242 px */
   position: relative;
   border-radius: 0.56em; /* 12 px */
   background-color: var(--base);
