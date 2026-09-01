@@ -536,3 +536,46 @@ seule famille, deux graisses, une seule variable CSS.
 Le 700 plutôt que le 900 : le contraste de Playfair est déjà fort, et le Black
 transforme un mot de sept lettres en pavé. Le mot passe de 94 à 99 px de large à
 1440 px — la barre du haut ne bouge pas pour autant.
+
+## 2026-09-01 — #031 Le titre du hero devient « MONEY WELL SPOKEN »
+
+**Le choix.** Le titre n'est plus celui du modèle. « MONEY WELL SPOKEN » dit la
+promesse du site en trois mots : *well spoken* veut dire éloquent, et l'oreille
+entend *money well spent*. Le site n'apprend pas la finance — il apprend à en
+**parler**. C'est le seul titre de la liste qui nomme la conversation, qui est le
+produit.
+
+**La réserve, consignée pour mémoire.** Le site couvre quatorze domaines, dont un
+seul est l'argent et la finance ; les treize autres sont le vin, les montres, l'art,
+l'étiquette, le sport, la géopolitique. « MONEY » en tête de page promet donc un
+site de finance et en livre un autre. Des titres sans le mot avaient été proposés —
+`WORTH / KNOWING`, `NEVER / OUT OF DEPTH`, `HOLD / THE ROOM`. Le choix a été fait en
+connaissance de cause.
+
+**Ce que le changement de texte a imposé.** La largeur d'une ligne est le produit
+du corps et du nombre de signes. Mesuré au navigateur, en Playfair Display :
+
+| ligne | largeur, en corps |
+|---|---|
+| `IN CHECK` | 4.692 × |
+| `WELL SPOKEN` | 6.767 × |
+
+Soit 44 % de plus. Le corps de #029 aurait fait déborder la ligne, et le navigateur
+l'aurait repliée en deux — trois lignes empilées au lieu de l'escalier à deux.
+
+Les trois termes du corps sont donc multipliés par `4.692 / 6.767 = 0.693` :
+`min(11.664em, 22.17vh)` au-dessus de 768 px, `clamp(2.47em, 12.52vw, 5.76em)` en
+dessous. Le bloc de texte retrouve **l'empreinte exacte** qu'il avait : 1263 px de
+large à 1440 px de fenêtre, 1515 à 1920, 1050 à 1440 × 700, 330 à 390 — les quatre
+mesures d'avant, au pixel près. Ce qui change, c'est la hauteur : deux lignes de
+187 px au lieu de 269. Le titre est plus large que haut, là où il était carré.
+
+**`white-space: nowrap`.** Ajouté sur `.hero_ligne`. Le découpage en lignes est
+celui du balisage, et une fenêtre étroite ne peut plus en replier une dans le dos
+du dessin. Sans danger de débordement : le corps suit la largeur de la fenêtre, donc
+la ligne reste proportionnée jusqu'au plancher du `clamp` — vérifié jusqu'à 280 px.
+
+**Ce qui reste du modèle.** La couleur `#00846a` et l'interlignage `0.938`, qui est
+un rapport et suit le corps tout seul. Les cotes, elles, ne sont plus celles de
+`moneyincheck.org` : elles sont celles que ce texte-ci exige pour occuper la même
+place. Les commentaires du CSS le disent.

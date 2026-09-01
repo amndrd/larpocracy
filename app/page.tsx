@@ -11,7 +11,7 @@ export default function Page() {
         <section className="hero">
           <h1 className="hero_titre">
             <span className="hero_ligne">Money</span>
-            <span className="hero_ligne">in Check</span>
+            <span className="hero_ligne">well spoken</span>
           </h1>
         </section>
       </div>

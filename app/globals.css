@@ -1233,10 +1233,19 @@ body {
    terme : `34 × 100vh / 101 = 33.66vh`. Sans elle, deux lignes de 378 px
    déborderaient d'une fenêtre basse. D'où le `min()`.
 
-   Le tout est ramené à **95 %** : Playfair a une chasse plus large que la
-   police du modèle, et à corps égal les lignes touchaient presque les bords.
-   Les deux termes sont réduits d'autant, l'interlignage étant un rapport, il
-   suit seul. D'où 16.823em (17.708 × 0.95) et 31.98vh (33.66 × 0.95). */
+   Le tout avait été ramené à 95 % — Playfair ayant une chasse plus large que
+   la police du modèle, à corps égal les lignes touchaient presque les bords.
+
+   Puis le titre est passé de « IN CHECK » à « WELL SPOKEN » (#031). Or la
+   largeur d'une ligne est le produit du corps et du nombre de signes : mesurée
+   au navigateur, « IN CHECK » vaut 4.692 fois le corps, « WELL SPOKEN » 6.767
+   — 44 % de plus. Garder le corps aurait fait déborder la ligne, et le
+   navigateur l'aurait repliée en deux : trois lignes au lieu de deux.
+
+   Les trois termes sont donc multipliés par `4.692 / 6.767 = 0.693`, ce qui
+   rend au bloc de texte l'empreinte exacte qu'il avait : 1263 px de large à
+   1440 px de fenêtre, soit 88 px de marge de chaque côté. Du modèle, il reste
+   la couleur et l'interlignage — un rapport, qui suit le corps tout seul. */
 
 .hero {
   display: grid;
@@ -1247,7 +1256,7 @@ body {
 .hero_titre {
   margin: 0;
   font-family: var(--font-editorial), 'Times New Roman', serif;
-  font-size: clamp(3.56em, 18.05vw, 8.31em); /* le modèle sous 1080 px, à 95 % */
+  font-size: clamp(2.47em, 12.52vw, 5.76em);
   font-weight: 400;
   line-height: 1.05;
   color: var(--vert);
@@ -1256,14 +1265,19 @@ body {
 }
 
 /* Les deux lignes sont posées l'une sous l'autre. Le modèle les place à
-   8.9rem et 40.8rem : 31.9rem d'écart pour 34rem de corps, soit 0.938. */
+   8.9rem et 40.8rem : 31.9rem d'écart pour 34rem de corps, soit 0.938.
+
+   `nowrap` fige le découpage : les lignes sont celles du balisage, et une
+   fenêtre étroite ne peut pas en replier une en deux dans le dos du dessin.
+   Le corps suivant la largeur de la fenêtre, la ligne reste proportionnée. */
 .hero_ligne {
   display: block;
+  white-space: nowrap;
 }
 
 @media screen and (min-width: 768px) {
   .hero_titre {
-    font-size: min(16.823em, 31.98vh);
+    font-size: min(11.664em, 22.17vh);
     line-height: 0.938;
   }
 }

@@ -224,8 +224,8 @@ Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 
 Ce qui existe : le cadre, le mot-logo, la barre de six pastilles et son volet,
 le bouton Menu, les deux boutons du coin (Login et Get started), le point qui
 suit le curseur — et, depuis le 1er septembre, le titre du hero, repris cote pour
-cote de `moneyincheck.org` (#029). Son texte est encore celui du modèle : il tient
-lieu de banc d'essai, le mot final reste à décider.
+cote de `moneyincheck.org` (#029). Son texte est désormais « MONEY WELL SPOKEN »,
+choisi pour LarpLvl (#031).
 
 Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 
