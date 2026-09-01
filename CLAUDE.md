@@ -78,9 +78,12 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   Ne pas changer cet ordre sans vérifier le rendu.
 - **Deux couleurs, un gris.** Papier `#fbf9ef`, encre `#171412`, gris `#8e827c`
   pour les pictogrammes au repos ; `--orange: #f72` pour l'unique accent.
-- **Deux polices, embarquées** (`app/fonts.ts`, `next/font/local`) :
+  S'y ajoute `--vert: #00846a`, la couleur du titre du hero (#029).
+- **Trois polices, embarquées** (`app/fonts.ts`, `next/font/local`) :
   **PP Neue Montreal** 400 pour le texte, **Youth** 700/900 pour les étiquettes,
-  les boutons et le mot-logo. La feuille de style les nomme par leur variable
+  les boutons et le mot-logo, **Playfair Display** 400 pour le titre du hero.
+  Playfair est le substitut libre de PP Editorial Old, la police du modèle,
+  qui n'est pas libre en usage commercial (#029). La feuille de style les nomme par leur variable
   (`--font-pp`, `--font-youth`), jamais par leur nom de famille : celui-ci est
   engendré au build.
 - **Tout le dessin est en `em`.** Une seule règle met la page à l'échelle de la
@@ -127,10 +130,10 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
 ```
 app/
   layout.tsx        la coquille : les polices, les classes du corps de page
-  page.tsx          la page — vide sous l'en-tête
+  page.tsx          la page — le hero et son titre
   globals.css       toute la feuille de style, en sections commentées
   fonts.ts          PP Neue Montreal et Youth, via next/font/local
-  fonts/            les trois .woff2
+  fonts/            les quatre .woff2
 components/
   Header.tsx        le cadre fixe, et le seul état du site (menu ouvert / fermé)
   Logo.tsx          le mot-logo LarpLvl, sur une seule ligne
@@ -215,11 +218,13 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
 
 ## 10. État actuel
 
-**Au 28 août 2026 : le site est une page blanche surmontée d'un en-tête.**
+**Au 1er septembre 2026 : un en-tête, et un titre au centre du hero.**
 Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 août (#022).
 Ce qui existe : le cadre, le mot-logo, la barre de six pastilles et son volet,
 le bouton Menu, les deux boutons du coin (Login et Get started), le point qui
-suit le curseur. Rien d'autre.
+suit le curseur — et, depuis le 1er septembre, le titre du hero, repris cote pour
+cote de `moneyincheck.org` (#029). Son texte est encore celui du modèle : il tient
+lieu de banc d'essai, le mot final reste à décider.
 
 Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 

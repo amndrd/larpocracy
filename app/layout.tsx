@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { pp, youth } from './fonts';
+import { pp, youth, editorial } from './fonts';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -8,12 +8,11 @@ export const metadata: Metadata = {
 };
 
 /**
- * La coquille du site. Elle ne porte encore rien : le design repart de zéro,
- * et cette page blanche est le point de départ.
+ * La coquille du site : les trois polices, et les classes du corps de page.
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${pp.variable} ${youth.variable}`}>
+    <html lang="fr" className={`${pp.variable} ${youth.variable} ${editorial.variable}`}>
       <body className="bg-bg font-body text-base antialiased">{children}</body>
     </html>
   );

@@ -2,11 +2,12 @@
 
 ---
 
-## ÉTAT AU 28 AOÛT 2026
+## ÉTAT AU 1ᵉʳ SEPTEMBRE 2026
 
 **Phase en cours : Phase 2 — le noyau utile.**
 **Le site est reparti de zéro : contenu le 26 août (#022), design le 28 (#027).**
-Il ne reste qu'une page blanche surmontée d'un en-tête.
+Sous l'en-tête, le hero porte désormais son titre (#029) — au texte du modèle,
+qui reste à décider.
 
 | Élément | État |
 |---|---|
@@ -18,7 +19,8 @@ Il ne reste qu'une page blanche surmontée d'un en-tête.
 | En-tête : mot-logo, barre, bouton Menu, boutons Login et Get started | ✅ #027 — maquette reprise au sélecteur près |
 | Menu mobile, point suiveur | ✅ #027 — réécrits, la maquette avait perdu son JavaScript |
 | Volet d'About et de Features | ✅ six cases, repris du modèle brandappart.com — sans images |
-| Corps de la page | ⬜ vide — c'est le chantier |
+| Titre du hero | ✅ #029 — cotes, couleur et police reprises de moneyincheck.org |
+| Corps de la page sous le hero | ⬜ vide — c'est le chantier |
 | Pages `/contenu` `/about` `/features` `/pricing` `/news` `/contact` | ⬜ la barre y mène, elles n'existent pas |
 | Pages `/connexion` `/inscription` | ⬜ les deux boutons du coin y mènent, elles n'existent pas |
 | Libellé du bouton d'appel | ✅ « get started » — celui de la maquette est écarté |

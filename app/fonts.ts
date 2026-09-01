@@ -1,7 +1,7 @@
 import localFont from 'next/font/local';
 
 /**
- * Les deux polices du dessin, embarquées avec le site.
+ * Les trois polices du dessin, embarquées avec le site.
  *
  * `next/font/local` les précharge et fige leurs métriques : le texte ne
  * saute pas au chargement. Chacune expose une variable CSS — c'est par elle
@@ -28,4 +28,14 @@ export const youth = localFont({
   variable: '--font-youth',
   display: 'swap',
   fallback: ['Arial', 'sans-serif'],
+});
+
+/** La serif éditoriale du titre du hero, en Regular. */
+export const editorial = localFont({
+  src: './fonts/playfair-display-400.woff2',
+  weight: '400',
+  style: 'normal',
+  variable: '--font-editorial',
+  display: 'swap',
+  fallback: ['Times New Roman', 'serif'],
 });

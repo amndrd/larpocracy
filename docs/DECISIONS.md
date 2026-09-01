@@ -435,3 +435,66 @@ complètes ne montre de différence que dans le mot-logo (0,11 % à 1440 px).
 vers des adresses qui n'existent pas encore. Le libellé du bouton — « book a call
 now » — est celui de la maquette : il n'a pas été traduit ni adapté, faute d'une
 décision sur ce que le bouton doit déclencher.
+
+## 2026-09-01 — #029 Le titre du hero, repris de moneyincheck.org
+
+*(Le #028 du 1er septembre — « le contenu revient par l'accroche » — a été révoqué
+le jour même par 498ca11 : l'accroche n'avait pas été demandée. Le numéro n'est pas
+réattribué, pour que les messages de commit restent lisibles.)*
+
+**La demande.** Poser « MONEY IN CHECK » au centre du hero, dans la police, la
+couleur et les dimensions de `moneyincheck.org` — ou, à défaut, dans la police
+Google Fonts la plus proche.
+
+**La police : Playfair Display, à défaut de PP Editorial Old.** Le modèle compose
+son titre en **PP Editorial Old** Regular (Pangram Pangram) : `body` porte
+`--font-serif: "PP Editorial Old", "Times New Roman", serif`, et `.hero__title` ne
+redéclare pas de famille. Cette police n'est pas libre — gratuite en usage personnel,
+payante en usage commercial — et récupérer le `.woff2` sur le serveur du modèle
+serait la reprendre sans licence. Elle est donc écartée.
+
+Le substitut est **Playfair Display**, sous licence OFL. Ce n'est pas un choix par
+défaut : le modèle l'embarque lui-même, en variable 400–900, à côté de PP Editorial
+Old — sans jamais l'appliquer en CSS. Ses auteurs y avaient donc vu le même
+remplaçant. Même contraste fort, mêmes empattements à congés, même tenue en
+capitales à grande taille. Elle est embarquée comme les deux autres, en
+`next/font/local`, sous la variable `--font-editorial`.
+
+**La couleur.** `#00846a`, reprise telle quelle sous le jeton `--vert`. Le fond
+reste le papier du site (`#fbf9ef`) : le modèle pose son vert sur un gris `#e9e9e9`,
+mais changer le fond dépassait la demande.
+
+**Les dimensions, et pourquoi elles tombent juste.** Les deux sites mettent leur
+dessin à l'échelle de la fenêtre, par des chemins différents :
+
+| | modèle | LarpLvl |
+|---|---|---|
+| unité | `html { font-size: min(100vw/172.8, 100vh/101, 11.111px) }` | `body { font-size: --size-font }`, soit `clamp(768px,100vw,1920px)/90` |
+| cadre de référence | 1728 × 1010 px | 1440 px |
+| corps du titre | `34rem` | `min(17.708em, 33.66vh)` |
+
+La conversion : `34 × 90 / 172.8 = 17.708em` reproduit le terme de largeur, et
+`34 × 100/101 = 33.66vh` le terme de hauteur — celui qui, sur une fenêtre basse,
+empêche deux lignes de 378 px de déborder. Le plafond à `11.111px` du modèle et le
+`clamp` à 1920 px de LarpLvl coïncident : au-delà, les deux figent le titre à
+377,8 px.
+
+Sous 768 px, où `--size-font` ne s'applique pas, le modèle passe à
+`clamp(6rem, 19vw, 14rem)` sur un rem de 10 px ; l'em valant alors 16 px, cela
+s'écrit `clamp(3.75em, 19vw, 8.75em)`.
+
+L'interlignage vient de la position des deux lignes du modèle — `8.9rem` et
+`40.8rem`, soit 31,9rem d'écart pour 34rem de corps : **0,938**. Sous 768 px, 1,05.
+
+**Vérification.** Corps mesuré au navigateur sur quatre fenêtres, contre le calcul
+du modèle : 1440 × 900 → 283,3 px (modèle 283,3) · 1920 × 1010 → 340,0 (340,0) ·
+1440 × 700 → 235,6 (235,6) · 390 × 844 → 74,1 (74,1). Couleur `rgb(0,132,106)`,
+aucun débordement horizontal.
+
+**Ce qui diffère, et qu'aucun réglage ne corrigera.** Playfair Display a une chasse
+plus large que PP Editorial Old : à corps égal, les deux lignes occupent nettement
+plus de largeur que sur le modèle, où elles laissent de la marge de part et d'autre.
+C'est le prix de la substitution, pas une erreur de cote.
+
+**Ce qui reste ouvert.** Le titre est celui du modèle, pas celui de LarpLvl. Il tient
+lieu de banc d'essai pour le hero : le mot final reste à décider.

@@ -255,6 +255,7 @@
     --border-radius: 0.75em;
     --white: white;
     --grey: #8e827c;
+    --vert: #00846a; /* le vert du titre, repris de moneyincheck.org */
   }
 
   .w-inline-block {
@@ -1211,4 +1212,51 @@ body {
 
 .header_login:hover {
   color: var(--orange);
+}
+
+/* ============================================================================
+   LE HERO
+   ========================================================================= */
+
+/* Le titre reprend au chiffre près celui de moneyincheck.org, dont la maquette
+   tient dans un cadre de 1728 × 1010 px : là-bas le rem vaut
+   `min(100vw / 172.8, 100vh / 101, 11.111px)`, et le titre 34rem.
+
+   Ici l'échelle passe par `--size-font`, qui vaut `100vw / 90` entre 768 et
+   1920 px. Les 34rem du modèle valent donc `34 × 90 / 172.8 = 17.708em`, et
+   les deux échelles coïncident sur toute la plage : 283 px de corps à 1440 px
+   de large, 378 px à 1920, où les deux plafonnent.
+
+   Reste la contrainte de hauteur, que le modèle porte dans son troisième
+   terme : `34 × 100vh / 101 = 33.66vh`. Sans elle, deux lignes de 378 px
+   déborderaient d'une fenêtre basse. D'où le `min()`. */
+
+.hero {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.hero_titre {
+  margin: 0;
+  font-family: var(--font-editorial), 'Times New Roman', serif;
+  font-size: clamp(3.75em, 19vw, 8.75em); /* le modèle sous 1080 px */
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--vert);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Les deux lignes sont posées l'une sous l'autre. Le modèle les place à
+   8.9rem et 40.8rem : 31.9rem d'écart pour 34rem de corps, soit 0.938. */
+.hero_ligne {
+  display: block;
+}
+
+@media screen and (min-width: 768px) {
+  .hero_titre {
+    font-size: min(17.708em, 33.66vh);
+    line-height: 0.938;
+  }
 }
