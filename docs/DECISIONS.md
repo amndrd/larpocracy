@@ -579,3 +579,49 @@ la ligne reste proportionnée jusqu'au plancher du `clamp` — vérifié jusqu'�
 un rapport et suit le corps tout seul. Les cotes, elles, ne sont plus celles de
 `moneyincheck.org` : elles sont celles que ce texte-ci exige pour occuper la même
 place. Les commentaires du CSS le disent.
+
+## 2026-09-01 — #032 Le titre passe à trois lignes
+
+**La demande.** Découper « MONEY WELL SPOKEN » en trois lignes plutôt que deux.
+
+**Ce que cela change de fond.** Ce n'est pas qu'un découpage : **ce qui commande le
+corps change de nature.**
+
+À deux lignes, la contrainte était la largeur — `WELL SPOKEN` mesure 6.767 fois le
+corps, et devait tenir dans la fenêtre. À trois lignes, la ligne la plus large n'est
+plus que `SPOKEN`, 3.828 fois le corps : la largeur cesse de contraindre. C'est la
+hauteur qui prend le relais, la pile valant `3 × 0.938 = 2.81` fois le corps.
+
+Le corps est donc désormais **commandé par la hauteur de la fenêtre** :
+`min(20.63em, 27vh)` au-dessus de 768 px.
+
+**Pourquoi 27vh.** Trois valeurs ont été rendues et comparées à 1440 × 900 :
+
+| | corps | hauteur de la pile | marge latérale |
+|---|---|---|---|
+| 24vh | 216 px | 68 % | 307 px |
+| **27vh** | **243 px** | **76 %** | **255 px** |
+| 30vh | 270 px | 84 % | 203 px |
+
+À 30vh la pile bute en haut sur l'en-tête et en bas sur le bouton Menu. À 24vh elle
+flotte. 27vh la dégage des deux sans la rapetisser.
+
+**Le terme en `em` devient un plafond.** `20.63em` vaut la largeur qu'avait le bloc
+jusqu'ici — 1263 px à 1440 px de fenêtre. Il ne joue plus que sur une fenêtre plus
+haute que large (rapport supérieur à 0.849), où la hauteur cesse de contraindre :
+un écran en portrait. Ailleurs, c'est `27vh` qui gagne.
+
+**Le garde-fou de hauteur descend aussi sous 768 px.** La branche mobile devient
+`min(clamp(4.37em, 22.1vw, 10.18em), 27vh)`. Elle reste commandée par la largeur sur
+un téléphone tenu droit — la pile n'y occupe que 32 % de la hauteur — mais le `min()`
+la rattrape sur une fenêtre basse. Sans lui, une fenêtre de 767 × 400 aurait débordé :
+le passage de deux à trois lignes a multiplié le risque par 1.5, et l'ancienne branche
+mobile n'avait aucun terme de hauteur.
+
+**Vérification.** Six fenêtres, corps et largeur mesurés au navigateur, aucun
+débordement horizontal : 1440 × 900 → 243 px, 76 % de hauteur · 1920 × 1010 → 273 px,
+76 % · 1440 × 700 → 189 px, 76 % · 767 × 400 → 108 px, 85 % (le `min()` de hauteur
+joue) · 390 × 844 → 86 px, 32 % · 320 × 568 → 71 px, 39 %.
+
+**Ce qui ne bouge pas.** La couleur `#00846a`, l'interlignage `0.938`, le `nowrap`
+des lignes, et le mot-logo.

@@ -1220,32 +1220,24 @@ body {
    LE HERO
    ========================================================================= */
 
-/* Le titre reprend les cotes de celui de moneyincheck.org, dont la maquette
-   tient dans un cadre de 1728 × 1010 px : là-bas le rem vaut
-   `min(100vw / 172.8, 100vh / 101, 11.111px)`, et le titre 34rem.
+/* Le titre descend de celui de moneyincheck.org, dont il garde la couleur et
+   l'interlignage — 0.938, tiré de l'écart des deux lignes du modèle : 8.9rem et
+   40.8rem pour 34rem de corps. Les cotes, elles, ne sont plus les siennes : le
+   texte a changé (#031), puis le découpage est passé à trois lignes (#032), et
+   chaque fois la géométrie a dû être refaite.
 
-   Ici l'échelle passe par `--size-font`, qui vaut `100vw / 90` entre 768 et
-   1920 px. Les 34rem du modèle valent donc `34 × 90 / 172.8 = 17.708em`, et
-   les deux échelles coïncident sur toute la plage : 283 px de corps à 1440 px
-   de large, 378 px à 1920, où les deux plafonnent.
+   Ce qui commande le corps a d'ailleurs changé de nature. À deux lignes, c'était
+   la largeur : la ligne longue devait tenir dans la fenêtre. À trois lignes, c'est
+   la hauteur — la pile fait 3 × 0.938 = 2.81 fois le corps, et c'est elle qui
+   touche les bords en premier. D'où `27vh` : la pile occupe alors 76 % de la
+   hauteur, ce qui la dégage de l'en-tête en haut et du bouton Menu en bas. À 30vh
+   elle butait sur les deux.
 
-   Reste la contrainte de hauteur, que le modèle porte dans son troisième
-   terme : `34 × 100vh / 101 = 33.66vh`. Sans elle, deux lignes de 378 px
-   déborderaient d'une fenêtre basse. D'où le `min()`.
-
-   Le tout avait été ramené à 95 % — Playfair ayant une chasse plus large que
-   la police du modèle, à corps égal les lignes touchaient presque les bords.
-
-   Puis le titre est passé de « IN CHECK » à « WELL SPOKEN » (#031). Or la
-   largeur d'une ligne est le produit du corps et du nombre de signes : mesurée
-   au navigateur, « IN CHECK » vaut 4.692 fois le corps, « WELL SPOKEN » 6.767
-   — 44 % de plus. Garder le corps aurait fait déborder la ligne, et le
-   navigateur l'aurait repliée en deux : trois lignes au lieu de deux.
-
-   Les trois termes sont donc multipliés par `4.692 / 6.767 = 0.693`, ce qui
-   rend au bloc de texte l'empreinte exacte qu'il avait : 1263 px de large à
-   1440 px de fenêtre, soit 88 px de marge de chaque côté. Du modèle, il reste
-   la couleur et l'interlignage — un rapport, qui suit le corps tout seul. */
+   Le terme en `em` reste, en plafond. Il vaut `20.63em`, soit la largeur qu'avait
+   le bloc jusqu'ici — 1263 px à 1440 px de fenêtre — sachant que « SPOKEN », la
+   ligne la plus large, mesure 3.828 fois le corps. Il ne joue que sur une fenêtre
+   plus haute que large (au-delà d'un rapport de 0.849), où la hauteur cesse de
+   contraindre : un écran en portrait, typiquement. */
 
 .hero {
   display: grid;
@@ -1256,7 +1248,7 @@ body {
 .hero_titre {
   margin: 0;
   font-family: var(--font-editorial), 'Times New Roman', serif;
-  font-size: clamp(2.47em, 12.52vw, 5.76em);
+  font-size: min(clamp(4.37em, 22.1vw, 10.18em), 27vh);
   font-weight: 400;
   line-height: 1.05;
   color: var(--vert);
@@ -1264,8 +1256,7 @@ body {
   text-align: center;
 }
 
-/* Les deux lignes sont posées l'une sous l'autre. Le modèle les place à
-   8.9rem et 40.8rem : 31.9rem d'écart pour 34rem de corps, soit 0.938.
+/* Les trois lignes sont posées l'une sous l'autre.
 
    `nowrap` fige le découpage : les lignes sont celles du balisage, et une
    fenêtre étroite ne peut pas en replier une en deux dans le dos du dessin.
@@ -1277,7 +1268,7 @@ body {
 
 @media screen and (min-width: 768px) {
   .hero_titre {
-    font-size: min(11.664em, 22.17vh);
+    font-size: min(20.63em, 27vh);
     line-height: 0.938;
   }
 }

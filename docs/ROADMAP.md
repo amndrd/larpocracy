@@ -18,7 +18,7 @@ Sous l'en-tête, le hero porte son titre : « MONEY WELL SPOKEN » (#029, #031).
 | En-tête : mot-logo, barre, bouton Menu, boutons Login et Get started | ✅ #027 — maquette reprise au sélecteur près |
 | Menu mobile, point suiveur | ✅ #027 — réécrits, la maquette avait perdu son JavaScript |
 | Volet d'About et de Features | ✅ six cases, repris du modèle brandappart.com — sans images |
-| Titre du hero | ✅ #029, #031 — « MONEY WELL SPOKEN », cotes et couleur de moneyincheck.org |
+| Titre du hero | ✅ #029, #031, #032 — « MONEY WELL SPOKEN », sur trois lignes |
 | Corps de la page sous le hero | ⬜ vide — c'est le chantier |
 | Pages `/contenu` `/about` `/features` `/pricing` `/news` `/contact` | ⬜ la barre y mène, elles n'existent pas |
 | Pages `/connexion` `/inscription` | ⬜ les deux boutons du coin y mènent, elles n'existent pas |
