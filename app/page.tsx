@@ -1,13 +1,16 @@
+import Accroche from '@/components/Accroche';
 import Header from '@/components/Header';
 import PointCurseur from '@/components/PointCurseur';
 
-/** La page. Vide sous l'en-tête, en attendant son contenu. */
+/** La page. L'accroche tient le premier écran ; la suite viendra dessous. */
 export default function Page() {
   return (
     <>
       <PointCurseur />
       <Header />
-      <div className="page" />
+      <div className="page">
+        <Accroche />
+      </div>
     </>
   );
 }
