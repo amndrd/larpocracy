@@ -401,9 +401,10 @@ body {
 /* ============================================================================
    LE MOT-LOGO
    ----------------------------------------------------------------------------
-   Deux lignes empilées et centrées, en Youth 900. La marque d'origine était
-   dessinée en courbes ; celle-ci est du texte, ce qui la garde nette à toute
-   taille et lisible par les moteurs de recherche.
+   Deux lignes empilées et centrées, en Playfair Display 400 — la serif du
+   titre du hero (#030). La marque d'origine était dessinée en courbes ;
+   celle-ci est du texte, ce qui la garde nette à toute taille et lisible par
+   les moteurs de recherche.
    ========================================================================== */
 
 @layer webflow {
@@ -418,11 +419,11 @@ body {
   }
 
   .ba_logo_word {
-    font-family: var(--font-youth), Arial, sans-serif;
-    font-weight: 900;
+    font-family: var(--font-editorial), 'Times New Roman', serif;
+    font-weight: 400;
     font-size: 1.75em;
     line-height: 0.94;
-    letter-spacing: -0.03em;
+    letter-spacing: 0; /* le -0.03em était taillé pour Youth : une serif s'y empâte */
     white-space: nowrap;
   }
 

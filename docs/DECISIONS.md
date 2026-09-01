@@ -506,3 +506,30 @@ désormais de 0,95, et non de 1.
 
 **Ce qui reste ouvert.** Le titre est celui du modèle, pas celui de LarpLvl. Il tient
 lieu de banc d'essai pour le hero : le mot final reste à décider.
+
+## 2026-09-01 — #030 Le mot-logo passe à la serif du titre
+
+**La demande.** Mettre le mot-logo dans la police du titre du hero.
+
+**Ce qui change.** `.ba_logo_word` passe de **Youth 900** à **Playfair Display 400**,
+la serif posée en #029. Le mot-logo et le titre parlent désormais la même langue :
+c'est ce qui fait tenir une identité, et la page n'a plus deux voix qui se disputent
+le haut de l'écran.
+
+**Le resserrement disparaît.** Le `letter-spacing: -0.03em` du mot-logo n'était pas
+un choix de style mais un correctif taillé pour Youth, une grasse dont les lettres
+se touchent presque. Une serif à empattements posée dans le même resserrement
+s'empâte : les empattements se chevauchent, et le mot devient une tache. La valeur
+passe donc à `0`. C'est la seule autre modification.
+
+**Ce qui n'a pas bougé.** Le corps (`1.75em`), la largeur du bloc, la position dans
+le cadre. Le mot mesure 94 px de large à 1440 px, contre 91 en Youth : la
+substitution ne déplace rien autour d'elle. Les étiquettes, les boutons et le
+bouton d'appel restent en Youth — la demande portait sur le mot-logo seul.
+
+**Ce qui reste ouvert.** Le mot-logo est désormais en Regular, là où Youth 900 lui
+donnait du poids : à côté du bouton « GET STARTED », il est nettement plus léger
+qu'avant. C'est la conséquence directe de la demande — le titre est en Regular, et
+c'est sa police qu'on reprend. Si la marque doit retrouver de la présence sans
+changer de police, Playfair Display existe jusqu'en 900 ; il suffirait d'embarquer
+un second `.woff2` pour le mot-logo seul.

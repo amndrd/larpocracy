@@ -80,8 +80,9 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   pour les pictogrammes au repos ; `--orange: #f72` pour l'unique accent.
   S'y ajoute `--vert: #00846a`, la couleur du titre du hero (#029).
 - **Trois polices, embarquées** (`app/fonts.ts`, `next/font/local`) :
-  **PP Neue Montreal** 400 pour le texte, **Youth** 700/900 pour les étiquettes,
-  les boutons et le mot-logo, **Playfair Display** 400 pour le titre du hero.
+  **PP Neue Montreal** 400 pour le texte, **Youth** 700/900 pour les étiquettes
+  et les boutons, **Playfair Display** 400 pour le titre du hero et le mot-logo
+  (#030).
   Playfair est le substitut libre de PP Editorial Old, la police du modèle,
   qui n'est pas libre en usage commercial (#029). La feuille de style les nomme par leur variable
   (`--font-pp`, `--font-youth`), jamais par leur nom de famille : celui-ci est
