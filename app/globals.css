@@ -1218,7 +1218,7 @@ body {
    LE HERO
    ========================================================================= */
 
-/* Le titre reprend au chiffre près celui de moneyincheck.org, dont la maquette
+/* Le titre reprend les cotes de celui de moneyincheck.org, dont la maquette
    tient dans un cadre de 1728 × 1010 px : là-bas le rem vaut
    `min(100vw / 172.8, 100vh / 101, 11.111px)`, et le titre 34rem.
 
@@ -1229,7 +1229,12 @@ body {
 
    Reste la contrainte de hauteur, que le modèle porte dans son troisième
    terme : `34 × 100vh / 101 = 33.66vh`. Sans elle, deux lignes de 378 px
-   déborderaient d'une fenêtre basse. D'où le `min()`. */
+   déborderaient d'une fenêtre basse. D'où le `min()`.
+
+   Le tout est ramené à **95 %** : Playfair a une chasse plus large que la
+   police du modèle, et à corps égal les lignes touchaient presque les bords.
+   Les deux termes sont réduits d'autant, l'interlignage étant un rapport, il
+   suit seul. D'où 16.823em (17.708 × 0.95) et 31.98vh (33.66 × 0.95). */
 
 .hero {
   display: grid;
@@ -1240,7 +1245,7 @@ body {
 .hero_titre {
   margin: 0;
   font-family: var(--font-editorial), 'Times New Roman', serif;
-  font-size: clamp(3.75em, 19vw, 8.75em); /* le modèle sous 1080 px */
+  font-size: clamp(3.56em, 18.05vw, 8.31em); /* le modèle sous 1080 px, à 95 % */
   font-weight: 400;
   line-height: 1.05;
   color: var(--vert);
@@ -1256,7 +1261,7 @@ body {
 
 @media screen and (min-width: 768px) {
   .hero_titre {
-    font-size: min(17.708em, 33.66vh);
+    font-size: min(16.823em, 31.98vh);
     line-height: 0.938;
   }
 }

@@ -496,5 +496,13 @@ plus large que PP Editorial Old : à corps égal, les deux lignes occupent nette
 plus de largeur que sur le modèle, où elles laissent de la marge de part et d'autre.
 C'est le prix de la substitution, pas une erreur de cote.
 
+**Correctif du même jour : 95 %.** Le titre a été jugé un peu grand et ramené à
+95 % — `min(16.823em, 31.98vh)`, et `clamp(3.56em, 18.05vw, 8.31em)` sous 768 px.
+L'interlignage étant un rapport, il suit seul. C'est la contrepartie de la chasse
+de Playfair : à corps égal, les lignes touchaient presque les bords, là où le modèle
+laisse de la marge. À 1440 px, la ligne haute passe de 1329 à 1263 px de large,
+soit 88 px de marge de chaque côté. Le rapport aux cotes du modèle est donc
+désormais de 0,95, et non de 1.
+
 **Ce qui reste ouvert.** Le titre est celui du modèle, pas celui de LarpLvl. Il tient
 lieu de banc d'essai pour le hero : le mot final reste à décider.
