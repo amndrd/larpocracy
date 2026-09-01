@@ -143,12 +143,14 @@ components/
   Login.tsx         le lien Login — texte nu, à gauche de l'appel
   Cta.tsx           le bouton d'appel à l'action — « get started »
   PointCurseur.tsx  le point qui suit le curseur
+  Accroche.tsx      le premier écran, sous l'en-tête
 docs/               contexte, atlas, feuille de route, guide, décisions
 ```
 
-**Il n'y a plus de contenu.** `content/`, `lib/`, `supabase/` et `public/` ont été
-supprimés avec le reste. Le schéma d'une fiche (§ 8) et les quatorze domaines (§ 7)
-restent la référence pour quand le contenu reviendra.
+**Le contenu revient, par l'accroche.** `content/`, `lib/`, `supabase/` et `public/`
+sont toujours supprimés ; le seul contenu du site est celui de l'accroche (#028),
+écrit en dur dans son composant. Le schéma d'une fiche (§ 8) et les quatorze
+domaines (§ 7) restent la référence pour quand les fiches reviendront.
 
 **Les six entrées de la barre et les deux boutons du coin pointent vers des adresses
 qui n'existent pas encore** : `/contenu`, `/about`, `/features`, `/pricing`, `/news`,
@@ -215,11 +217,15 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
 
 ## 10. État actuel
 
-**Au 28 août 2026 : le site est une page blanche surmontée d'un en-tête.**
-Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 août (#022).
-Ce qui existe : le cadre, le mot-logo, la barre de six pastilles et son volet,
-le bouton Menu, les deux boutons du coin (Login et Get started), le point qui
-suit le curseur. Rien d'autre.
+**Au 1er septembre 2026 : le site tient un écran.**
+Le design a été remis à zéro le 28 août (#027) ; le contenu l'avait déjà été le
+26 août (#022). Ce qui existe : le cadre, le mot-logo, la barre de six pastilles
+et son volet, le bouton Menu, les deux boutons du coin (Login et Get started), le
+point qui suit le curseur — et, depuis le 1er septembre, l'accroche : baseline,
+promesse, et une paire « Dis ça / Pas ça » donnée en démonstration (#028).
+
+**On ne recopie pas le design d'un site tiers** (#028). Ni son code, ni ses polices
+sous licence. On en reprend les techniques, avec nos jetons et notre contenu.
 
 Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 
