@@ -954,6 +954,10 @@ body {
 
 /* La flèche du survol, à la suite du titre.
 
+   C'est le caractère ↗ de la Youth, non un dessin : elle prend donc le corps,
+   la graisse et la couleur du titre, et n'a besoin d'aucune dimension. Le
+   retrait de 0,35 em est celui du modèle.
+
    Elle entre en diagonale, du bas gauche vers le haut droit, et ne sort
    qu'en fondu. D'où le partage des rôles : le déplacement est une animation,
    qui ne joue qu'à l'aller ; l'opacité est une transition, qui joue dans les
@@ -961,18 +965,9 @@ body {
    point de départ en s'effaçant, ce qui n'est pas ce qu'on veut voir. */
 .nav_volet_case_fleche {
   display: inline-block;
-  width: 0.82em;
-  height: 0.82em;
-  margin-left: 0.28em;
-  vertical-align: -0.04em;
+  margin-left: 0.35em;
   opacity: 0;
   transition: opacity var(--duration-sm) var(--ease);
-}
-
-.nav_volet_case_fleche svg {
-  width: 100%;
-  height: 100%;
-  display: block;
 }
 
 .nav_volet_case:hover .nav_volet_case_fleche {

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { IconeFlecheDiagonale } from './icons';
 import type { CaseVolet } from './volets';
 
 /**
@@ -44,11 +43,16 @@ export default function VoletNav({
             <span className="nav_volet_case_fond" aria-hidden="true" />
 
             {/* La flèche est dans le titre, non à côté : elle suit ainsi le
-                dernier mot, quelle que soit la longueur de l'étiquette. */}
+                dernier mot, quelle que soit la longueur de l'étiquette.
+
+                Ce n'est pas un dessin mais une lettre — le caractère ↗ de la
+                Youth, comme sur le modèle. La grasse en donne une flèche
+                pleine, plus épaisse que tout tracé au trait, et qui suit le
+                corps et la couleur du titre sans qu'on ait à les lui redire. */}
             <span className="nav_volet_case_titre text-youth">
               {t}
               <span className="nav_volet_case_fleche" aria-hidden="true">
-                <IconeFlecheDiagonale />
+                ↗
               </span>
             </span>
           </Link>

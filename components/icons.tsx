@@ -56,16 +56,3 @@ export function IconeContact() {
     </svg>
   );
 }
-
-/**
- * La flèche du survol, en haut à droite du titre d'une case. Seul tracé du
- * site à être tiré au trait plutôt que rempli : à cette taille, une flèche
- * pleine se referme sur elle-même.
- */
-export function IconeFlecheDiagonale() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M6.5 17.5 17.5 6.5M17.5 6.5H9.2M17.5 6.5v8.3" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
