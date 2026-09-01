@@ -527,9 +527,12 @@ le cadre. Le mot mesure 94 px de large à 1440 px, contre 91 en Youth : la
 substitution ne déplace rien autour d'elle. Les étiquettes, les boutons et le
 bouton d'appel restent en Youth — la demande portait sur le mot-logo seul.
 
-**Ce qui reste ouvert.** Le mot-logo est désormais en Regular, là où Youth 900 lui
-donnait du poids : à côté du bouton « GET STARTED », il est nettement plus léger
-qu'avant. C'est la conséquence directe de la demande — le titre est en Regular, et
-c'est sa police qu'on reprend. Si la marque doit retrouver de la présence sans
-changer de police, Playfair Display existe jusqu'en 900 ; il suffirait d'embarquer
-un second `.woff2` pour le mot-logo seul.
+**Correctif du même jour : le Bold.** Le Regular s'est révélé trop léger à côté du
+bouton « GET STARTED », comme prévu ci-dessus. Un second `.woff2` est embarqué —
+**Playfair Display 700** — et `editorial` passe d'un fichier unique à un tableau de
+deux, comme `youth`. Le mot-logo prend le 700, le titre du hero garde le 400 : une
+seule famille, deux graisses, une seule variable CSS.
+
+Le 700 plutôt que le 900 : le contraste de Playfair est déjà fort, et le Black
+transforme un mot de sept lettres en pavé. Le mot passe de 94 à 99 px de large à
+1440 px — la barre du haut ne bouge pas pour autant.

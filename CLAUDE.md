@@ -81,8 +81,8 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   S'y ajoute `--vert: #00846a`, la couleur du titre du hero (#029).
 - **Trois polices, embarquées** (`app/fonts.ts`, `next/font/local`) :
   **PP Neue Montreal** 400 pour le texte, **Youth** 700/900 pour les étiquettes
-  et les boutons, **Playfair Display** 400 pour le titre du hero et le mot-logo
-  (#030).
+  et les boutons, **Playfair Display** 400/700 pour le titre du hero et le
+  mot-logo (#030).
   Playfair est le substitut libre de PP Editorial Old, la police du modèle,
   qui n'est pas libre en usage commercial (#029). La feuille de style les nomme par leur variable
   (`--font-pp`, `--font-youth`), jamais par leur nom de famille : celui-ci est
@@ -134,7 +134,7 @@ app/
   page.tsx          la page — le hero et son titre
   globals.css       toute la feuille de style, en sections commentées
   fonts.ts          PP Neue Montreal et Youth, via next/font/local
-  fonts/            les quatre .woff2
+  fonts/            les cinq .woff2
 components/
   Header.tsx        le cadre fixe, et le seul état du site (menu ouvert / fermé)
   Logo.tsx          le mot-logo LarpLvl, sur une seule ligne

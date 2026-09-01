@@ -401,8 +401,9 @@ body {
 /* ============================================================================
    LE MOT-LOGO
    ----------------------------------------------------------------------------
-   Deux lignes empilées et centrées, en Playfair Display 400 — la serif du
-   titre du hero (#030). La marque d'origine était dessinée en courbes ;
+   Deux lignes empilées et centrées, en Playfair Display 700 — la serif du
+   titre du hero (#029), prise ici en Bold pour rendre à la marque le poids
+   que Youth 900 lui donnait (#030). La marque d'origine était dessinée en courbes ;
    celle-ci est du texte, ce qui la garde nette à toute taille et lisible par
    les moteurs de recherche.
    ========================================================================== */
@@ -420,7 +421,7 @@ body {
 
   .ba_logo_word {
     font-family: var(--font-editorial), 'Times New Roman', serif;
-    font-weight: 400;
+    font-weight: 700;
     font-size: 1.75em;
     line-height: 0.94;
     letter-spacing: 0; /* le -0.03em était taillé pour Youth : une serif s'y empâte */

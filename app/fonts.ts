@@ -30,11 +30,12 @@ export const youth = localFont({
   fallback: ['Arial', 'sans-serif'],
 });
 
-/** La serif éditoriale du titre du hero, en Regular. */
+/** La serif éditoriale : Regular pour le titre du hero, Bold pour le mot-logo. */
 export const editorial = localFont({
-  src: './fonts/playfair-display-400.woff2',
-  weight: '400',
-  style: 'normal',
+  src: [
+    { path: './fonts/playfair-display-400.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/playfair-display-700.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--font-editorial',
   display: 'swap',
   fallback: ['Times New Roman', 'serif'],
