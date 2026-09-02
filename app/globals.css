@@ -1328,3 +1328,24 @@ body {
     --demi: 12.5vw;
   }
 }
+
+/* ============================================================================
+   LE RIDEAU D'INTRO
+   ----------------------------------------------------------------------------
+   La même grille, mais devant la page, et sur fond de papier plein : le site
+   n'apparaît qu'une fois le rideau levé. Au-dessus de tout, y compris du point
+   qui suit le curseur (z-60) — d'où 200, la cote du modèle.
+   ========================================================================== */
+
+.rideau {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg);
+  transition: opacity var(--duration-md) var(--ease);
+}
+
+.rideau.--fini {
+  opacity: 0;
+  pointer-events: none;
+}
