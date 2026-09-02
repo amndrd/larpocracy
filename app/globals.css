@@ -1358,3 +1358,23 @@ body {
     display: none;
   }
 }
+
+/* ============================================================================
+   LE MANIFESTE
+   ----------------------------------------------------------------------------
+   Le texte sous le hero, dans la veine de la section « intro » du modèle : un
+   bloc centré, à la serif du titre, qui dit ce que le site fait — et ce qu'il
+   ne fait pas. Playfair en Regular : le modèle le posait en 200, un gras dont
+   nous n'embarquons pas la coupe.
+   ========================================================================== */
+
+.manifeste {
+  font-family: var(--font-editorial), 'Times New Roman', serif;
+  font-weight: 400;
+  text-align: center;
+  color: var(--base);
+}
+
+.manifeste_paragraphe {
+  margin: 0;
+}
