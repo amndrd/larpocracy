@@ -1349,3 +1349,12 @@ body {
   opacity: 0;
   pointer-events: none;
 }
+
+/* Le rideau est une intro : qui a demandé moins de mouvement ne le voit pas.
+   Masqué ici plutôt qu'au montage pour qu'il ne s'affiche pas le temps d'une
+   image — il est rendu par le serveur, donc peint avant que React ne parle. */
+@media (prefers-reduced-motion: reduce) {
+  .rideau {
+    display: none;
+  }
+}

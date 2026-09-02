@@ -53,6 +53,16 @@ export default function RideauIntro() {
     const el = grille.current;
     if (!el) return;
 
+    /* Qui a demandé moins de mouvement n'a ni rideau ni zoom : le CSS a déjà
+       masqué le rideau, on se contente ici de le retirer du balisage et de
+       ne rien bloquer. Le modèle renonçait de même à son écran de chargement. */
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Différé d'un tour : React ne veut pas d'un `setState` posé à même le
+      // corps de l'effet, qui relancerait un rendu en cascade.
+      const vider = setTimeout(() => setRetiré(true), 0);
+      return () => clearTimeout(vider);
+    }
+
     let x = DEPART_X;
     let y = DEPART_Y;
 
