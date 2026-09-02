@@ -2,8 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-/** Le temps que le rideau reste posé avant que le zoom parte. */
+/** Le temps minimum que le rideau reste posé avant que le zoom parte. */
 const ATTENTE = 600;
+
+/** Le plafond : passé ce délai le rideau se lève, polices chargées ou non. */
+const PLAFOND = 2000;
 
 /** La durée du zoom, et les deux échelles de départ — les cotes du modèle. */
 const ZOOM = 800;
@@ -12,6 +15,9 @@ const DEPART_Y = 0.7;
 
 /** La durée du fondu — celle de `--duration-md`, qu'il faut savoir ici aussi. */
 const FONDU = 420;
+
+/** Une attente, en promesse — de quoi composer avec `document.fonts`. */
+const tempo = (ms: number) => new Promise((suite) => setTimeout(suite, ms));
 
 /** La courbe du modèle : cubique à l'entrée comme à la sortie. */
 const courbe = (t: number) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
@@ -24,6 +30,11 @@ const courbe = (t: number) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2)
  * grille de fond — puis le rideau s'efface, et la page est déjà en place.
  * Le modèle y faisait aussi tourner une vidéo et écrire des coups d'échecs à
  * la main ; on n'en garde que la grille.
+ *
+ * Il se lève quand les polices sont prêtes, jamais avant `ATTENTE` ni après
+ * `PLAFOND` : c'est là sa raison d'être autre que décorative — le titre du
+ * hero est en Playfair, et sans rideau on le verrait sauter de la police de
+ * secours à la sienne. Le modèle attendait de la même façon, mais sa vidéo.
  *
  * Le zoom joue sur `background-size` et `background-position`, jamais sur
  * `transform` : une mise à l'échelle épaissirait le trait, et le fond
@@ -100,12 +111,19 @@ export default function RideauIntro() {
     };
 
     let retirer: ReturnType<typeof setTimeout>;
-    const lever = setTimeout(() => zoomer(performance.now()), ATTENTE);
+    let annulé = false;
+
+    Promise.race([
+      Promise.all([document.fonts.ready, tempo(ATTENTE)]),
+      tempo(PLAFOND),
+    ]).then(() => {
+      if (!annulé) zoomer(performance.now());
+    });
 
     return () => {
+      annulé = true;
       window.removeEventListener('resize', suivreFenêtre);
       cancelAnimationFrame(image);
-      clearTimeout(lever);
       clearTimeout(retirer);
     };
   }, []);
