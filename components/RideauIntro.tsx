@@ -56,6 +56,15 @@ export default function RideauIntro() {
     let x = DEPART_X;
     let y = DEPART_Y;
 
+    /* Le défilement est bloqué tant que le rideau est là : la page est déjà
+       en place derrière, et une molette pendant l'intro la ferait défiler
+       sans que rien ne bouge à l'écran. Le modèle faisait de même. */
+    const défilement = document.documentElement.style.overflow;
+    const rendreLeDéfilement = () => {
+      document.documentElement.style.overflow = défilement;
+    };
+    document.documentElement.style.overflow = 'hidden';
+
     /* Les cotes au repos, relues sur la grille elle-même : c'est là que le zoom
        doit arriver, et le CSS en est seul juge. Vider les styles en ligne avant
        la lecture ne provoque pas de saut — rien n'est peint entre l'écriture et
@@ -104,6 +113,7 @@ export default function RideauIntro() {
           image = requestAnimationFrame(avancer);
           return;
         }
+        rendreLeDéfilement();
         setFini(true);
         retirer = setTimeout(() => setRetiré(true), FONDU);
       };
@@ -122,6 +132,7 @@ export default function RideauIntro() {
 
     return () => {
       annulé = true;
+      rendreLeDéfilement();
       window.removeEventListener('resize', suivreFenêtre);
       cancelAnimationFrame(image);
       clearTimeout(retirer);
