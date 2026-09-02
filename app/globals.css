@@ -1407,3 +1407,19 @@ body {
 .manifeste_paragraphe + .manifeste_paragraphe {
   margin-top: 1.354em;
 }
+
+/* Sur téléphone le corps de page est figé à 14 px : 4,28em y vaudrait encore
+   60 px, sur 375 px de large. Le corps repasse donc en `vw`, borné des deux
+   côtés — le modèle faisait de même, entre 24 et 46 px. La garde se resserre
+   d'autant, et le rail a cédé la place au hamburger : plus rien à dégager. */
+@media screen and (max-width: 767px) {
+  .manifeste {
+    width: 100%;
+    padding: 4em 1.5em 6em;
+  }
+
+  .manifeste_paragraphe {
+    font-size: clamp(1.7em, 7vw, 3.2em);
+    line-height: 1.35;
+  }
+}
