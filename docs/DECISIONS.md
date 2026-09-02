@@ -625,3 +625,89 @@ joue) · 390 × 844 → 86 px, 32 % · 320 × 568 → 71 px, 39 %.
 
 **Ce qui ne bouge pas.** La couleur `#00846a`, l'interlignage `0.938`, le `nowrap`
 des lignes, et le mot-logo.
+
+---
+
+## 2026-09-02 — #033 La grille de fond et le rideau d'intro, repris de moneyincheck.org
+
+**La demande.** Reprendre de `moneyincheck.org` le fond et son animation d'entrée —
+sans les « formules chimiques » qui s'y écrivent.
+
+**Ce que sont ces formules.** Des coups d'échecs. Le modèle est le site d'un roman
+qui file la métaphore de la partie ; son écran de chargement fait apparaître à la
+main `e4`, `e5`, `Nf3`, `Nc6`, `Bc4`… dans une police manuscrite (Liu Jian Mao Cao),
+par-dessus une vidéo au trait. **Rien de tout cela n'est repris** : ni les coups, ni
+la vidéo, ni la police manuscrite. Ils appartiennent au sujet du modèle, pas au nôtre.
+Ce qui est repris, c'est la mécanique — la grille, et son zoom.
+
+### La grille
+
+Deux dégradés croisés, pas d'image : chacun est un trait d'un pixel suivi de
+transparent, répété à la taille d'une case.
+
+| | modèle | ici |
+|---|---|---|
+| Trait | `rgba(0,0,0,.1)`, 1 px | `rgb(23 20 18 / 10%)`, 1 px — l'encre du site |
+| Case | `20rem` | `10.4em` |
+| Origine | `calc(50vw - 70rem)` / `10rem` | `calc(50vw - 5.2em)` / `5.2em` |
+| Téléphone | `25vw` | `25vw` |
+
+**Pourquoi 10,4em.** Le rem du modèle vaut `min(100vw / 172.8, 100vh / 101, 11.111px)`,
+soit **8,33 px** à 1440 px de fenêtre : sa case de 20rem mesure donc 166 px. Notre
+corps de page — `--size-font` — vaut 16 px à la même largeur : 166 / 16 = **10,4em**.
+La case fait la même chose à l'écran, et suit la fenêtre comme tout le reste du dessin.
+
+**Pourquoi le décalage d'une demi-case.** Il pose le *centre* d'une case au milieu de
+la fenêtre, et non un trait : le titre du hero ne se fait pas barrer verticalement.
+
+**Pourquoi `50vw` et non `50%`.** Pour que la valeur calculée reste en pixels. Le
+rideau relit les cotes de la grille au chargement, par `getComputedStyle` ; un
+pourcentage y survit tel quel, et il ne saurait pas quoi en faire.
+
+**Pourquoi `vw` sous 768 px.** Sous ce seuil, le corps de page cesse de suivre la
+fenêtre — il est figé à 14 px. Une case en `em` y garderait sa taille de grand écran :
+deux cases et demie en travers d'un téléphone. Le modèle fait le même choix.
+
+### Le rideau
+
+Une page de papier millimétré posée devant le site, dont les cases grandissent depuis
+le centre de la fenêtre jusqu'à rejoindre **exactement** celles de la grille de fond.
+Le rideau s'efface alors, et la page est déjà en place derrière : rien ne saute.
+
+Les cotes sont celles du modèle, relevées dans son script : échelle de départ
+**0,665** en largeur et **0,7** en hauteur, zoom de **800 ms**, sur la cubique
+`t < 0.5 ? 4t³ : 1 - (-2t + 2)³ / 2` — accélérée à l'entrée, freinée à la sortie.
+
+**Le zoom joue sur `background-size`, jamais sur `transform`.** C'est le point
+technique de toute l'affaire. Une mise à l'échelle grossirait le trait avec les
+cases, et le fond cesserait d'être du papier technique pour devenir un damier qui
+enfle. En faisant grandir les cases pendant que le trait reste à un pixel, on obtient
+ce que fait une caméra qui avance : les lignes s'écartent, elles ne s'épaississent pas.
+
+L'origine se rapproche du centre dans la même proportion que les cases grandissent —
+`origine = centre + échelle × (origine au repos − centre)` — sans quoi la grille se
+déploierait depuis le coin supérieur gauche.
+
+**Ce qui déclenche la levée.** `document.fonts.ready`, jamais avant 600 ms ni après
+2 s. C'est la raison d'être du rideau au-delà du décor : le titre du hero est en
+Playfair, et sans lui on le verrait sauter de la police de secours à la sienne. Le
+modèle attendait de la même façon — mais sa vidéo, et sur 2,6 s / 4 s.
+
+**Trois garde-fous.**
+
+1. **Rendu par le serveur**, et non monté après coup : autrement la page s'afficherait
+   le temps d'une image avant d'être recouverte, ce qui est pire que pas de rideau.
+2. **`noscript`** : sans JavaScript personne ne lève le rideau, et il masquerait le
+   site pour de bon. Une règle dans un `noscript` le retire — vérifié, moteur coupé.
+3. **`prefers-reduced-motion`** : ni rideau ni zoom. Le CSS le masque — avant React,
+   donc sans l'image de trop — et le composant se contente de le retirer du balisage.
+
+Le défilement est bloqué tant que le rideau est là, et rendu à la fin du zoom : la
+page est déjà en place derrière, et une molette la ferait défiler sans que rien ne
+bouge à l'écran. Le modèle fait de même.
+
+**Vérification.** Rendu au navigateur, cotes relevées image par image à 1440 × 900 :
+la case part de 110,656 px (0,665 × 166,4), passe par 121,4 puis 154,6, arrive à
+166,400 px — la cote exacte de la grille de fond, à laquelle elle se superpose sans
+écart — puis le rideau est retiré du balisage. Moteur JavaScript coupé : rideau
+`display: none`, site lisible.

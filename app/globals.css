@@ -1334,7 +1334,7 @@ body {
    ----------------------------------------------------------------------------
    La même grille, mais devant la page, et sur fond de papier plein : le site
    n'apparaît qu'une fois le rideau levé. Au-dessus de tout, y compris du point
-   qui suit le curseur (z-60) — d'où 200, la cote du modèle.
+   qui suit le curseur, la cote la plus haute du site (z-60).
    ========================================================================== */
 
 .rideau {
