@@ -714,7 +714,7 @@ la case part de 110,656 px (0,665 × 166,4), passe par 121,4 puis 154,6, arrive 
 
 ---
 
-## 2026-09-02 — #034 Le manifeste, sous le hero
+## 2026-09-03 — #034 Le manifeste, sous le hero
 
 **La demande.** Un texte sous le hero, dans la veine de celui du modèle, au thème de
 LarpLvl, et dans la même police.

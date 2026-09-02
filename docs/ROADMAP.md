@@ -2,11 +2,13 @@
 
 ---
 
-## ÉTAT AU 1ᵉʳ SEPTEMBRE 2026
+## ÉTAT AU 3 SEPTEMBRE 2026
 
 **Phase en cours : Phase 2 — le noyau utile.**
 **Le site est reparti de zéro : contenu le 26 août (#022), design le 28 (#027).**
-Sous l'en-tête, le hero porte son titre : « MONEY WELL SPOKEN » (#029, #031).
+Sous l'en-tête, le hero porte son titre : « MONEY WELL SPOKEN » (#029, #031, #032),
+sur la grille de fond de `moneyincheck.org` et derrière son rideau d'intro (#033).
+Le manifeste ouvre le corps de la page (#034).
 
 | Élément | État |
 |---|---|
@@ -19,7 +21,8 @@ Sous l'en-tête, le hero porte son titre : « MONEY WELL SPOKEN » (#029, #031).
 | Menu mobile, point suiveur | ✅ #027 — réécrits, la maquette avait perdu son JavaScript |
 | Volet d'About et de Features | ✅ six cases, repris du modèle brandappart.com — sans images |
 | Titre du hero | ✅ #029, #031, #032 — « MONEY WELL SPOKEN », sur trois lignes |
-| Corps de la page sous le hero | ⬜ vide — c'est le chantier |
+| Grille de fond et rideau d'intro | ✅ #033 — repris de moneyincheck.org, sans ses coups d'échecs |
+| Corps de la page sous le hero | ⏳ #034 — le manifeste est posé, la suite reste à décider |
 | Pages `/contenu` `/about` `/features` `/pricing` `/news` `/contact` | ⬜ la barre y mène, elles n'existent pas |
 | Pages `/connexion` `/inscription` | ⬜ les deux boutons du coin y mènent, elles n'existent pas |
 | Libellé du bouton d'appel | ✅ « get started » — celui de la maquette est écarté |
@@ -27,7 +30,7 @@ Sous l'en-tête, le hero porte son titre : « MONEY WELL SPOKEN » (#029, #031).
 | Modules de contenu remplis | ⬜ **0** — remis à zéro le 26 août (#022) |
 | Déploiement Vercel | ⏳ en attente de connexion au compte |
 
-**Prochaine action** : décider ce que porte le corps de la page, sous l'en-tête.
+**Prochaine action** : décider ce qui suit le manifeste — la page s'arrête là.
 
 **Ce qui a été retiré le 28 août** et devra être refait quand le site reprendra sa
 forme : l'authentification et la base Supabase (`lib/supabase/`, `supabase/schema.sql`,

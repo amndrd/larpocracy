@@ -78,7 +78,8 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   Ne pas changer cet ordre sans vérifier le rendu.
 - **Deux couleurs, un gris.** Papier `#fbf9ef`, encre `#171412`, gris `#8e827c`
   pour les pictogrammes au repos ; `--orange: #f72` pour l'unique accent.
-  S'y ajoute `--vert: #00846a`, la couleur du titre du hero (#029).
+  S'y ajoute `--vert: #00846a`, la couleur du titre du hero (#029), et
+  `--grille-trait`, l'encre à 10 % du papier millimétré du fond (#033).
 - **Trois polices, embarquées** (`app/fonts.ts`, `next/font/local`) :
   **PP Neue Montreal** 400 pour le texte, **Youth** 700/900 pour les étiquettes
   et les boutons, **Playfair Display** 400/700 pour le titre du hero et le
@@ -100,10 +101,14 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   parce que le CSS commande de là la barre, le voile et le hamburger, qui ne sont
   pas frères dans le balisage. Et le volet de la barre, ouvert au survol d'About
   ou de Features : celui-là reste dans `Nav.tsx`, le CSS n'a rien à savoir en
-  dehors du volet lui-même.
-- **Un seul mouvement continu** : le point qui suit le curseur
-  (`components/PointCurseur.tsx`), qui rattrape le pointeur d'un sixième de la
-  distance par image.
+  dehors du volet lui-même. (Le rideau d'intro en a un troisième, mais il ne
+  dure qu'une seconde et demie et meurt avec le composant.)
+- **Deux mouvements pilotés à la main**, tous deux en `requestAnimationFrame` :
+  le point qui suit le curseur (`components/PointCurseur.tsx`), qui rattrape le
+  pointeur d'un sixième de la distance par image ; et le zoom du rideau d'intro
+  (`components/RideauIntro.tsx`), qui fait grandir les cases de la grille de
+  0,665 à 1 en 800 ms (#033). Ce zoom joue sur `background-size`, **jamais sur
+  `transform`** : une mise à l'échelle épaissirait le trait de la grille.
 - **La page est prérendue en statique.** Rien n'est dynamique, il n'y a plus
   de session ni de base de données.
 - Hébergement **Vercel**. Développement sur `localhost:3000` (`npm run dev`).
@@ -131,7 +136,7 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
 ```
 app/
   layout.tsx        la coquille : les polices, les classes du corps de page
-  page.tsx          la page — le hero et son titre
+  page.tsx          la page — le hero, son titre, et le manifeste
   globals.css       toute la feuille de style, en sections commentées
   fonts.ts          PP Neue Montreal et Youth, via next/font/local
   fonts/            les cinq .woff2
@@ -147,6 +152,8 @@ components/
   Login.tsx         le lien Login — texte nu, à gauche de l'appel
   Cta.tsx           le bouton d'appel à l'action — « get started »
   PointCurseur.tsx  le point qui suit le curseur
+  GrilleFond.tsx    le papier millimétré du fond
+  RideauIntro.tsx   le rideau d'intro, et le zoom de sa grille
 docs/               contexte, atlas, feuille de route, guide, décisions
 ```
 
@@ -219,13 +226,20 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
 
 ## 10. État actuel
 
-**Au 1er septembre 2026 : un en-tête, et un titre au centre du hero.**
+**Au 3 septembre 2026 : un en-tête, un hero sur papier millimétré, un manifeste.**
 Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 août (#022).
 Ce qui existe : le cadre, le mot-logo, la barre de six pastilles et son volet,
 le bouton Menu, les deux boutons du coin (Login et Get started), le point qui
 suit le curseur — et, depuis le 1er septembre, le titre du hero, repris cote pour
 cote de `moneyincheck.org` (#029). Son texte est désormais « MONEY WELL SPOKEN »,
-choisi pour LarpLvl (#031).
+choisi pour LarpLvl (#031), sur trois lignes (#032).
+
+Depuis le 2 septembre, la page est posée sur la **grille de fond** de
+`moneyincheck.org` — deux dégradés croisés, une case de 10,4em — et s'ouvre sur un
+**rideau d'intro** dont les cases grandissent depuis le centre jusqu'à rejoindre
+celles du fond (#033). Ni les coups d'échecs manuscrits du modèle ni sa vidéo n'ont
+été repris. Sous le hero, le **manifeste** dit en deux paragraphes ce que le site
+fait — et qu'il n'apprend pas à mentir (#034).
 
 Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 
