@@ -1317,3 +1317,14 @@ body {
   position: fixed;
   z-index: -1;
 }
+
+/* Sous 768 px, le corps de page ne suit plus la fenêtre : il est figé à 14 px,
+   et une case en `em` y garderait sa taille de grand écran — deux cases et
+   demie en travers d'un téléphone. La grille repasse donc en `vw`, comme sur
+   le modèle : quatre cases en largeur, à toute taille d'écran. */
+@media screen and (max-width: 767px) {
+  .grille {
+    --cote: 25vw;
+    --demi: 12.5vw;
+  }
+}
