@@ -1,3 +1,4 @@
+import GrilleFond from '@/components/GrilleFond';
 import Header from '@/components/Header';
 import PointCurseur from '@/components/PointCurseur';
 
@@ -5,6 +6,7 @@ import PointCurseur from '@/components/PointCurseur';
 export default function Page() {
   return (
     <>
+      <GrilleFond />
       <PointCurseur />
       <Header />
       <div className="page">

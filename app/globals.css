@@ -256,6 +256,7 @@
     --white: white;
     --grey: #8e827c;
     --vert: #00846a; /* le vert du titre, repris de moneyincheck.org */
+    --grille-trait: rgb(23 20 18 / 10%); /* le trait du papier millimétré (#033) */
   }
 
   .w-inline-block {
@@ -1271,4 +1272,48 @@ body {
     font-size: min(20.63em, 27vh);
     line-height: 0.938;
   }
+}
+
+/* ============================================================================
+   LA GRILLE DE FOND
+   ----------------------------------------------------------------------------
+   Le papier millimétré de moneyincheck.org (#033) : deux dégradés croisés, où
+   chaque dégradé est un trait d'un pixel suivi de transparent, répétés à la
+   taille d'une case. Rien d'autre — pas d'image, pas de SVG.
+
+   Le trait reste à un pixel quelle que soit la case : c'est ce qui donne au
+   fond son air de papier technique plutôt que de damier, et c'est aussi ce qui
+   permet au rideau d'intro de faire grandir les cases sans épaissir le trait.
+
+   La case est en `em` : elle suit donc `--size-font`, comme tout le dessin.
+   10,4em vaut 166 px à 1440 px de fenêtre — la cote relevée sur le modèle,
+   dont le rem valait 8,33 px pour une case de 20rem. */
+
+.grille {
+  --cote: 10.4em;
+  --demi: 5.2em;
+
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grille-trait) 0 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grille-trait) 0 1px, transparent 1px);
+  background-repeat: repeat;
+  background-size: var(--cote) var(--cote);
+
+  /* Décalée d'une demi-case, la grille pose le *centre* d'une case au milieu
+     de la fenêtre, et non un trait : le titre du hero ne se fait pas barrer.
+     `50vw` plutôt que `50%` pour que la valeur calculée reste en pixels —
+     le rideau la relit au chargement, et ne saurait pas quoi faire d'un
+     pourcentage. */
+  background-position: calc(50vw - var(--demi)) var(--demi);
+}
+
+/* Posée en fond de page, la grille est fixe et passe derrière tout : `-1` la
+   met sous le contenu mais au-dessus du fond du corps de page, qui est peint
+   sur la toile avant les couches négatives. */
+.grille_fond {
+  position: fixed;
+  z-index: -1;
 }
