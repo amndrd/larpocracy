@@ -711,3 +711,58 @@ la case part de 110,656 px (0,665 × 166,4), passe par 121,4 puis 154,6, arrive 
 166,400 px — la cote exacte de la grille de fond, à laquelle elle se superpose sans
 écart — puis le rideau est retiré du balisage. Moteur JavaScript coupé : rideau
 `display: none`, site lisible.
+
+---
+
+## 2026-09-02 — #034 Le manifeste, sous le hero
+
+**La demande.** Un texte sous le hero, dans la veine de celui du modèle, au thème de
+LarpLvl, et dans la même police.
+
+**Ce qu'il dit.** Deux paragraphes, et une seule idée par paragraphe. Le premier pose
+le problème — on entre dans une pièce sans en connaître les règles, et la conversation
+passe sans nous. Le second pose la réponse, et la limite : *« On n'apprend pas ici à
+mentir : on apprend à savoir. »* Cette phrase n'est pas une formule ; c'est le
+principe § 4.5 du projet — zéro fraude — écrit en clair sur la page d'accueil, là où
+un visiteur le lit avant de s'inscrire. La sobriété (§ 4.4) est nommée dans la même
+phrase que le vocabulaire et les références, et non après : elle en fait partie.
+
+Le modèle parlait d'argent et d'échecs. Rien de son texte n'est traduit ni décalqué —
+seule la forme est reprise : deux paragraphes centrés, à la serif du titre, larges.
+
+**La police.** Playfair Display en Regular, c'est-à-dire la serif du titre du hero
+(#029) — la demande le voulait. Le modèle pose son manifeste en **200**, un gras que
+nous n'embarquons pas : la fonte du site ne porte que 400 et 700.
+
+**Les cotes, converties comme au #033.** Le rem du modèle vaut 8,33 px à 1440 px de
+fenêtre, le nôtre 16.
+
+| | modèle | conversion | ici |
+|---|---|---|---|
+| Corps | 9,6rem = 80 px | 80 / 16 | 5em, puis **4,28em** |
+| Interligne | 13rem = 108 px | 108 / 80 | **1,354** |
+| Largeur | 166,1rem = 1384 px | 1384 / 16 | 86,5em, puis **74em** |
+| Écart des paragraphes | 13rem | une interligne | **1,354em** |
+
+**Deux écarts au modèle, et ils viennent tous deux de notre en-tête**, qu'il n'a pas.
+
+Rendu à 86,5em, le bloc mesure 1384 px et passe **sous le rail des six pastilles**,
+qui court de 32 à 96 px sur la gauche — mesuré au navigateur. Il est ramené à **74em**,
+soit 1184 px à 1440 px de fenêtre : 128 px de garde de chaque côté, donc 32 px après
+le rail.
+
+Le corps suit dans la même proportion, faute de quoi la ligne se serait raccourcie de
+quinze pour cent. Le modèle pose 9,6 sur 166,1, soit **5,78 %** de la largeur du bloc ;
+5,78 % de 74em font **4,28em**. Une ligne compte ainsi les mêmes signes que la sienne :
+17,4 cadratins contre 17,3.
+
+**Le corps est porté par les paragraphes, pas par la section**, pour que la largeur en
+`em` de celle-ci reste comptée sur le corps de page et non sur elle-même.
+
+**Sur téléphone**, le corps de page est figé à 14 px et 4,28em y vaudrait encore 60 px
+sur 375 px de large. Il repasse en `vw`, borné des deux côtés — `clamp(1.7em, 7vw,
+3.2em)`, soit 24 à 45 px. Le modèle fait de même, entre 24 et 46 px. La garde se
+resserre, et le rail a cédé la place au hamburger : plus rien à dégager.
+
+**Vérification.** Rendu au navigateur à 1440 × 900 et à 390 × 844 : le bloc dégage le
+rail des deux côtés, tombe sur la grille, et aucun débordement horizontal.
