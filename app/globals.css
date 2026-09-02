@@ -1366,9 +1366,31 @@ body {
    bloc centré, à la serif du titre, qui dit ce que le site fait — et ce qu'il
    ne fait pas. Playfair en Regular : le modèle le posait en 200, un gras dont
    nous n'embarquons pas la coupe.
+
+   Les cotes sont celles du modèle, ramenées à notre échelle. Son rem valait
+   8,33 px à 1440 px de fenêtre, le nôtre — `--size-font` — en vaut 16 : le
+   corps de 9,6rem devient 5em, l'interligne de 13rem devient 1,354, la largeur
+   du bloc de 166,1rem devient 86,5em. À 1440 px cela fait 1384 px, soit deux
+   fois 24 px de marge : la garde de l'en-tête, exactement.
+
+   Le corps est porté par les paragraphes et non par la section, pour que la
+   largeur en `em` de celle-ci reste comptée sur le corps de page.
+
+   Deux écarts au modèle, et ils viennent tous deux de notre en-tête, qu'il
+   n'avait pas. Le rail des six pastilles court de 32 à 96 px sur la gauche :
+   le bloc y passait dessous. Il est ramené à 74em — 1184 px à 1440 px de
+   fenêtre, soit 128 px de garde de chaque côté, donc 32 px après le rail.
+   Le corps suit dans la même proportion, pour garder la longueur de ligne du
+   modèle : 9,6 sur 166,1 en faisait 5,78 % de la largeur du bloc, et 5,78 %
+   de 74em font 4,28em. Une ligne compte ainsi les mêmes signes que la sienne.
    ========================================================================== */
 
 .manifeste {
+  box-sizing: border-box;
+  width: 74em;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 8em 1.5em 10em;
   font-family: var(--font-editorial), 'Times New Roman', serif;
   font-weight: 400;
   text-align: center;
@@ -1377,4 +1399,11 @@ body {
 
 .manifeste_paragraphe {
   margin: 0;
+  font-size: 4.28em;
+  line-height: 1.354;
+}
+
+/* Le modèle sépare ses deux paragraphes de 13rem — une interligne pleine. */
+.manifeste_paragraphe + .manifeste_paragraphe {
+  margin-top: 1.354em;
 }
