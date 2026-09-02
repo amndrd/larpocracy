@@ -152,8 +152,15 @@ export default function RideauIntro() {
   if (retiré) return null;
 
   return (
-    <div className={`rideau${fini ? ' --fini' : ''}`} aria-hidden="true">
-      <div className="grille" ref={grille} />
-    </div>
+    <>
+      {/* Sans JavaScript, personne ne lève le rideau : il masquerait le site
+          pour de bon. Cette règle-là, elle, n'a besoin de personne. */}
+      <noscript>
+        <style>{'.rideau { display: none }'}</style>
+      </noscript>
+      <div className={`rideau${fini ? ' --fini' : ''}`} aria-hidden="true">
+        <div className="grille" ref={grille} />
+      </div>
+    </>
   );
 }
