@@ -22,7 +22,7 @@ export default function Page() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="hero_rouleau"
-            src="/money-roll.png"
+            src="/money-roll.webp"
             alt="Un rouleau de billets de cent dollars"
             width={420}
             height={594}
