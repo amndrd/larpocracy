@@ -26,6 +26,12 @@ export default function Page() {
             alt="Un rouleau de billets de cent dollars"
             width={420}
             height={594}
+            /* C'est la plus grande chose peinte au premier écran : c'est donc
+               elle que mesure le LCP. `high` la sort de la file d'attente des
+               images, `async` décode hors du fil principal. Le modèle marque
+               la sienne de la même façon. */
+            fetchPriority="high"
+            decoding="async"
           />
         </section>
 
