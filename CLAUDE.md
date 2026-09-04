@@ -130,6 +130,11 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   garde en hauteur, et les largeurs en pourcentage ne s'appliqueraient pas.
 - **Ne jamais recopier une clé à la main depuis un terminal** : `l` et `1` s'y
   confondent. Copier-coller, toujours.
+- **Mesurer la perte d'une image transparente sur toute sa surface ne veut rien
+  dire.** Dans les zones où l'alpha est nul, le RVB est indéfini et l'encodeur y
+  écrit ce qu'il veut : l'écart y explose sans que rien ne change à l'écran. Le
+  WebP du rouleau donne 35 sur 255 mesuré partout, et 1,57 sur les seuls pixels
+  opaques (#035). Toujours masquer par l'alpha avant de conclure.
 
 ## 6. Arborescence
 
@@ -154,11 +159,13 @@ components/
   PointCurseur.tsx  le point qui suit le curseur
   GrilleFond.tsx    le papier millimétré du fond
   RideauIntro.tsx   le rideau d'intro, et le zoom de sa grille
+public/
+  money-roll.webp   le rouleau de billets, au centre du titre du hero
 docs/               contexte, atlas, feuille de route, guide, décisions
 ```
 
-**Il n'y a plus de contenu.** `content/`, `lib/`, `supabase/` et `public/` ont été
-supprimés avec le reste. Le schéma d'une fiche (§ 8) et les quatorze domaines (§ 7)
+**Il n'y a plus de contenu.** `content/`, `lib/` et `supabase/` ont été supprimés
+avec le reste ; `public/` est revenu le 4 septembre, pour la seule image du hero. Le schéma d'une fiche (§ 8) et les quatorze domaines (§ 7)
 restent la référence pour quand le contenu reviendra.
 
 **Les six entrées de la barre et les deux boutons du coin pointent vers des adresses
@@ -226,7 +233,7 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
 
 ## 10. État actuel
 
-**Au 3 septembre 2026 : un en-tête, un hero sur papier millimétré, un manifeste.**
+**Au 4 septembre 2026 : un en-tête, un hero illustré sur papier millimétré, un manifeste.**
 Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 août (#022).
 Ce qui existe : le cadre, le mot-logo, la barre de six pastilles et son volet,
 le bouton Menu, les deux boutons du coin (Login et Get started), le point qui
@@ -240,6 +247,10 @@ Depuis le 2 septembre, la page est posée sur la **grille de fond** de
 celles du fond (#033). Ni les coups d'échecs manuscrits du modèle ni sa vidéo n'ont
 été repris. Sous le hero, le **manifeste** dit en deux paragraphes ce que le site
 fait — et qu'il n'apprend pas à mentir (#034).
+
+Depuis le 4 septembre, le **rouleau de billets** est posé au centre du titre, devant
+les lettres, comme le cavalier du modèle passe devant les siennes (#035). Sa hauteur
+est comptée en corps de titre : les deux grandissent ensemble.
 
 Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 

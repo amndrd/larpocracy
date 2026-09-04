@@ -2,13 +2,14 @@
 
 ---
 
-## ÉTAT AU 3 SEPTEMBRE 2026
+## ÉTAT AU 4 SEPTEMBRE 2026
 
 **Phase en cours : Phase 2 — le noyau utile.**
 **Le site est reparti de zéro : contenu le 26 août (#022), design le 28 (#027).**
 Sous l'en-tête, le hero porte son titre : « MONEY WELL SPOKEN » (#029, #031, #032),
 sur la grille de fond de `moneyincheck.org` et derrière son rideau d'intro (#033).
-Le manifeste ouvre le corps de la page (#034).
+Le rouleau de billets est posé au centre du titre (#035), et le manifeste ouvre le
+corps de la page (#034).
 
 | Élément | État |
 |---|---|
@@ -22,6 +23,7 @@ Le manifeste ouvre le corps de la page (#034).
 | Volet d'About et de Features | ✅ six cases, repris du modèle brandappart.com — sans images |
 | Titre du hero | ✅ #029, #031, #032 — « MONEY WELL SPOKEN », sur trois lignes |
 | Grille de fond et rideau d'intro | ✅ #033 — repris de moneyincheck.org, sans ses coups d'échecs |
+| Rouleau de billets au centre du titre | ✅ #035 — devant les lettres, en WebP de 79 ko |
 | Corps de la page sous le hero | ⏳ #034 — le manifeste est posé, la suite reste à décider |
 | Pages `/contenu` `/about` `/features` `/pricing` `/news` `/contact` | ⬜ la barre y mène, elles n'existent pas |
 | Pages `/connexion` `/inscription` | ⬜ les deux boutons du coin y mènent, elles n'existent pas |
