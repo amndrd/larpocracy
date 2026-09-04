@@ -1240,7 +1240,11 @@ body {
    plus haute que large (au-delà d'un rapport de 0.849), où la hauteur cesse de
    contraindre : un écran en portrait, typiquement. */
 
+/* Le corps du titre est sorti en jeton : le rouleau de billets se mesure sur
+   lui (#035), et les deux doivent grandir ensemble. Sa valeur n'a pas bougé. */
 .hero {
+  --corps-titre: min(clamp(4.37em, 22.1vw, 10.18em), 27vh);
+
   display: grid;
   place-items: center;
   min-height: 100vh;
@@ -1249,7 +1253,7 @@ body {
 .hero_titre {
   margin: 0;
   font-family: var(--font-editorial), 'Times New Roman', serif;
-  font-size: min(clamp(4.37em, 22.1vw, 10.18em), 27vh);
+  font-size: var(--corps-titre);
   font-weight: 400;
   line-height: 1.05;
   color: var(--vert);
@@ -1268,8 +1272,11 @@ body {
 }
 
 @media screen and (min-width: 768px) {
+  .hero {
+    --corps-titre: min(20.63em, 27vh);
+  }
+
   .hero_titre {
-    font-size: min(20.63em, 27vh);
     line-height: 0.938;
   }
 }
