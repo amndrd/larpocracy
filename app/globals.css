@@ -1274,14 +1274,22 @@ body {
    Le modèle pose au même endroit un cavalier d'échecs devant une liasse, et le
    fait passer *devant* les lettres — c'est le même dispositif ici. Sa hauteur
    est comptée en corps de titre, jamais en pixels : les deux grandissent
-   ensemble, et le rouleau tombe toujours sur le même mot. */
+   ensemble, et le rouleau tombe toujours sur le même mot.
+
+   1,62 corps, et non les 1,71 du modèle. Son cavalier est bien plus étroit que
+   notre rouleau — 0,554 de rapport contre 0,706 — et les deux proportions ne
+   peuvent pas coïncider à la fois. C'est la largeur qui est retenue, parce que
+   c'est elle qui décide de ce qui reste lisible du mot : le sujet du modèle
+   occupe 29,9 % de sa ligne la plus large, et 1,62 corps donnent ici les mêmes
+   29,9 % de « SPOKEN ». (Mesuré sur son image : sujet de 644 × 1162 px dans un
+   fichier de 2427 × 1762, affiché dans une boîte de 1011 × 733.) */
 .hero_rouleau {
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 2;
   width: auto;
-  height: calc(1.8 * var(--corps-titre));
+  height: calc(1.62 * var(--corps-titre));
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
