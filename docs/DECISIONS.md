@@ -766,3 +766,72 @@ resserre, et le rail a cédé la place au hamburger : plus rien à dégager.
 
 **Vérification.** Rendu au navigateur à 1440 × 900 et à 390 × 844 : le bloc dégage le
 rail des deux côtés, tombe sur la grille, et aucun débordement horizontal.
+
+---
+
+## 2026-09-04 — #035 Le rouleau de billets, au centre du titre
+
+**La demande.** Poser l'image `money-roll.png` au centre du titre du hero, comme sur
+`moneyincheck.org`.
+
+**Ce que fait le modèle, exactement.** Son image du hero n'est pas un cavalier
+d'échecs *à côté* du titre : c'est un cavalier taillé dans une liasse de billets,
+posé **par-dessus** les lettres — `z-index: 2` contre `1` pour le titre. Le mot est
+partiellement couvert, et c'est l'effet voulu. Notre rouleau est l'autre moitié de la
+même idée, et il prend la même place.
+
+**Le corps du titre devient un jeton.** `--corps-titre`, posé sur `.hero`. Le titre
+s'en sert pour son `font-size`, le rouleau pour sa `height`. Ils ne peuvent donc plus
+se désolidariser : le rouleau tombe sur le même mot à toute taille de fenêtre. Aucune
+valeur du titre n'a changé au passage.
+
+**La cote : 1,62 corps de titre, et non les 1,71 du modèle.** Mesures relevées sur son
+image (`horse.webp`, extraite du préchargement en base64 de sa page) :
+
+| | modèle | ici |
+|---|---|---|
+| Fichier | 2427 × 1762 | 420 × 594 |
+| Sujet visible dans le fichier | 644 × 1162 — 26,5 % × 65,9 % | 416 × 589 — tout le fichier |
+| Rapport du sujet | **0,554** | **0,706** |
+| Boîte affichée à 1440 px | 1011 × 733 | — |
+| Sujet affiché | 268 × 484 px | 278 × 394 px |
+| Hauteur, en corps de titre | 1,71 | **1,62** |
+| Largeur, en part de la ligne la plus large | 29,9 % | **29,9 %** |
+
+Son cavalier est beaucoup plus étroit que notre rouleau — 0,554 de rapport contre
+0,706. **Les deux proportions ne peuvent pas coïncider à la fois** : à hauteur égale
+le rouleau est un quart plus large, à largeur égale il est plus court.
+
+C'est la **largeur** qui est retenue, parce que c'est elle qui décide de ce qui reste
+lisible du mot couvert. À 1,71 corps, le rouleau mangeait « WELL » en entier ; à 1,62,
+le `W` et le `LL` ressortent, et le titre se lit encore. La hauteur suit — 1,62 corps
+au lieu de 1,71, un écart de cinq pour cent que l'œil ne relève pas.
+
+**Le chargement.** L'image est la plus grande chose peinte au premier écran : c'est
+elle que mesure le LCP. Trois conséquences.
+
+1. `fetchPriority="high"` et `decoding="async"` — les marques que le modèle met sur
+   la sienne.
+2. **Le PNG passe en WebP** : 358 ko à 79 ko, 4,5 fois moins, pour un écart
+   quadratique moyen de **1,57 sur 255** mesuré sur les seuls pixels opaques, et une
+   couche alpha identique au bit près. (Mesurer l'écart sur toute l'image donnerait
+   35 sur 255, mais c'est un artefact : dans les zones transparentes le RVB ne veut
+   rien dire, et l'encodeur y met ce qu'il veut.) Le PNG d'origine reste dans
+   l'historique, au commit `fd75b99`.
+3. **Le rideau d'intro (#033) attend le rouleau**, en plus des polices. Sans cela il
+   apparaîtrait après coup au milieu du titre. `decode()` et non `complete` : l'un dit
+   que l'image est prête à être peinte, l'autre seulement qu'elle est téléchargée. Une
+   image en erreur ne bloque pas le rideau.
+
+**Une réserve, à connaître.** Le fichier fait 420 × 594 et s'affiche à 278 × 394 points
+à 1440 px de fenêtre — soit **556 × 788 pixels sur un écran à double densité**. La
+source est donc en deçà de ce qu'un écran Retina demande, d'un facteur 1,33 : le
+rouleau y est légèrement adouci. Rien ne le corrige côté code — il faudrait une source
+plus grande. C'est aussi pourquoi le WebP est encodé en q95 et non plus bas.
+
+**Vérification.** Six fenêtres, mesurées au navigateur après l'intro. La part de la
+ligne la plus large vaut **29,9 % partout** — 1920 × 1010, 1440 × 900, 1440 × 700,
+767 × 400, 390 × 844, 320 × 568 — l'écart au centre du titre est nul au dixième de
+point près, et aucune ne déborde horizontalement. Sur téléphone, le sujet fait 1,15
+corps de large contre 1,0 pour celui du modèle : la proportion mobile est déjà la
+sienne, rien n'a eu à être repris.
