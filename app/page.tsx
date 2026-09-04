@@ -18,6 +18,15 @@ export default function Page() {
             <span className="hero_ligne">well</span>
             <span className="hero_ligne">spoken</span>
           </h1>
+
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className="hero_rouleau"
+            src="/money-roll.png"
+            alt="Un rouleau de billets de cent dollars"
+            width={420}
+            height={594}
+          />
         </section>
 
         <section className="manifeste">

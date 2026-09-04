@@ -1248,9 +1248,17 @@ body {
   display: grid;
   place-items: center;
   min-height: 100vh;
+
+  /* Le rouleau se situe par rapport au hero, pas à la page. */
+  position: relative;
 }
 
 .hero_titre {
+  /* Posé et coté pour que le rouleau puisse passer devant : le modèle donne
+     1 à son titre et 2 à son cavalier. */
+  position: relative;
+  z-index: 1;
+
   margin: 0;
   font-family: var(--font-editorial), 'Times New Roman', serif;
   font-size: var(--corps-titre);
@@ -1259,6 +1267,23 @@ body {
   color: var(--vert);
   text-transform: uppercase;
   text-align: center;
+}
+
+/* Le rouleau de billets, au centre du titre (#035).
+
+   Le modèle pose au même endroit un cavalier d'échecs devant une liasse, et le
+   fait passer *devant* les lettres — c'est le même dispositif ici. Sa hauteur
+   est comptée en corps de titre, jamais en pixels : les deux grandissent
+   ensemble, et le rouleau tombe toujours sur le même mot. */
+.hero_rouleau {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: auto;
+  height: calc(1.8 * var(--corps-titre));
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 /* Les trois lignes sont posées l'une sous l'autre.
