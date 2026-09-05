@@ -1311,6 +1311,42 @@ body {
   height: calc(1.48 * var(--corps-titre));
   transform: translate(-50%, -50%);
   pointer-events: none;
+
+  /* L'état d'arrivée — voir la règle suivante pour celui de départ. Le retard
+     laisse au rideau le temps de s'effacer : le titre est posé, puis le
+     rouleau vient dessus. */
+  opacity: 1;
+  transition:
+    opacity var(--duration-lg) var(--duration-xs) var(--ease),
+    transform var(--duration-lg) var(--duration-xs) var(--ease);
+}
+
+/* L'apparition du rouleau (#037).
+
+   Il ne paraît qu'une fois le rideau levé : le titre est là d'abord, seul, et
+   le rouleau se pose dessus — il grandit d'un dixième et monte de six centièmes
+   de sa hauteur, dans le sens du zoom du rideau, qui vient d'avancer vers la
+   page.
+
+   Le déclencheur est le rideau lui-même, par le combinateur de frères : il est
+   posé avant `.page` dans le balisage, et prend la classe `--fini` au terme de
+   son zoom. Rien n'a donc été ajouté ni au balisage, ni à l'état du site.
+
+   C'est une *transition*, et non une animation, et c'est ce qui la rend sûre :
+   le rideau est retiré du balisage 420 ms après avoir pris sa classe, bien
+   avant la fin des 880 ms du mouvement. Une animation portée par le sélecteur
+   mourrait avec lui, et le rouleau sauterait à sa place. Une transition, elle,
+   appartient à la règle de base, qui ne cesse jamais de s'appliquer : une fois
+   partie, elle va au bout.
+
+   Le corollaire : le sélecteur dit *quand cacher*, jamais *quand montrer*. Là
+   où il n'y a pas de rideau du tout, il ne s'applique pas, et le rouleau est
+   visible par défaut. Restent les deux cas où le rideau est là sans jamais se
+   lever — moins de mouvement, et pas de JavaScript — traités l'un plus bas,
+   l'autre dans `RideauIntro.tsx`. */
+.rideau:not(.--fini) ~ .page .hero_rouleau {
+  opacity: 0;
+  transform: translate(-50%, -44%) scale(0.9);
 }
 
 /* Les trois lignes sont posées l'une sous l'autre.
