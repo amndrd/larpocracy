@@ -1349,6 +1349,20 @@ body {
   transform: translate(-50%, -44%) scale(0.9);
 }
 
+/* Qui a demandé moins de mouvement voit le rouleau posé, sans entrée. Le rideau
+   lui est déjà masqué, mais il reste dans le balisage le temps d'une image avant
+   que React ne le retire : sans cette règle, le rouleau clignoterait. */
+@media (prefers-reduced-motion: reduce) {
+  .hero_rouleau {
+    transition: none;
+  }
+
+  .rideau:not(.--fini) ~ .page .hero_rouleau {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
 /* Les trois lignes sont posées l'une sous l'autre.
 
    `nowrap` fige le découpage : les lignes sont celles du balisage, et une
