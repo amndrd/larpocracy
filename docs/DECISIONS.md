@@ -913,3 +913,53 @@ l'empattement les effleure. Ce n'est pas une régression, le plafond conservant 
 largeur du bloc au pixel près : « SPOKEN » commençait déjà à 63 px sur cette fenêtre.
 Le corriger demanderait de baisser le plafond, donc de rétrécir le titre en portrait.
 Laissé tel quel.
+
+## 2026-09-06 — #037 L'apparition du rouleau, une fois le rideau levé
+
+**La demande.** Une animation d'apparition sur le rouleau de billets du hero.
+
+**Le mouvement.** Le rouleau part à 0,9 de sa taille et six centièmes de sa hauteur
+plus bas, transparent ; il arrive en place, opaque, en 640 ms — après 240 ms de
+retard. Il grandit et monte, donc, dans le sens du zoom du rideau qui vient
+d'avancer vers la page (#033) : c'est le même geste, poursuivi. Durées et courbe
+sont les jetons du site, `--duration-lg`, `--duration-xs` et `--ease` ; rien n'a été
+ajouté au vocabulaire.
+
+**L'ordre voulu.** Le rideau se lève sur le titre seul, puis le rouleau se pose
+dessus. C'est ce que le retard de 240 ms achète : sans lui, le rouleau paraîtrait
+pendant que le rideau s'efface encore, et les deux mouvements se mangeraient.
+
+**Le déclencheur : le rideau, par le combinateur de frères.** `.rideau` précède
+`.page` dans le balisage et prend la classe `--fini` au terme de son zoom. Le
+sélecteur `.rideau:not(.--fini) ~ .page .hero_rouleau` suffit donc à tout dire. Ni
+état nouveau, ni composant client, ni balisage supplémentaire : le site en garde
+deux, comme avant.
+
+**Une transition, et non une animation.** C'est le point qui compte, et il n'est pas
+affaire de goût. Le rideau est **retiré du balisage 420 ms après avoir pris sa
+classe**, alors que le mouvement en dure 880. Une `animation` portée par ce sélecteur
+mourrait avec lui : le rouleau sauterait à sa place au milieu de sa course. Une
+`transition` appartient à la règle de base, qui ne cesse jamais de s'appliquer — une
+fois partie, elle va au bout. Relevé au navigateur : à 1889 ms le rideau a disparu du
+DOM, le rouleau est à 0,69 d'opacité, et il finit sa course jusqu'à 1,0 à 2323 ms.
+
+**Le corollaire, et les deux replis.** Le sélecteur dit *quand cacher*, jamais *quand
+montrer*. Là où il n'y a pas de rideau, il ne s'applique pas et le rouleau est visible
+par défaut. Restent les deux cas où le rideau est présent sans jamais se lever :
+
+1. **Moins de mouvement.** Le rideau est masqué en CSS mais reste dans le balisage le
+   temps d'une image, avant que React ne le retire : sans règle, le rouleau
+   clignoterait. Le bloc `prefers-reduced-motion` le pose donc visible et sans
+   transition. Vérifié : opacité 1 sur tous les relevés, aucune valeur intermédiaire.
+2. **Sans JavaScript.** Le rideau y est pour toujours, et rien ne viendra lui poser
+   `--fini` : le rouleau ne paraîtrait jamais. Le bloc `noscript` qui masquait déjà le
+   rideau le rend donc aussi. Il l'emporte à spécificité égale en venant après la
+   feuille de style dans le document. Vérifié navigateur JavaScript coupé : opacité 1,
+   boîte de 297 × 420.
+
+**Le coût, à connaître.** Le rouleau est l'élément que mesure le LCP (#035), et un
+élément à `opacity: 0` n'est pas candidat. Le LCP recule donc du retard plus une part
+de la transition — de l'ordre de 400 ms — sur un chargement déjà commandé par le
+rideau, qui tient entre 600 et 2000 ms. C'est le prix de l'ordre voulu ; il est
+accepté ici parce que le rideau domine déjà la mesure. Si le rideau tombait un jour,
+il faudrait rouvrir la question.
