@@ -171,9 +171,19 @@ export default function RideauIntro() {
   return (
     <>
       {/* Sans JavaScript, personne ne lève le rideau : il masquerait le site
-          pour de bon. Cette règle-là, elle, n'a besoin de personne. */}
+          pour de bon. Ces règles-là, elles, n'ont besoin de personne.
+
+          La seconde rend le rouleau du hero, que l'apparition (#037) cache
+          tant que le rideau est là sans sa classe `--fini` — et il l'est ici
+          pour toujours, puisque rien ne viendra la lui poser. Elle l'emporte
+          sur celle de la feuille de style à spécificité égale, en venant
+          après elle dans le document. */}
       <noscript>
-        <style>{'.rideau { display: none }'}</style>
+        <style>
+          {'.rideau { display: none }' +
+            '.rideau:not(.--fini) ~ .page .hero_rouleau' +
+            ' { opacity: 1; transform: translate(-50%, -50%) }'}
+        </style>
       </noscript>
       <div className={`rideau${fini ? ' --fini' : ''}`} aria-hidden="true">
         <div className="grille" ref={grille} />
