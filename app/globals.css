@@ -1241,10 +1241,18 @@ body {
    plus haute que large, où la hauteur cesse de contraindre : un écran en
    portrait, typiquement. */
 
-/* Le corps du titre est sorti en jeton : le rouleau de billets se mesure sur
-   lui (#035), et les deux doivent grandir ensemble. */
+/* Sous 768 px, c'est la largeur qui commande, et non la hauteur : le titre y
+   remplit la fenêtre en travers bien avant de la remplir en hauteur. Les trois
+   termes du `clamp` sont donc montés du même facteur que le corps grand écran,
+   1.093 — le rapport de « SPOKEN » à « MONEY » —, pour rendre au bloc les 84,6 %
+   de la largeur qu'il occupait à trois lignes. Le `27vh`, lui, ne bouge pas : il
+   ne joue que sur un téléphone couché, où la hauteur redevient la contrainte, et
+   il y tient déjà le titre à distance de la barre du haut.
+
+   Le corps est sorti en jeton parce que le rouleau de billets se mesure sur lui
+   (#035) : les deux doivent grandir ensemble. */
 .hero {
-  --corps-titre: min(clamp(4.37em, 22.1vw, 10.18em), 27vh);
+  --corps-titre: min(clamp(4.78em, 24.16vw, 11.13em), 27vh);
 
   display: grid;
   place-items: center;
