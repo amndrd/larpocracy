@@ -1285,20 +1285,30 @@ body {
    est comptée en corps de titre, jamais en pixels : les deux grandissent
    ensemble, et le rouleau tombe toujours sur le même mot.
 
-   1,62 corps, et non les 1,71 du modèle. Son cavalier est bien plus étroit que
+   1,48 corps, et non les 1,71 du modèle. Son cavalier est bien plus étroit que
    notre rouleau — 0,554 de rapport contre 0,706 — et les deux proportions ne
    peuvent pas coïncider à la fois. C'est la largeur qui est retenue, parce que
    c'est elle qui décide de ce qui reste lisible du mot : le sujet du modèle
-   occupe 29,9 % de sa ligne la plus large, et 1,62 corps donnent ici les mêmes
-   29,9 % de « SPOKEN ». (Mesuré sur son image : sujet de 644 × 1162 px dans un
-   fichier de 2427 × 1762, affiché dans une boîte de 1011 × 733.) */
+   occupe 29,9 % de sa ligne la plus large, et 1,48 corps donnent ici les mêmes
+   29,9 % de « MONEY ». (Mesuré sur son image : sujet de 644 × 1162 px dans un
+   fichier de 2427 × 1762, affiché dans une boîte de 1011 × 733.)
+
+   La cote était de 1,62 tant que la ligne la plus large était « SPOKEN » (#035).
+   Le titre passé à deux mots (#036), c'est « MONEY » qui commande, plus étroit
+   d'un facteur 1,093 : à hauteur inchangée le rouleau serait monté à 32,7 % de
+   la ligne. Il descend donc dans la même proportion.
+
+   Le centre du titre n'est plus le milieu d'une ligne mais l'entre-deux : le
+   rouleau ne couvre plus un mot mais mord sur les deux, le bas de « MONEY » et
+   le haut de « TALKS ». Les deux se lisent encore — c'est tout ce qu'on lui
+   demande. */
 .hero_rouleau {
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 2;
   width: auto;
-  height: calc(1.62 * var(--corps-titre));
+  height: calc(1.48 * var(--corps-titre));
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
