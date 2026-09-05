@@ -835,3 +835,81 @@ ligne la plus large vaut **29,9 % partout** — 1920 × 1010, 1440 × 900, 1440 
 point près, et aucune ne déborde horizontalement. Sur téléphone, le sujet fait 1,15
 corps de large contre 1,0 pour celui du modèle : la proportion mobile est déjà la
 sienne, rien n'a eu à être repris.
+
+## 2026-09-06 — #036 Le titre du hero devient « MONEY TALKS »
+
+**La demande.** Un titre en deux mots, avec « money ».
+
+**Le choix.** « MONEY TALKS », contre « MONEY SPOKEN », « SPEAK MONEY » et
+« MONEY FLUENT ». C'est l'idiome, et c'est le plus percutant des quatre : deux mots
+que personne n'a besoin de lire deux fois.
+
+**La réserve, assumée.** L'idiome dit que l'argent parle à votre place — ce que le
+manifeste, deux écrans plus bas, dément explicitement : « On n'apprend pas ici à
+mentir : on apprend à savoir. » Le titre pose donc le cliché, et le manifeste
+répond. C'est une tension voulue, pas un oubli ; elle ne tient que tant que le
+manifeste reste sous le hero (#034).
+
+**Ce que le changement de texte casse.** Trois cotes, toutes dérivées de la ligne la
+plus large, qui n'est plus « SPOKEN » mais « MONEY » :
+
+| | « MONEY WELL SPOKEN » | « MONEY TALKS » |
+|---|---|---|
+| Lignes | 3 | **2** |
+| Ligne la plus large | SPOKEN, 3,828 corps | **MONEY, 3,502 corps** |
+| Hauteur de la pile | 2,81 corps | **1,88 corps** |
+
+Le rapport des deux mots vaut **1,093**, et c'est lui qui commande tout le reste.
+
+**1 — Le corps retrouve celui du modèle.** À trois lignes, c'était la hauteur qui
+touchait les bords en premier, d'où `27vh` (#032). À deux lignes la pile ne fait plus
+que 1,88 corps : le titre ne remplissait plus que 50,6 % de la hauteur. Il repasse à
+`31.5vh`, qui n'est pas une valeur trouvée à l'œil — `moneyincheck.org` écrit son
+titre, deux lignes comme le nôtre à nouveau, en 34rem, et son rem vaut 8,33 px à
+1440 px de fenêtre. Soit 283 px, soit 31,5 % d'une fenêtre de 900. Le titre reprend
+donc exactement la proportion du modèle, que le passage à trois lignes avait quittée.
+
+**2 — Le plafond en `em` monte de 20.63 à 22.55.** Il tient le bloc à la largeur qui
+a toujours été la sienne, 78,97em — 1263 px à 1440 px de fenêtre. Comme la ligne la
+plus large a rétréci de 1,093, le corps qui la tient à cette largeur monte d'autant.
+Le plafond ne joue que sur une fenêtre plus haute que large.
+
+**3 — Les cotes mobiles montent du même facteur.** Sous 768 px c'est la largeur qui
+commande : `clamp(4.37em, 22.1vw, 10.18em)` devient `clamp(4.78em, 24.16vw, 11.13em)`,
+ce qui rend au bloc les 84,6 % de la fenêtre qu'il occupait à trois lignes — il était
+tombé à 77,4 %. Le `27vh` du terme mobile ne bouge pas : il ne joue que sur un
+téléphone couché, où il tient déjà le titre à distance de la barre du haut.
+
+**4 — Le rouleau redescend à 1,48 corps.** La règle de #035 n'a pas changé : c'est la
+largeur du rouleau qui est tenue, à 29,9 % de la ligne la plus large, parce que c'est
+elle qui décide de ce qui reste lisible du mot couvert. Mais la ligne a rétréci : à
+1,62 corps le rouleau était monté à 32,7 %. 1,48 rend les 29,9 %.
+
+**Ce que le rouleau couvre désormais.** Le centre du titre n'est plus le milieu d'une
+ligne mais l'entre-deux : le rouleau ne couvre plus un mot, il mord sur les deux — le
+bas de « MONEY », le haut de « TALKS ». Le `N` et le `L` disparaissent, `MO·EY` et
+`TA·KS` se lisent encore.
+
+**Vérification.** Huit fenêtres, mesurées au navigateur après l'intro.
+
+| Fenêtre | Corps | En hauteur | Pile | « MONEY » en largeur | Rouleau / ligne |
+|---|---|---|---|---|---|
+| 1920 × 1010 | 318,1 px | 31,5 % | 59,1 % | 58,0 % | 29,9 % |
+| 1440 × 900 | 283,5 px | 31,5 % | 59,1 % | 68,9 % | 29,9 % |
+| 1440 × 700 | 220,5 px | 31,5 % | 59,1 % | 53,6 % | 29,9 % |
+| 1280 × 800 | 252,0 px | 31,5 % | 59,1 % | 68,9 % | 29,9 % |
+| 1024 × 1366 | 256,6 px | 18,8 % | 35,2 % | 87,7 % | 29,9 % |
+| 767 × 400 | 108,0 px | 27,0 % | 56,7 % | 49,3 % | 29,9 % |
+| 390 × 844 | 94,2 px | 11,2 % | 23,4 % | 84,6 % | 29,9 % |
+| 320 × 568 | 77,3 px | 13,6 % | 28,6 % | 84,6 % | 29,9 % |
+
+Le rouleau tient les 29,9 % partout, et aucune fenêtre ne déborde horizontalement.
+Les deux dernières lignes sont commandées par le terme en `vw`, la cinquième par le
+plafond en `em`, les autres par les `31.5vh`.
+
+**Une réserve, à connaître.** À 1024 × 1366 — la seule fenêtre où le plafond en `em`
+commande — le `M` de « MONEY » commence à 63 px et le rail de pastilles finit à 67 :
+l'empattement les effleure. Ce n'est pas une régression, le plafond conservant la
+largeur du bloc au pixel près : « SPOKEN » commençait déjà à 63 px sur cette fenêtre.
+Le corriger demanderait de baisser le plafond, donc de rétrécir le titre en portrait.
+Laissé tel quel.
