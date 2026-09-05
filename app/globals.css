@@ -1223,25 +1223,26 @@ body {
 
 /* Le titre descend de celui de moneyincheck.org, dont il garde la couleur et
    l'interlignage — 0.938, tiré de l'écart des deux lignes du modèle : 8.9rem et
-   40.8rem pour 34rem de corps. Les cotes, elles, ne sont plus les siennes : le
-   texte a changé (#031), puis le découpage est passé à trois lignes (#032), et
-   chaque fois la géométrie a dû être refaite.
+   40.8rem pour 34rem de corps. Le texte, lui, a changé (#031), le découpage est
+   passé à trois lignes (#032), puis à deux (#036) : chaque fois la géométrie a
+   dû être refaite.
 
-   Ce qui commande le corps a d'ailleurs changé de nature. À deux lignes, c'était
-   la largeur : la ligne longue devait tenir dans la fenêtre. À trois lignes, c'est
-   la hauteur — la pile fait 3 × 0.938 = 2.81 fois le corps, et c'est elle qui
-   touche les bords en premier. D'où `27vh` : la pile occupe alors 76 % de la
-   hauteur, ce qui la dégage de l'en-tête en haut et du bouton Menu en bas. À 30vh
-   elle butait sur les deux.
+   Le titre ayant retrouvé les deux lignes du modèle, il retrouve son corps. Le
+   modèle écrit le sien en 34rem, et son rem vaut 8.33 px à 1440 px de fenêtre :
+   283 px, soit `31.5vh` sur une fenêtre de 900 — la cote reprise ici. Les `27vh`
+   d'avant valaient pour une pile de trois lignes, qui faisait 2.81 fois le corps
+   et touchait les bords en premier ; à deux lignes elle n'en fait plus que 1.88,
+   et le titre ne remplissait plus que la moitié de la hauteur.
 
-   Le terme en `em` reste, en plafond. Il vaut `20.63em`, soit la largeur qu'avait
-   le bloc jusqu'ici — 1263 px à 1440 px de fenêtre — sachant que « SPOKEN », la
-   ligne la plus large, mesure 3.828 fois le corps. Il ne joue que sur une fenêtre
-   plus haute que large (au-delà d'un rapport de 0.849), où la hauteur cesse de
-   contraindre : un écran en portrait, typiquement. */
+   Le terme en `em` reste, en plafond, et vaut désormais `22.55em`. Il tient le
+   bloc à la largeur qui a toujours été la sienne — 1263 px à 1440 px de fenêtre,
+   soit 78.97em — sachant que la ligne la plus large n'est plus « SPOKEN », à
+   3.828 fois le corps, mais « MONEY », à 3.502. Il ne joue que sur une fenêtre
+   plus haute que large, où la hauteur cesse de contraindre : un écran en
+   portrait, typiquement. */
 
 /* Le corps du titre est sorti en jeton : le rouleau de billets se mesure sur
-   lui (#035), et les deux doivent grandir ensemble. Sa valeur n'a pas bougé. */
+   lui (#035), et les deux doivent grandir ensemble. */
 .hero {
   --corps-titre: min(clamp(4.37em, 22.1vw, 10.18em), 27vh);
 
@@ -1306,7 +1307,7 @@ body {
 
 @media screen and (min-width: 768px) {
   .hero {
-    --corps-titre: min(20.63em, 27vh);
+    --corps-titre: min(22.55em, 31.5vh);
   }
 
   .hero_titre {
