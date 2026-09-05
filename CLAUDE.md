@@ -130,6 +130,11 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   garde en hauteur, et les largeurs en pourcentage ne s'appliqueraient pas.
 - **Ne jamais recopier une clé à la main depuis un terminal** : `l` et `1` s'y
   confondent. Copier-coller, toujours.
+- **Ne pas porter une `animation` par un sélecteur dont l'élément déclencheur
+  disparaît.** Le rideau d'intro quitte le balisage 420 ms après avoir pris sa
+  classe `--fini` ; une animation posée sur `.rideau.--fini ~ …` mourrait donc en
+  cours de route et l'élément sauterait à sa place. Une `transition` écrite sur la
+  règle de base, elle, va au bout — c'est ce qui fait paraître le rouleau (#037).
 - **Mesurer la perte d'une image transparente sur toute sa surface ne veut rien
   dire.** Dans les zones où l'alpha est nul, le RVB est indéfini et l'encodeur y
   écrit ce qu'il veut : l'écart y explose sans que rien ne change à l'écran. Le
@@ -233,13 +238,15 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
 
 ## 10. État actuel
 
-**Au 4 septembre 2026 : un en-tête, un hero illustré sur papier millimétré, un manifeste.**
+**Au 6 septembre 2026 : un en-tête, un hero illustré sur papier millimétré, un manifeste.**
 Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 août (#022).
 Ce qui existe : le cadre, le mot-logo, la barre de six pastilles et son volet,
 le bouton Menu, les deux boutons du coin (Login et Get started), le point qui
 suit le curseur — et, depuis le 1er septembre, le titre du hero, repris cote pour
-cote de `moneyincheck.org` (#029). Son texte est désormais « MONEY WELL SPOKEN »,
-choisi pour LarpLvl (#031), sur trois lignes (#032).
+cote de `moneyincheck.org` (#029). Son texte est désormais « MONEY TALKS »,
+en deux mots sur deux lignes (#036) — l'idiome, que le manifeste vient démentir
+deux écrans plus bas. Le titre ayant retrouvé les deux lignes du modèle, il a
+retrouvé son corps : 31,5vh, soit les 34rem du modèle à son échelle.
 
 Depuis le 2 septembre, la page est posée sur la **grille de fond** de
 `moneyincheck.org` — deux dégradés croisés, une case de 10,4em — et s'ouvre sur un
@@ -250,7 +257,10 @@ fait — et qu'il n'apprend pas à mentir (#034).
 
 Depuis le 4 septembre, le **rouleau de billets** est posé au centre du titre, devant
 les lettres, comme le cavalier du modèle passe devant les siennes (#035). Sa hauteur
-est comptée en corps de titre : les deux grandissent ensemble.
+est comptée en corps de titre : les deux grandissent ensemble. Depuis le 6, il ne
+paraît qu'une fois le **rideau levé** — il grandit et monte jusqu'à sa place, dans le
+sens du zoom du rideau (#037). Le déclencheur est le rideau lui-même, par le
+combinateur de frères : aucun état nouveau.
 
 Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 
