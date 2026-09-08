@@ -64,8 +64,14 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
 > studios de design, Tailwind, révélation au défilement — a été retiré. Ce qui suit
 > décrit ce qui existe *aujourd'hui*, et rien d'autre.
 
-- **Next.js 16** (App Router) + **TypeScript**. Rien d'autre en dépendance :
-  ni Tailwind, ni Supabase, ni bibliothèque d'animation.
+- **Next.js 16** (App Router) + **TypeScript**, et **three.js** — la seule
+  dépendance de plus, pour la liasse du hero (#038). Ni Tailwind, ni Supabase,
+  ni bibliothèque d'animation.
+  three.js est **épinglé à 0.128.0, sans `^`** : le modèle est écrit pour r128,
+  il pose `outputEncoding = sRGBEncoding`, retiré depuis, et r155 a changé
+  l'interprétation de l'intensité des lumières. Monter de version demande de
+  réétalonner l'éclairage. Il est **différé** — `Liasse.tsx` l'importe dans son
+  effet — et ne figure pas dans les scripts de la page prérendue.
 - **Le CSS est nu**, dans un seul fichier : `app/globals.css`. Il reprend au
   sélecteur près une maquette statique (`~/Desktop/website`), dont la cascade est
   réglée par un ordre de couches **fixé à la première ligne du fichier** :
@@ -103,12 +109,14 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
   ou de Features : celui-là reste dans `Nav.tsx`, le CSS n'a rien à savoir en
   dehors du volet lui-même. (Le rideau d'intro en a un troisième, mais il ne
   dure qu'une seconde et demie et meurt avec le composant.)
-- **Deux mouvements pilotés à la main**, tous deux en `requestAnimationFrame` :
+- **Trois mouvements pilotés à la main**, tous en `requestAnimationFrame` :
   le point qui suit le curseur (`components/PointCurseur.tsx`), qui rattrape le
-  pointeur d'un sixième de la distance par image ; et le zoom du rideau d'intro
+  pointeur d'un sixième de la distance par image ; le zoom du rideau d'intro
   (`components/RideauIntro.tsx`), qui fait grandir les cases de la grille de
-  0,665 à 1 en 800 ms (#033). Ce zoom joue sur `background-size`, **jamais sur
-  `transform`** : une mise à l'échelle épaissirait le trait de la grille.
+  0,665 à 1 en 800 ms (#033) ; et la rotation de la liasse
+  (`components/liasse3d.js`), un tour en 37 s. Le zoom du rideau joue sur
+  `background-size`, **jamais sur `transform`** : une mise à l'échelle
+  épaissirait le trait de la grille.
 - **La page est prérendue en statique.** Rien n'est dynamique, il n'y a plus
   de session ni de base de données.
 - Hébergement **Vercel**. Développement sur `localhost:3000` (`npm run dev`).
@@ -164,8 +172,12 @@ components/
   PointCurseur.tsx  le point qui suit le curseur
   GrilleFond.tsx    le papier millimétré du fond
   RideauIntro.tsx   le rideau d'intro, et le zoom de sa grille
+  Liasse.tsx        la liasse 3D du hero : sa boîte, ses réglages, son ménage
+  liasse3d.js       le modèle lui-même — mille lignes reprises du prototype
+  liasse3d.d.ts     ses types, TypeScript ne lisant pas le .js
+  liassePrete.ts    la promesse que le rideau attend : la première image peinte
 public/
-  money-roll.webp   le rouleau de billets, au centre du titre du hero
+  money-roll.webp   le rouleau de billets — repli sans JavaScript de la liasse
 docs/               contexte, atlas, feuille de route, guide, décisions
 ```
 
@@ -238,7 +250,7 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
 
 ## 10. État actuel
 
-**Au 6 septembre 2026 : un en-tête, un hero illustré sur papier millimétré, un manifeste.**
+**Au 8 septembre 2026 : un en-tête, un hero illustré sur papier millimétré, un manifeste.**
 Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 août (#022).
 Ce qui existe : le cadre, le mot-logo, la barre de six pastilles et son volet,
 le bouton Menu, les deux boutons du coin (Login et Get started), le point qui
@@ -255,12 +267,20 @@ celles du fond (#033). Ni les coups d'échecs manuscrits du modèle ni sa vidéo
 été repris. Sous le hero, le **manifeste** dit en deux paragraphes ce que le site
 fait — et qu'il n'apprend pas à mentir (#034).
 
-Depuis le 4 septembre, le **rouleau de billets** est posé au centre du titre, devant
-les lettres, comme le cavalier du modèle passe devant les siennes (#035). Sa hauteur
-est comptée en corps de titre : les deux grandissent ensemble. Depuis le 6, il ne
-paraît qu'une fois le **rideau levé** — il grandit et monte jusqu'à sa place, dans le
-sens du zoom du rideau (#037). Le déclencheur est le rideau lui-même, par le
-combinateur de frères : aucun état nouveau.
+Depuis le 4 septembre, un objet est posé au centre du titre, devant les lettres, comme
+le cavalier du modèle passe devant les siennes (#035). Depuis le 6, il ne paraît qu'une
+fois le **rideau levé** — il grandit et monte jusqu'à sa place, dans le sens du zoom du
+rideau (#037). Le déclencheur est le rideau lui-même, par le combinateur de frères :
+aucun état nouveau.
+
+Depuis le 8, cet objet est une **liasse de billets en trois dimensions** qui tourne
+lentement sur elle-même (#038), à la place du rouleau en WebP. Rien n'est chargé : les
+deux faces du billet sont dessinées en `<canvas>` au montage, dans la Playfair du site.
+Elle ne se manipule pas — sinon elle confisquerait le défilement de la page. Sa taille
+se règle en deux endroits qui se tiennent : la **boîte** en CSS, en corps de titre
+(2,7 × 1,5), et la **distance de la caméra** en JavaScript (3,9) ; il en sort une
+liasse large de 1,6 corps, 45 % de « MONEY ». Le WebP n'a pas disparu : il est le repli
+sans JavaScript.
 
 Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 
