@@ -2,14 +2,15 @@
 
 ---
 
-## ÉTAT AU 6 SEPTEMBRE 2026
+## ÉTAT AU 8 SEPTEMBRE 2026
 
 **Phase en cours : Phase 2 — le noyau utile.**
 **Le site est reparti de zéro : contenu le 26 août (#022), design le 28 (#027).**
 Sous l'en-tête, le hero porte son titre : « MONEY TALKS » (#029, #031, #036),
 sur la grille de fond de `moneyincheck.org` et derrière son rideau d'intro (#033).
-Le rouleau de billets est posé au centre du titre (#035) et y paraît une fois le
-rideau levé (#037) ; le manifeste ouvre le corps de la page (#034).
+Au centre du titre, une **liasse de billets en 3D** tourne lentement sur elle-même
+(#038) : elle a pris la place du rouleau en image (#035), et paraît comme lui une fois
+le rideau levé (#037). Le manifeste ouvre le corps de la page (#034).
 
 | Élément | État |
 |---|---|
@@ -23,8 +24,8 @@ rideau levé (#037) ; le manifeste ouvre le corps de la page (#034).
 | Volet d'About et de Features | ✅ six cases, repris du modèle brandappart.com — sans images |
 | Titre du hero | ✅ #029, #031, #036 — « MONEY TALKS », sur deux lignes |
 | Grille de fond et rideau d'intro | ✅ #033 — repris de moneyincheck.org, sans ses coups d'échecs |
-| Rouleau de billets au centre du titre | ✅ #035 — devant les lettres, en WebP de 79 ko |
-| Apparition du rouleau | ✅ #037 — il se pose sur le titre une fois le rideau levé |
+| Liasse de billets en 3D au centre du titre | ✅ #038 — three.js r128, différé ; le WebP (#035) reste en repli sans JavaScript |
+| Apparition de la liasse | ✅ #037, #038 — elle se pose sur le titre une fois le rideau levé |
 | Corps de la page sous le hero | ⏳ #034 — le manifeste est posé, la suite reste à décider |
 | Pages `/contenu` `/about` `/features` `/pricing` `/news` `/contact` | ⬜ la barre y mène, elles n'existent pas |
 | Pages `/connexion` `/inscription` | ⬜ les deux boutons du coin y mènent, elles n'existent pas |
