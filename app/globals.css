@@ -1278,7 +1278,58 @@ body {
   text-align: center;
 }
 
+/* La liasse de billets en 3D, au centre du titre (#038).
+
+   Elle prend la place du rouleau en image, au même endroit et pour le même
+   office : passer devant les lettres, comme le cavalier du modèle passe
+   devant les siennes. Ce qui suit ne cote pas la liasse — le CSS ne sait rien
+   d'un objet en perspective — mais la *boîte* où elle est peinte. Les deux se
+   règlent l'une par l'autre :
+
+     — la boîte est en corps de titre, comme l'était le rouleau : la liasse
+       grandit avec le titre, et tombe toujours au même endroit du mot ;
+     — la liasse occupe de cette boîte ce que la distance de la caméra lui
+       laisse — `distance: 3.9` dans `Liasse.tsx`. Reculer la caméra la rend
+       plus petite dans la même boîte, l'avancer la grossit et durcit la
+       perspective. Changer l'une sans l'autre déplace le cadrage.
+
+   2,7 × 1,5 corps de boîte pour une liasse large de 1,6 corps et haute d'un
+   demi : le reste est du vide autour d'elle. Il en faut — elle tourne sur
+   elle-même, et sa largeur apparente varie du simple au double entre la
+   tranche et le plat. La boîte est cotée sur la position la plus large ; à
+   toute autre, la liasse y respire.
+
+   1,6 corps de large, c'est 45 % de « MONEY » (large de 3,502 corps). Le
+   rouleau en occupait 29,9 % : la liasse est un objet couché, elle prend en
+   travers ce qu'elle ne prend pas en hauteur, et les deux mots restent
+   lisibles de part et d'autre — elle se pose sur le bas de l'un et le haut de
+   l'autre, là où le rouleau se posait déjà.
+
+   Elle ne prend pas le pointeur : le point qui suit le curseur lui passe
+   dessus, et le défilement de la page n'est jamais confisqué. C'est aussi
+   pourquoi `interaction` est à `false` côté JavaScript — voir `liasse3d.js`. */
+.hero_liasse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: calc(2.7 * var(--corps-titre));
+  height: calc(1.5 * var(--corps-titre));
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+
+  /* L'apparition : même mouvement, même retard que pour le rouleau (#037). */
+  opacity: 1;
+  transition:
+    opacity var(--duration-lg) var(--duration-xs) var(--ease),
+    transform var(--duration-lg) var(--duration-xs) var(--ease);
+}
+
 /* Le rouleau de billets, au centre du titre (#035).
+
+   Il n'est plus rendu qu'en `<noscript>`, comme repli de la liasse (#038) :
+   sans JavaScript il n'y a pas de 3D, et le titre resterait creux. Tout ce
+   qui suit vaut donc pour ce seul cas — mais vaut encore, mot pour mot.
 
    Le modèle pose au même endroit un cavalier d'échecs devant une liasse, et le
    fait passer *devant* les lettres — c'est le même dispositif ici. Sa hauteur
@@ -1321,10 +1372,10 @@ body {
     transform var(--duration-lg) var(--duration-xs) var(--ease);
 }
 
-/* L'apparition du rouleau (#037).
+/* L'apparition de la liasse — celle du rouleau avant elle (#037).
 
-   Il ne paraît qu'une fois le rideau levé : le titre est là d'abord, seul, et
-   le rouleau se pose dessus — il grandit d'un dixième et monte de six centièmes
+   Elle ne paraît qu'une fois le rideau levé : le titre est là d'abord, seul, et
+   la liasse se pose dessus — elle grandit d'un dixième et monte de six centièmes
    de sa hauteur, dans le sens du zoom du rideau, qui vient d'avancer vers la
    page.
 
@@ -1344,6 +1395,7 @@ body {
    visible par défaut. Restent les deux cas où le rideau est là sans jamais se
    lever — moins de mouvement, et pas de JavaScript — traités l'un plus bas,
    l'autre dans `RideauIntro.tsx`. */
+.rideau:not(.--fini) ~ .page .hero_liasse,
 .rideau:not(.--fini) ~ .page .hero_rouleau {
   opacity: 0;
   transform: translate(-50%, -44%) scale(0.9);
@@ -1353,10 +1405,12 @@ body {
    lui est déjà masqué, mais il reste dans le balisage le temps d'une image avant
    que React ne le retire : sans cette règle, le rouleau clignoterait. */
 @media (prefers-reduced-motion: reduce) {
+  .hero_liasse,
   .hero_rouleau {
     transition: none;
   }
 
+  .rideau:not(.--fini) ~ .page .hero_liasse,
   .rideau:not(.--fini) ~ .page .hero_rouleau {
     opacity: 1;
     transform: translate(-50%, -50%);
