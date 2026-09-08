@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { liassePrête } from './liassePrete';
 
 /** Le temps minimum que le rideau reste posé avant que le zoom parte. */
 const ATTENTE = 600;
@@ -19,22 +20,6 @@ const FONDU = 420;
 /** Une attente, en promesse — de quoi composer avec `document.fonts`. */
 const tempo = (ms: number) => new Promise((suite) => setTimeout(suite, ms));
 
-/**
- * Le rouleau du hero, décodé.
- *
- * Il est cherché dans le document plutôt que passé en propriété : le rideau et
- * le hero sont frères, sans rien à partager par ailleurs, et une passe de
- * `ref` à travers la page pour cette seule attente coûterait plus qu'elle ne
- * rapporte. `decode()` rend la main une fois l'image prête à être peinte —
- * `complete` ne dirait que le téléchargement. Une image manquante ou en erreur
- * ne doit pas bloquer le rideau : d'où le `catch`.
- */
-const rouleauPrêt = () => {
-  const img = document.querySelector<HTMLImageElement>('.hero_rouleau');
-  if (!img) return Promise.resolve();
-  return img.decode().catch(() => undefined);
-};
-
 /** La courbe du modèle : cubique à l'entrée comme à la sortie. */
 const courbe = (t: number) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
 
@@ -47,11 +32,12 @@ const courbe = (t: number) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2)
  * Le modèle y faisait aussi tourner une vidéo et écrire des coups d'échecs à
  * la main ; on n'en garde que la grille.
  *
- * Il se lève quand les polices **et** le rouleau du hero sont prêts, jamais
+ * Il se lève quand les polices **et** la liasse du hero sont prêtes, jamais
  * avant `ATTENTE` ni après `PLAFOND` : c'est là sa raison d'être autre que
  * décorative. Le titre du hero est en Playfair, et sans rideau on le verrait
- * sauter de la police de secours à la sienne ; le rouleau, lui, apparaîtrait
- * après coup au milieu du titre. Le modèle attendait de même — sa vidéo.
+ * sauter de la police de secours à la sienne ; la liasse, elle, a un moteur 3D
+ * à charger et deux faces à dessiner avant de paraître au milieu du titre.
+ * Le modèle attendait de même — sa vidéo.
  *
  * Le zoom joue sur `background-size` et `background-position`, jamais sur
  * `transform` : une mise à l'échelle épaissirait le trait, et le fond
@@ -151,7 +137,7 @@ export default function RideauIntro() {
     let annulé = false;
 
     Promise.race([
-      Promise.all([document.fonts.ready, rouleauPrêt(), tempo(ATTENTE)]),
+      Promise.all([document.fonts.ready, liassePrête, tempo(ATTENTE)]),
       tempo(PLAFOND),
     ]).then(() => {
       if (!annulé) zoomer(performance.now());
@@ -177,7 +163,9 @@ export default function RideauIntro() {
           tant que le rideau est là sans sa classe `--fini` — et il l'est ici
           pour toujours, puisque rien ne viendra la lui poser. Elle l'emporte
           sur celle de la feuille de style à spécificité égale, en venant
-          après elle dans le document. */}
+          après elle dans le document. Ce rouleau est le repli sans JavaScript
+          de la liasse en 3D (#038) : c'est ici qu'il sert, et nulle part
+          ailleurs. */}
       <noscript>
         <style>
           {'.rideau { display: none }' +
