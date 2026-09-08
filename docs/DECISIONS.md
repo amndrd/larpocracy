@@ -963,3 +963,102 @@ de la transition — de l'ordre de 400 ms — sur un chargement déjà commandé
 rideau, qui tient entre 600 et 2000 ms. C'est le prix de l'ordre voulu ; il est
 accepté ici parce que le rideau domine déjà la mesure. Si le rideau tombait un jour,
 il faudrait rouvrir la question.
+
+## 2026-09-08 — #038 La liasse en 3D remplace le rouleau en image
+
+**La demande.** Un modèle 3D de liasse de billets, posé au centre du titre du hero à
+la place du rouleau en WebP (#035), à une taille juste.
+
+**Ce qu'est le modèle.** Une page autonome — `~/Desktop/money/index.html` —, mille
+lignes de JavaScript sur three.js, sans un seul fichier d'objet 3D : les deux faces du
+billet et la lumière d'environnement sont **dessinées en `<canvas>` au montage**. Les
+cotes sont celles d'un vrai billet (156 × 66,3 mm, papier de 0,109 mm) et l'unité de
+scène est la hauteur du billet ; 92 feuilles font une liasse de 10 000 $. Les feuilles
+intérieures sont une `InstancedMesh` — un seul appel de dessin pour les 90.
+
+**Ce qui a changé en entrant dans le site.** L'IIFE et son `window.MoneyStack3D` sont
+devenus un module (`components/liasse3d.js`), three.js est importé au lieu d'être
+attendu sur `window`, et quatre réglages se sont ajoutés : `interaction`,
+`noteTexture`, `shadowMapSize`, `onReady`. Le dessin, lui, n'a pas été retouché.
+
+Le fichier reste en JavaScript. Mille lignes d'ES5 ne gagneraient rien à être retypées
+une à une ; ses types sont déclarés à côté, dans `liasse3d.d.ts`, que TypeScript lit à
+sa place.
+
+**three.js est figé à r128 (0.128.0), et c'est délibéré.** Le modèle est écrit pour
+elle : il pose `renderer.outputEncoding = THREE.sRGBEncoding`, retiré depuis, et les
+versions à partir de r155 ont changé l'interprétation de l'intensité des lumières.
+Monter de version demanderait de réétalonner l'éclairage — un autre travail que
+celui-ci. La version est donc épinglée au point près, sans `^`.
+
+**Le poids, et où il tombe.** three.js est **différé** : `Liasse.tsx` fait un
+`import('./liasse3d')` dans son effet, jamais au premier octet. Le paquet mesuré au
+build fait 538 892 octets, 134 707 une fois compressé, et **ne figure pas** dans les
+scripts de la page prérendue — il n'est demandé qu'au montage du composant. En regard,
+le WebP de 79 ko ne se charge plus : il ne reste que pour le repli sans JavaScript.
+
+**La taille, et comment elle se règle.** Deux cotes, qui se tiennent :
+
+- la **boîte**, en CSS, en corps de titre comme l'était le rouleau — 2,7 × 1,5 corps —
+  pour que la liasse grandisse avec le titre ;
+- la **distance de la caméra**, en JavaScript — 3,9 hauteurs de billet au lieu des 6
+  du modèle — qui décide de la place que la liasse prend dans cette boîte.
+
+Il en résulte une liasse large de **1,6 corps et haute d'un demi**, soit 45 % de
+« MONEY » (large de 3,502 corps) ; le rouleau en occupait 29,9 %. Elle prend en
+travers ce qu'elle ne prend pas en hauteur, et se pose sur le bas de « MONEY » et le
+haut de « TALKS », là où le rouleau se posait déjà. Relevé à 1440 × 900, corps de
+283,5 px : 451 × 151 px.
+
+Le vide autour d'elle n'est pas du gâchis. Elle tourne sur elle-même, et sa largeur
+apparente varie du simple au double entre la tranche et le plat : la boîte est cotée
+sur la position la plus large.
+
+**Elle ne se manipule pas.** Le modèle se fait tourner à la souris, zoomer à la
+molette, orienter au clavier. Rien de tout cela ici : `interaction: false`, et les
+écouteurs ne sont même pas posés. La raison est la molette — le modèle la prend avec
+`preventDefault`, et une liasse posée au milieu d'un hero **confisquerait le
+défilement de la page** sur un tiers de sa largeur. Ou bien elle se manipule et prend
+tout, ou bien elle ne prend rien. Elle remplace une image : elle en tient le rôle,
+tourne seule, et laisse passer le point qui suit le curseur.
+
+**Ce qui a été allégé.** Face imprimée à 1024 px au lieu de 2048, dos à 512, carte
+d'ombre à 1024 au lieu de 2048, et deux fois les pixels de l'écran au lieu de quatre
+(`maxPixelRatio: 1.5`). Le modèle dessinait pour un plein écran ; la liasse fait ici
+un tiers de la largeur.
+
+**Les billets sont composés dans la police du site.** Le modèle appelait Bodoni Moda
+et JetBrains Mono chez Google Fonts. Le site n'appelle personne (§ 5) : c'est Playfair
+qui imprime les billets, lue sur `--font-editorial` — son vrai nom de famille est
+engendré au build, et `ctx.font` n'accepte pas de `var()`. Le dessin des faces attend
+que la police soit là, avec un plafond de 1600 ms : un billet en Times vaut mieux
+qu'une liasse blanche.
+
+**Le rideau attend la liasse, et non plus le rouleau (#033, #037).** Il attendait
+`img.decode()` ; un canvas n'a rien de tel. `liassePrete.ts` tient donc une promesse de
+module, résolue à la **première image peinte** — ou quand on renonce à la peindre. Une
+promesse plutôt qu'une `ref` passée à travers la page : la raison qui valait pour le
+rouleau vaut encore. Si elle n'est jamais tenue — pas de WebGL, pas de hero —, le
+plafond de 2000 ms du rideau reprend la main.
+
+**L'apparition (#037) est reprise telle quelle.** Même sélecteur de frères, même
+transition, même retard : la boîte de la liasse s'est simplement ajoutée à la liste
+du rouleau. Rien n'a été ajouté à l'état du site, qui en garde deux.
+
+**Le repli sans JavaScript.** Le rouleau en WebP est resté, dans un `<noscript>` : sans
+JavaScript il n'y a pas de 3D, et le titre resterait creux. C'est le seul endroit où
+l'image sert encore — vérifié dans le HTML prérendu, où le `<noscript>` est bien
+présent et où `hero_liasse` et `hero_rouleau` cohabitent.
+
+**Relevé au navigateur, sur le build de production.** L'élément que mesure le LCP est
+désormais **`.hero_ligne`**, la ligne du titre, à 1036 ms : un `<canvas>` n'est pas
+candidat au LCP. Le coût que signalait #037 — le LCP reculé par la transition
+d'apparition du rouleau — tombe donc de lui-même. (Mesure prise en rendu logiciel, la
+valeur en secondes ne vaut pas pour une vraie carte ; l'élément, lui, est net.)
+
+**Ce qu'on perd.** La liasse tourne sur elle-même en 37 secondes (0,17 rad/s) : un
+mouvement lent, qu'on ne surprend qu'en y revenant. Mais elle coûte, sur un téléphone
+d'entrée de gamme, un contexte WebGL et une boucle d'animation permanente là où il n'y
+avait qu'une image. Qui a demandé moins de mouvement n'a ni rotation ni flottement —
+le modèle lit `prefers-reduced-motion` de lui-même, et la liasse reste alors posée,
+immobile.
