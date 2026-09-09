@@ -1062,3 +1062,38 @@ d'entrée de gamme, un contexte WebGL et une boucle d'animation permanente là o
 avait qu'une image. Qui a demandé moins de mouvement n'a ni rotation ni flottement —
 le modèle lit `prefers-reduced-motion` de lui-même, et la liasse reste alors posée,
 immobile.
+
+## 2026-09-09 — #039 La page introuvable
+
+**Le constat.** Les six entrées de la barre et les deux boutons du coin mènent à huit
+adresses qui n'existent pas encore — c'est assumé depuis #027, les pages viendront.
+Mais en attendant, le 404 n'est pas un cas rare : c'est **la seule autre page que le
+site sache montrer**, et un visiteur qui clique sur *About* y tombe. Next y servait son
+propre écran : fond blanc, Helvetica, « This page could not be found ». Le site
+s'arrêtait au premier clic.
+
+**Ce qu'elle dit.** « Cette page n'existe pas encore », et non « page introuvable ».
+La nuance est la vérité du moment : rien n'est cassé, le site s'écrit. Suit une ligne
+— *Le site s'écrit. Ce qui manque ici viendra ; le reste est à l'accueil* — et un lien
+de retour. Rien d'autre : une page d'erreur qui s'excuse longuement se fait remarquer
+deux fois.
+
+**Ce qu'elle reprend du site.** La grille de fond, l'en-tête entier, le point qui suit
+le curseur, et le titre du hero — la Playfair en vert — au tiers de son corps. C'est
+une contrariété, pas une annonce.
+
+**Ce qu'elle laisse : le rideau d'intro.** Délibérément. Le rideau attend `document.
+fonts` **et la liasse du hero** (#037, #038) ; sur une page qui n'a pas de liasse, la
+promesse ne serait jamais tenue et il ne se lèverait qu'au bout de son plafond de deux
+secondes — un rideau posé sur une page qui n'a rien à faire attendre. Le titre de la
+404 est en Playfair, comme celui du hero, et paraîtra donc dans la police de secours
+le temps du chargement ; c'est le prix, et il est petit devant deux secondes de blanc.
+
+**Le titre de l'onglet reste « LarpLvl ».** `not-found.tsx` n'accepte pas d'export
+`metadata` — seul `global-not-found.tsx`, encore expérimental (drapeau
+`experimental.globalNotFound`), le permet, et il faudrait alors réécrire la coquille
+entière dans ce fichier. Sans conséquence pour le référencement : Next pose lui-même
+`noindex` sur toute réponse 404.
+
+**Le nom.** `.introuvable` dans la feuille de style, `Introuvable` dans le composant.
+Le fichier, lui, porte le nom que Next impose : `app/not-found.tsx`.
