@@ -1097,3 +1097,39 @@ entière dans ce fichier. Sans conséquence pour le référencement : Next pose 
 
 **Le nom.** `.introuvable` dans la feuille de style, `Introuvable` dans le composant.
 Le fichier, lui, porte le nom que Next impose : `app/not-found.tsx`.
+
+## 2026-09-09 — #040 L'icône du site, et ce que la page dit d'elle-même
+
+**Le constat.** Le site n'avait pas d'icône : les navigateurs demandaient
+`/favicon.ico`, recevaient un 404 et posaient leur page blanche dans l'onglet. Et il ne
+disait de lui-même que « LarpLvl » : un lien partagé n'avait ni titre ni description à
+montrer.
+
+**L'icône : le L du mot-logo, en chemin.** Pas un dessin nouveau — la lettre même du
+mot-logo, dans la Playfair Display 700 embarquée. L'outline a été extrait du `.woff2`
+du site (`app/fonts/playfair-display-700.woff2`, fontTools) et posé en `<path>` : le
+fichier ne dépend d'aucune police au rendu, ce qu'un `<text>` en Playfair aurait fait
+en pure perte, la police n'étant installée chez personne.
+
+Encre et papier **inversés** : un carré d'encre, la lettre en crème. Un fond crème se
+perdrait dans une barre d'onglets claire ; l'encre y tient, comme la pastille de
+l'appel à l'action. Le rayon est celui des pastilles de la barre — 0,219 du côté, soit
+14 sur 64. La lettre occupe 38 des 64 : relu à 128, 64, 32 et 16 px, elle tient à
+toutes les tailles. Un seul fichier, `app/icon.svg`, 1,3 ko : Next en tire le
+`<link rel="icon" sizes="any">`.
+
+**Le titre passe en gabarit.** `%s — LarpLvl` : les pages à venir n'auront qu'à donner
+le leur. L'accueil garde la baseline en entier — *LarpLvl — L'art de tenir la salle*.
+La description reprend la promesse du site, l'ouverture (Open Graph) reprend les deux,
+avec `fr_FR` et le nom du site.
+
+**Ni `metadataBase` ni image d'aperçu, et c'est la décision.** Une image d'ouverture
+demande une URL absolue, donc une adresse — or le déploiement Vercel attend toujours
+(voir la feuille de route). Inventer un domaine maintenant mettrait un lien mort dans
+chaque aperçu partagé, ce qui est pire que pas d'image du tout. **À reprendre le jour
+du déploiement** : `metadataBase`, `opengraph-image`, et le `twitter:card` qui va avec.
+
+**Le papier déborde de la page.** `theme-color: #fbf9ef` donne le crème à la barre du
+navigateur sur mobile, qui sans lui pose son blanc ou son noir contre le papier. Et
+`color-scheme: light` dit au navigateur de ne pas inverser de lui-même une page qui n'a
+pas de mode sombre : le site n'a que deux couleurs, et elles sont dans un sens.
