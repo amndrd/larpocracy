@@ -1665,3 +1665,36 @@ body {
     padding: 6em 1.5em;
   }
 }
+
+/* ============================================================================
+   LE FOCUS CLAVIER
+   ----------------------------------------------------------------------------
+   Le site n'avait que l'anneau du navigateur : bleu, hors palette, et de forme
+   fausse. Chrome le fait épouser le débord des descendants, or chaque pastille
+   porte son étiquette hors de sa boîte (`left: 100%`) : l'anneau dessinait une
+   serrure, et révélait au clavier ce que la souris ne montre qu'au survol.
+
+   Un `outline` explicite, lui, suit la boîte — et son rayon. Il est posé sur
+   `:focus-visible` et non sur `:focus` : la souris ne le déclenche pas, seul
+   le clavier le voit.
+
+   L'encre plutôt que l'orange, malgré l'usage : l'accent ne porte que 2,5 pour
+   1 sur le papier, sous les 3 pour 1 exigés d'un indicateur de focus, quand
+   l'encre en porte 17. Le décalage de 3 px le sort de la pastille et le pose
+   sur le papier — c'est ce qui le rend visible autour du bouton d'appel, qui
+   est lui-même d'encre.
+   ========================================================================== */
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--base);
+  outline-offset: 3px;
+}
+
+/* Sous 768 px la barre devient un bandeau sombre au bas de l'écran : l'encre
+   s'y perdrait, le papier y tient. */
+@media screen and (max-width: 767px) {
+  .nav_link:focus-visible {
+    outline-color: var(--bg);
+  }
+}
