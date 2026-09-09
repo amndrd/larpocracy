@@ -4,7 +4,15 @@ import Liasse from '@/components/Liasse';
 import PointCurseur from '@/components/PointCurseur';
 import RideauIntro from '@/components/RideauIntro';
 
-/** La page : le hero et son titre, puis le manifeste. */
+/**
+ * La page : le hero et son titre, puis le manifeste.
+ *
+ * Le corps de page est un `<main>` et non un `<div>` : c'est le repère que
+ * cherche un lecteur d'écran pour sauter le cadre — l'en-tête recouvre toute
+ * la fenêtre, et rien d'autre ne dit où commence ce qu'il y a à lire. La
+ * classe ne change pas : le rideau d'intro commande à `.page` par le
+ * combinateur de frères (#037), et les deux le restent.
+ */
 export default function Page() {
   return (
     <>
@@ -12,7 +20,7 @@ export default function Page() {
       <GrilleFond />
       <PointCurseur />
       <Header />
-      <div className="page">
+      <main className="page">
         <section className="hero">
           <h1 className="hero_titre">
             <span className="hero_ligne">Money</span>
@@ -35,7 +43,7 @@ export default function Page() {
             C’est ce qui fait qu’une salle écoute.
           </p>
         </section>
-      </div>
+      </main>
     </>
   );
 }
