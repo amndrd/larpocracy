@@ -1133,3 +1133,33 @@ du déploiement** : `metadataBase`, `opengraph-image`, et le `twitter:card` qui 
 navigateur sur mobile, qui sans lui pose son blanc ou son noir contre le papier. Et
 `color-scheme: light` dit au navigateur de ne pas inverser de lui-même une page qui n'a
 pas de mode sombre : le site n'a que deux couleurs, et elles sont dans un sens.
+
+## 2026-09-09 — #041 Ce que le site donne au clavier et aux lecteurs d'écran
+
+**L'anneau de focus.** Le site n'avait que celui du navigateur, et il était doublement
+mauvais. Bleu, d'abord : la seule couleur du site qui ne soit ni l'encre, ni le papier,
+ni l'orange. De forme fausse, ensuite — et c'est le vrai grief. Chrome fait épouser à
+son anneau le débord des descendants ; or chaque pastille porte son étiquette hors de
+sa boîte (`left: 100%`, transparente au repos). L'anneau dessinait donc une serrure, et
+**montrait au clavier ce que la souris ne découvre qu'au survol**.
+
+Un `outline` explicite, lui, suit la boîte et son rayon. Il est posé sur
+`:focus-visible` et non sur `:focus` : le clic ne le déclenche pas.
+
+**Encre, et non orange, malgré l'usage.** L'accent aurait dit « interaction », mais
+`#f72` ne porte que **2,5 pour 1** sur le papier — sous les 3 pour 1 qu'exige un
+indicateur de focus (WCAG 2.2) — quand l'encre en porte **17**. Le décalage de 3 px le
+sort de la pastille et le pose sur le papier : c'est ce qui le rend visible autour du
+bouton d'appel, qui est lui-même d'encre. Sous 768 px, où la barre devient un bandeau
+sombre au bas de l'écran, l'anneau des pastilles repasse au papier — une seule règle,
+dans la même requête média que le reste du menu mobile.
+
+**Le corps de la page devient un `<main>`.** L'en-tête recouvre toute la fenêtre
+(#027) : il n'y avait, dans le balisage, aucun repère disant où commence ce qu'il y a à
+lire. La classe ne change pas — le rideau d'intro commande à `.page` par le combinateur
+de frères (#037), et les deux le restent. La page introuvable (#039) en porte un aussi.
+
+**Ce qui n'a pas été fait, et pourquoi.** Pas de lien d'évitement (« aller au
+contenu ») : il se justifie devant une longue liste de liens à traverser, or la barre
+en compte six et le contenu vient juste après. À rouvrir le jour où le site aura des
+pages, et une barre plus longue.
