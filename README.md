@@ -37,28 +37,36 @@ Pas parce que c'est mal vu, mais parce que c'est un mauvais calcul :
 ### Technique
 
 **Next.js 16** (App Router) · **TypeScript** · CSS nu · déployé sur **Vercel**.
-Pas de Tailwind, pas de base de données, aucune autre dépendance.
+Pas de Tailwind, pas de base de données. Une seule autre dépendance : **three.js**,
+épinglée à r128, pour la liasse de billets du hero — chargée en différé, elle ne pèse
+pas sur le premier octet.
 
 ```bash
 npm install
-npm run dev   # http://localhost:3000
+npm run dev     # http://localhost:3000
+npm run verif   # typage + linter + build, à passer avant chaque commit
 ```
 
 ```
 app/
-  layout.tsx        la coquille : les polices, les classes du corps de page
-  page.tsx          la page — vide sous l'en-tête
-  globals.css       toute la feuille de style
-  fonts.ts fonts/   PP Neue Montreal et Youth, embarquées
-components/         l'en-tête : mot-logo, barre, boutons, point suiveur
-docs/               contexte, atlas, feuille de route, décisions
+  layout.tsx        la coquille : les polices, les métadonnées, le corps de page
+  page.tsx          la page — le hero, son titre, sa liasse, et le manifeste
+  not-found.tsx     la page servie aux adresses qui n'existent pas encore
+  icon.svg          l'icône du site : le L du mot-logo, tracé en chemin
+  globals.css       toute la feuille de style, en sections commentées
+  fonts.ts fonts/   PP Neue Montreal, Youth et Playfair Display, embarquées
+components/         l'en-tête, le fond, le rideau d'intro, la liasse en 3D
+public/             le rouleau de billets — repli sans JavaScript de la liasse
+docs/               contexte, atlas, feuille de route, guide, décisions
 ```
 
 > **Le site est reparti de zéro.** Le contenu a été remis à zéro le 26 août 2026
-> (décision #022), le design le 28 (décision #027). Ce qu'on trouve aujourd'hui dans
-> le dépôt, c'est une page blanche surmontée d'un en-tête — et toute la documentation
-> qui dit ce que le site doit devenir. Les comptes, la recherche, la progression et
-> les formules sont dans l'historique git, au commit `e15e494` et avant.
+> (décision #022), le design le 28 (décision #027). Ce qu'on trouve aujourd'hui dans le
+> dépôt : un en-tête, un hero sur papier millimétré — « MONEY TALKS », et une liasse de
+> billets en 3D qui tourne au milieu du titre —, un manifeste en deux paragraphes, et
+> toute la documentation qui dit ce que le site doit devenir. Les comptes, la recherche,
+> la progression et les formules sont dans l'historique git, au commit `e15e494` et
+> avant.
 
 ### Documentation
 
