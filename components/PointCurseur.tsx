@@ -2,6 +2,9 @@
 
 import { useEffect, useRef } from 'react';
 
+/** Sous ce reste, en pixels, le point est arrivé : la boucle s'arrête. */
+const RATTRAPÉ = 0.1;
+
 /**
  * Le point qui suit le curseur.
  *
@@ -11,6 +14,12 @@ import { useEffect, useRef } from 'react';
  *
  * Le CSS le réserve aux écrans d'au moins 768 px ; il reste caché jusqu'au
  * premier mouvement, pour ne pas se poser dans un coin au chargement.
+ *
+ * La boucle ne tourne que tant qu'il reste du chemin. Elle part au premier
+ * mouvement du pointeur et s'arrête dès que le point est arrivé — à moins
+ * d'un dixième de pixel, où plus rien n'est visible. Un pointeur immobile ne
+ * coûte donc rien, et sur un téléphone, où il n'y en a pas et où le point est
+ * masqué, elle ne part jamais.
  */
 export default function PointCurseur() {
   const point = useRef<HTMLDivElement>(null);
@@ -24,6 +33,35 @@ export default function PointCurseur() {
     let x = 0;
     let y = 0;
     let image = 0;
+    let enCours = false;
+
+    const poser = () => {
+      el.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+    };
+
+    const boucle = () => {
+      if (!visé) {
+        enCours = false;
+        return;
+      }
+
+      const dx = visé.x - x;
+      const dy = visé.y - y;
+
+      // Arrivé : on pose le point au but, et la boucle rend la main.
+      if (Math.abs(dx) < RATTRAPÉ && Math.abs(dy) < RATTRAPÉ) {
+        x = visé.x;
+        y = visé.y;
+        poser();
+        enCours = false;
+        return;
+      }
+
+      x += dx / 6;
+      y += dy / 6;
+      poser();
+      image = requestAnimationFrame(boucle);
+    };
 
     const suivre = (e: PointerEvent) => {
       if (!visé) {
@@ -32,19 +70,14 @@ export default function PointCurseur() {
         el.style.visibility = 'visible';
       }
       visé = { x: e.clientX, y: e.clientY };
-    };
 
-    const boucle = () => {
-      if (visé) {
-        x += (visé.x - x) / 6;
-        y += (visé.y - y) / 6;
-        el.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+      if (!enCours) {
+        enCours = true;
+        image = requestAnimationFrame(boucle);
       }
-      image = requestAnimationFrame(boucle);
     };
 
     window.addEventListener('pointermove', suivre);
-    image = requestAnimationFrame(boucle);
     return () => {
       window.removeEventListener('pointermove', suivre);
       cancelAnimationFrame(image);
