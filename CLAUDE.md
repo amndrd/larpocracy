@@ -153,10 +153,12 @@ LarpLvl est le manuel de terrain de cette surface d'accroche.
 
 ```
 app/
-  layout.tsx        la coquille : les polices, les classes du corps de page
+  layout.tsx        la coquille : les polices, les métadonnées, le corps de page
   page.tsx          la page — le hero, son titre, et le manifeste
+  not-found.tsx     la page servie aux adresses qui n'existent pas encore
+  icon.svg          l'icône du site : le L du mot-logo, extrait de la Playfair
   globals.css       toute la feuille de style, en sections commentées
-  fonts.ts          PP Neue Montreal et Youth, via next/font/local
+  fonts.ts          PP Neue Montreal, Youth et Playfair, via next/font/local
   fonts/            les cinq .woff2
 components/
   Header.tsx        le cadre fixe, et le seul état du site (menu ouvert / fermé)
@@ -188,6 +190,8 @@ restent la référence pour quand le contenu reviendra.
 **Les six entrées de la barre et les deux boutons du coin pointent vers des adresses
 qui n'existent pas encore** : `/contenu`, `/about`, `/features`, `/pricing`, `/news`,
 `/contact`, `/connexion`, `/inscription`. C'est volontaire — les pages viendront.
+En attendant, **la page introuvable les accueille** (#039) : c'est, en l'état, la
+deuxième page que le site sache montrer, et non un cas rare.
 
 **Pour retrouver la maquette d'origine** : `~/Desktop/website` (HTML + CSS, sans
 JavaScript). Son `README.md` dit ce qui en avait été retiré, et ce qui n'y
@@ -243,14 +247,16 @@ Niveaux : `1` bases · `2` aisance · `3` connaisseur.
   l'utilisateur. Messages de commit en français, à l'impératif, préfixés du scope
   (`contenu:`, `site:`, `docs:`, `data:`).
 - Le repo est **public** : `github.com/amndrd/larpocracy`.
-- Avant chaque commit : `npx tsc --noEmit && npx eslint . && npm run build`.
+- Avant chaque commit : **`npm run verif`** — il enchaîne `tsc --noEmit`, `eslint`
+  et `next build`.
 - Ne jamais casser `content/*.json` : valider avec `python3 -m json.tool`.
 - Toute nouvelle décision de fond va dans `docs/DECISIONS.md`.
 - Quand un module est rempli, cocher sa ligne dans `docs/ROADMAP.md`.
 
 ## 10. État actuel
 
-**Au 8 septembre 2026 : un en-tête, un hero illustré sur papier millimétré, un manifeste.**
+**Au 9 septembre 2026 : un en-tête, un hero illustré sur papier millimétré, un
+manifeste — et une page introuvable pour tout le reste.**
 Le design a été remis à zéro (#027) ; le contenu l'avait déjà été le 26 août (#022).
 Ce qui existe : le cadre, le mot-logo, la barre de six pastilles et son volet,
 le bouton Menu, les deux boutons du coin (Login et Get started), le point qui
@@ -281,6 +287,16 @@ se règle en deux endroits qui se tiennent : la **boîte** en CSS, en corps de t
 (2,7 × 1,5), et la **distance de la caméra** en JavaScript (3,9) ; il en sort une
 liasse large de 1,6 corps, 45 % de « MONEY ». Le WebP n'a pas disparu : il est le repli
 sans JavaScript.
+
+Depuis le 9 septembre, le site tient hors de sa page d'accueil. Une **page introuvable**
+(#039) répond aux huit adresses que la barre annonce sans qu'elles existent : le titre
+du hero au tiers de son corps, dans le cadre du site — mais sans le rideau d'intro, qui
+attend une liasse qui n'est pas là. Le site a une **icône** — le L du mot-logo, l'outline
+même du .woff2 de la Playfair, tracé en chemin —, un titre en gabarit, une description
+et une ouverture Open Graph (#040) ; il n'y a **ni `metadataBase` ni image d'aperçu**
+tant que le site n'a pas d'adresse, et c'est à reprendre le jour du déploiement. Enfin
+l'**anneau de focus** est dessiné (#041) : celui du navigateur épousait le débord des
+étiquettes de la barre et montrait au clavier ce que la souris ne découvre qu'au survol.
 
 Voir la section « État » en tête de `docs/ROADMAP.md` pour ce qui vient ensuite.
 
