@@ -1586,3 +1586,82 @@ body {
     line-height: 1.35;
   }
 }
+
+/* ============================================================================
+   LA PAGE INTROUVABLE
+   ----------------------------------------------------------------------------
+   Le 404 (#039). Ce n'est pas une page de secours : les six entrées de la barre
+   et les deux boutons du coin mènent tous, aujourd'hui, à des adresses qui
+   n'existent pas — c'est donc la seule autre page que le site sache montrer.
+
+   Elle emprunte au hero son titre — la Playfair, en vert — et au manifeste sa
+   largeur : 74em, la cote qui dégage le rail des six pastilles sur la gauche.
+   Le corps du titre est un peu moins du tiers de celui du hero : la page est
+   une contrariété, pas une annonce.
+   ========================================================================== */
+
+.introuvable {
+  box-sizing: border-box;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  min-height: 100vh;
+  width: 74em;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 8em 1.5em;
+  text-align: center;
+}
+
+/* Le nombre, en grasse resserrée : le seul endroit du site où le gris des
+   pictogrammes sert à du texte. Il annonce, il ne crie pas. */
+.introuvable_code {
+  margin: 0 0 1.6em;
+  font-size: 1.1em;
+  letter-spacing: 0.2em;
+  color: var(--grey);
+}
+
+.introuvable_titre {
+  margin: 0;
+  font-family: var(--font-editorial), 'Times New Roman', serif;
+  font-size: clamp(2.2em, 4.4vw, 4.4em);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--vert);
+  text-transform: uppercase;
+}
+
+.introuvable_texte {
+  max-width: 30em;
+  margin: 1.8em 0 0;
+  font-size: 1.15em;
+  line-height: 1.45;
+  color: var(--base);
+}
+
+/* Le trait suit le mot de loin — `text-underline-offset` — et passe à l'accent
+   au survol, comme le point des pastilles. Rien ne bouge : c'est un lien de
+   texte, pas une pastille. */
+.introuvable_retour {
+  margin-top: 2.8em;
+  font-size: 0.95em;
+  color: var(--base);
+  text-decoration: underline;
+  text-underline-offset: 0.4em;
+  text-decoration-thickness: 1px;
+  transition: color var(--duration-sm) var(--ease);
+}
+
+.introuvable_retour:hover {
+  color: var(--orange);
+}
+
+/* Sur téléphone, le corps de page est figé à 14 px et le rail a cédé la place
+   au hamburger : la largeur tombe, la garde se resserre. */
+@media screen and (max-width: 767px) {
+  .introuvable {
+    width: 100%;
+    padding: 6em 1.5em;
+  }
+}
