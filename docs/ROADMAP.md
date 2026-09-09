@@ -2,7 +2,7 @@
 
 ---
 
-## ÉTAT AU 8 SEPTEMBRE 2026
+## ÉTAT AU 9 SEPTEMBRE 2026
 
 **Phase en cours : Phase 2 — le noyau utile.**
 **Le site est reparti de zéro : contenu le 26 août (#022), design le 28 (#027).**
@@ -11,6 +11,10 @@ sur la grille de fond de `moneyincheck.org` et derrière son rideau d'intro (#03
 Au centre du titre, une **liasse de billets en 3D** tourne lentement sur elle-même
 (#038) : elle a pris la place du rouleau en image (#035), et paraît comme lui une fois
 le rideau levé (#037). Le manifeste ouvre le corps de la page (#034).
+Depuis le 9 septembre, le site a de quoi tenir hors de sa page d'accueil : une **page
+introuvable** pour les huit adresses que la barre annonce sans qu'elles existent
+(#039), une **icône** et de quoi se présenter dans un onglet ou un lien partagé (#040),
+et un **anneau de focus** qui rend la barre praticable au clavier (#041).
 
 | Élément | État |
 |---|---|
@@ -27,12 +31,15 @@ le rideau levé (#037). Le manifeste ouvre le corps de la page (#034).
 | Liasse de billets en 3D au centre du titre | ✅ #038 — three.js r128, différé ; le WebP (#035) reste en repli sans JavaScript |
 | Apparition de la liasse | ✅ #037, #038 — elle se pose sur le titre une fois le rideau levé |
 | Corps de la page sous le hero | ⏳ #034 — le manifeste est posé, la suite reste à décider |
-| Pages `/contenu` `/about` `/features` `/pricing` `/news` `/contact` | ⬜ la barre y mène, elles n'existent pas |
+| Page introuvable (404) | ✅ #039 — « cette page n'existe pas encore », dans le cadre du site |
+| Icône, titre, description, Open Graph | ✅ #040 — sans image d'aperçu tant qu'il n'y a pas d'adresse |
+| Anneau de focus, repère `<main>` | ✅ #041 — la barre est praticable au clavier |
+| Pages `/contenu` `/about` `/features` `/pricing` `/news` `/contact` | ⬜ la barre y mène ; en attendant, le 404 les accueille (#039) |
 | Pages `/connexion` `/inscription` | ⬜ les deux boutons du coin y mènent, elles n'existent pas |
 | Libellé du bouton d'appel | ✅ « get started » — celui de la maquette est écarté |
 | Comptes, progression, points, formules, recherche | ⬜ **retirés** le 28 août — à refaire le moment venu |
 | Modules de contenu remplis | ⬜ **0** — remis à zéro le 26 août (#022) |
-| Déploiement Vercel | ⏳ en attente de connexion au compte |
+| Déploiement Vercel | ⏳ en attente de connexion au compte — et #040 attend l'adresse pour l'image d'aperçu |
 
 **Prochaine action** : décider ce qui suit le manifeste — la page s'arrête là.
 
